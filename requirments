@@ -1,0 +1,491 @@
+# LAU Soft Skills Event Website — Non-Technical Requirements (ONLINE VERSION)
+
+> **Project type:** Capstone-level digital event platform  
+> **Event:** LAU Soft Skills Event (online via Zoom / Teams / Webex)  
+> **Primary goal:** Deliver a **seamless online event experience** where:
+>
+> - attendees can follow the event easily
+> - judges can evaluate efficiently and reliably
+> - participants are showcased professionally
+>
+> **Priority shift:**  
+> 🔴 Judge grading system + usability  
+> 🟡 Clean attendee experience  
+> 🟢 Memorability through UI/UX (without unnecessary complexity)
+
+---
+
+## 1) Vision & Product Definition
+
+### 1.1 What this platform is now
+
+The website becomes the **central control hub** of the online event.
+Instead of enhancing a physical event, it now:
+
+- replaces confusion in Zoom/Teams chats
+- organizes all content in one place
+- acts as the **official interface for judging, viewing, and interaction**
+
+### 1.2 Core metaphor (refined): “Spotlight”
+
+Still keep the metaphor, but adapt it to online:
+
+- Each speaker/team is “in the spotlight”
+- The site guides users between “who’s live now” and “who’s next”
+- The experience feels structured and professional, not chaotic like typical online events
+
+---
+
+## 2) Success Definition (Online Context)
+
+The platform is successful if:
+
+- Judges say: “grading was easy and smooth”
+- Attendees say: “I always knew where to go”
+- No one asks: “Where is the link?” or “What’s happening now?”
+- The site feels more organized than the Zoom/Webex interface
+
+### Measurable outcomes:
+
+- Judges complete all evaluations without issues
+- Minimal confusion messages during the event
+- High participation in People’s Choice voting
+- Positive feedback on clarity and professionalism
+
+---
+
+## 3) Target Users & Needs
+
+### 3.1 Judges (MOST IMPORTANT)
+
+**Primary user group**
+Needs:
+
+- Clear login
+- Access to all teams/speakers
+- Structured rubric-based evaluation
+- Ability to:
+  - enter scores
+  - edit scores
+  - submit final results
+- Zero risk of losing progress
+
+---
+
+### 3.2 Attendees (students, viewers)
+
+Needs:
+
+- Know what’s happening now
+- Easily join the correct Zoom/Teams/Webex link
+- Browse speakers and projects
+- Vote for People’s Choice
+- Leave comments/feedback
+
+---
+
+### 3.3 Participants (teams/speakers)
+
+Needs:
+
+- Professional representation (spotlight pages)
+- Their work clearly displayed
+- Feedback visibility (comments)
+
+---
+
+## 4) Event Flow (Online Adaptation)
+
+### 4.1 Before the event
+
+- Users explore:
+  - speakers
+  - projects
+  - event structure
+- Optional: pre-uploaded pitch videos
+
+---
+
+### 4.2 During the event (CRITICAL)
+
+The website becomes the **navigation system for the event**
+Users rely on it for:
+
+- “Join session” buttons (Zoom/Webex links)
+- “Now Playing”
+- “Up Next”
+- Voting
+- Viewing participants
+
+---
+
+### 4.3 After the event
+
+- Archive:
+  - winners
+  - projects
+  - speakers
+  - pitch videos
+- Comments remain visible
+
+---
+
+## 5) Core Features (Public Experience)
+
+---
+
+### 5.1 Live Navigation Hub (MOST IMPORTANT PAGE)
+
+**Purpose:** Replace confusion in online meetings.
+This is the first thing users should open.
+
+#### Requirements:
+
+- **Now Playing**
+  - current segment (TED / Pitch / Expo)
+  - speaker/team name
+  - **JOIN BUTTON (Zoom/Webex link)**
+- **Up Next**
+  - next speaker/team
+  - optional countdown
+- Clear actions:
+  - View speakers
+  - View projects
+  - Vote
+  - Switch language
+
+#### UX rules:
+
+- One-glance understanding
+- No clutter
+- Large buttons (especially “Join Session”)
+
+---
+
+### 5.2 Spotlight Pages (Speakers + Projects)
+
+**Purpose:** Make participants look professional and organized.
+Each page includes:
+
+- Photo / team image
+- Name + title
+- Bio / project description
+- Tags (category)
+- Pitch video (if available or placeholder)
+- Actions:
+  - Vote
+  - Comment
+  - (Optional) Join session if live
+
+#### UX requirements:
+
+- Clean layout
+- Mobile-first
+- Consistent across all pages
+
+---
+
+### 5.3 Project Browsing (List instead of Map)
+
+Since event is online:
+
+- Replace physical map with:
+  - **List view**
+  - Filter by category
+  - Search
+    Optional:
+- Highlight “Currently Presenting”
+
+---
+
+### 5.4 People’s Choice Voting
+
+**Purpose:** Keep audience engaged
+
+#### Requirements:
+
+- Simple voting flow:
+  1. Browse projects
+  2. Click vote
+  3. Confirmation
+- Rate limiting:
+  - Prevent spam without login
+  - Keep it frictionless
+
+#### UX:
+
+- No complicated steps
+- Clear feedback after voting
+
+---
+
+### 5.5 Comments / Feedback System
+
+**Purpose:** Replace physical feedback and add interaction
+
+#### Requirements:
+
+- Available on:
+  - pitch pages
+  - project pages
+- Encourage meaningful comments:
+  - “What did you like?”
+  - “One suggestion”
+- Clean display (not messy threads)
+
+#### Safety:
+
+- Light moderation or reporting system
+
+---
+
+## 6) Core Features (Judge System — CRITICAL)
+
+---
+
+### 6.1 Judge Login
+
+Requirements:
+
+- Simple login (email/password or code)
+- Persistent session (don’t log them out mid-event)
+- Clear “Judge Mode” indicator
+
+---
+
+### 6.2 Judge Dashboard
+
+**Purpose:** Central grading interface
+
+#### Requirements:
+
+- List of all teams/projects
+- Status indicators:
+  - Not graded
+  - In progress
+  - Submitted
+
+---
+
+### 6.3 Grading Interface (MOST IMPORTANT FEATURE)
+
+**Purpose:** Replace paper rubric
+
+#### Requirements:
+
+- For each project:
+  - Show team info
+  - Show rubric fields (to be added later)
+- Judges can:
+  - enter scores
+  - edit scores
+  - save progress
+  - submit final evaluation
+
+#### UX rules:
+
+- Extremely clear layout
+- No distractions
+- Fast input (no lag)
+- Large inputs, easy navigation
+
+---
+
+### 6.4 Reliability Requirements
+
+- **No data loss**
+- Auto-save (recommended)
+- Clear “Saved” indicator
+- Confirmation on submission
+
+---
+
+## 7) Information Architecture
+
+### Main navigation:
+
+- Home
+- Live / Join
+- Program
+- Speakers
+- Projects
+- Vote
+- Judge Portal
+
+---
+
+### UX rule:
+
+Users must reach key actions in **≤ 2 clicks**:
+
+- Join session
+- Vote
+- View projects
+
+---
+
+## 8) Bilingual Experience (English + Arabic)
+
+Requirements:
+
+- Language toggle always visible
+- Arabic supports RTL properly
+- No layout breaking when switching
+- Users stay on same page when switching language
+
+---
+
+## 9) UI/UX Quality (Capstone Focus)
+
+---
+
+### 9.1 Simplicity first
+
+- No unnecessary features
+- Every element must have a purpose
+
+---
+
+### 9.2 Visual hierarchy
+
+Every screen must answer:
+
+1. What is happening?
+2. What can I do?
+3. What should I do next?
+
+---
+
+### 9.3 Motion design (subtle)
+
+- Smooth transitions
+- No heavy animations
+- Used to guide attention only
+
+---
+
+### 9.4 Mobile-first
+
+- Most users will use phones
+- Large buttons
+- Minimal scrolling
+- Fast loading
+
+---
+
+### 9.5 Accessibility
+
+- Readable text
+- Good contrast
+- Keyboard support
+- RTL Arabic usability
+
+---
+
+## 10) Content Strategy
+
+---
+
+### 10.1 Placeholder handling
+
+Since content arrives late:
+
+- Use clean placeholders
+- “Coming soon” labels
+- Consistent structure
+
+---
+
+### 10.2 Tone
+
+- Professional
+- Clear
+- Minimal
+  Examples:
+- “Join session”
+- “Now presenting”
+- “Vote for People’s Choice”
+- “Leave feedback”
+
+---
+
+## 11) Performance & Reliability
+
+---
+
+### Requirements:
+
+- Fast loading (especially mobile)
+- Stable during peak usage (50–100 users)
+- No broken links (especially meeting links)
+
+---
+
+### Critical:
+
+- Join buttons must always work
+- Judge system must never crash
+
+---
+
+## 12) Scope Control
+
+---
+
+### MVP (must have)
+
+- Live navigation hub with join links
+- Speakers + projects pages
+- People’s Choice voting
+- Judge login + grading system
+- Bilingual support
+
+---
+
+### Capstone polish
+
+- Premium UI design
+- Smooth transitions
+- Clean spotlight pages
+- Comment system
+
+---
+
+### Avoid:
+
+- Over-engineering
+- Too many interactive features
+- Anything that risks stability
+
+---
+
+## 13) Capstone Value
+
+You are building:
+
+- A real system used in a real university event
+- A digital judging platform
+- A structured online event experience
+  Your focus:
+- UX design under real constraints
+- Simplicity + clarity
+- Reliability + usability
+
+---
+
+## 14) Final Summary
+
+This project is no longer:
+❌ A visual enhancer of a physical event  
+It is now:
+✅ The **core platform that runs the event experience**
+The priorities are:
+
+1. Judge grading system (critical)
+2. Clear navigation for attendees
+3. Professional presentation of participants
+4. Smooth, memorable UI (without complexity)
+
+---
+
+# End of document
