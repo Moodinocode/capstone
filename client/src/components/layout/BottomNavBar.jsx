@@ -6,7 +6,6 @@ export default function BottomNavBar() {
 
   const items = [
     { to: '/',         icon: 'home',         label: 'Hub' },
-    { to: '/projects', icon: 'science',       label: 'Projects' },
     judge
       ? { to: '/judge/dashboard', icon: 'verified_user', label: 'Judging' }
       : { to: '/judge/login',     icon: 'login',         label: 'Judging' },

@@ -11,9 +11,7 @@ export default function TopNavBar() {
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const navLinks = [
-    { to: '/projects', label: 'Projects' },
-  ];
+  const navLinks = [];
 
   const handleLogout = () => { logout(); navigate('/'); };
 
@@ -54,13 +52,6 @@ export default function TopNavBar() {
               </NavLink>
             ))}
 
-            {/* Media link — scrolls to #media on home */}
-            <a
-              href="/#media"
-              className="px-4 py-2 text-sm font-label font-medium rounded-xl text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all duration-200"
-            >
-              Media
-            </a>
           </div>
 
           {/* Right actions */}
@@ -128,13 +119,6 @@ export default function TopNavBar() {
                 {link.label}
               </NavLink>
             ))}
-            <a
-              href="/#media"
-              onClick={() => setMenuOpen(false)}
-              className="px-4 py-3 text-sm font-label font-medium rounded-xl text-on-surface-variant hover:text-on-surface"
-            >
-              Media
-            </a>
             {judge ? (
               <button
                 onClick={() => { handleLogout(); setMenuOpen(false); }}

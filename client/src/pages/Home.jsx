@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import EventProgramTimeline from '../components/sections/EventProgramTimeline';
 import FanVoteLeaderboard from '../components/sections/FanVoteLeaderboard';
 import MediaSection from '../components/sections/MediaSection';
@@ -6,6 +7,7 @@ import HubProjectCard from '../components/ui/HubProjectCard';
 import api from '../services/api';
 
 export default function Home() {
+  const navigate = useNavigate();
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -67,6 +69,16 @@ export default function Home() {
                 />
               ))}
             </div>
+          )}
+
+          {!loading && projects.length > 0 && (
+            <button
+              onClick={() => navigate('/projects')}
+              className="mt-4 w-full flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-surface-container-high text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest text-sm font-label font-semibold transition-all duration-200 border border-outline-variant/40"
+            >
+              View All Projects
+              <span className="material-icon text-base">arrow_forward</span>
+            </button>
           )}
         </main>
 

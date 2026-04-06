@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import ProjectCard from '../components/ui/ProjectCard';
 import { useLang } from '../context/LanguageContext';
 import { useDebounce } from '../hooks/useDebounce';
@@ -7,6 +8,7 @@ import api from '../services/api';
 const CATEGORIES = ['All Projects', 'Engineering', 'Tech Innovation', 'Social Impact', 'Business Strategy', 'Creative Arts', 'Med-Tech'];
 
 export default function ProjectGallery() {
+  const navigate = useNavigate();
   const { t, lang } = useLang();
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -28,6 +30,15 @@ export default function ProjectGallery() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      {/* Back button */}
+      <button
+        onClick={() => navigate(-1)}
+        className="flex items-center gap-1.5 mb-8 text-sm font-label font-medium text-on-surface-variant hover:text-on-surface transition-colors duration-200 group"
+      >
+        <span className="material-icon text-base group-hover:-translate-x-0.5 transition-transform duration-200">arrow_back</span>
+        Back
+      </button>
+
       {/* Hero header */}
       <div className="mb-10">
         <p className="text-xs font-label font-bold uppercase tracking-widest text-secondary mb-3">{t('projects.subtitle')}</p>
