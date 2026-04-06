@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useLang } from '../context/LanguageContext';
 import { useVoteStatus } from '../hooks/useVoteStatus';
 import GlassModal from '../components/ui/GlassModal';
@@ -16,6 +16,7 @@ const CATEGORY_COLORS = {
 
 export default function ProjectSpotlight() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { t, lang } = useLang();
   const { hasVoted, votedProjectId, castVote } = useVoteStatus();
   const [project, setProject] = useState(null);
@@ -62,10 +63,10 @@ export default function ProjectSpotlight() {
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <Link to="/projects" className="inline-flex items-center gap-1 text-sm text-on-surface-variant hover:text-on-surface mb-8 transition-colors">
+      <button onClick={() => navigate(-1)} className="inline-flex items-center gap-1 text-sm text-on-surface-variant hover:text-on-surface mb-8 transition-colors">
         <span className="material-icon text-base">arrow_back</span>
         {t('project.backToGallery')}
-      </Link>
+      </button>
 
       {/* Hero image */}
       {project.imageUrl && (
