@@ -89,24 +89,43 @@ function TalkCard({ talk }) {
 
 export default function MediaSection() {
   return (
-    <section id="media" className="mt-8">
-      <div className="flex items-center justify-between mb-4">
-        <div>
-          <p className="text-xs font-label font-bold uppercase tracking-widest text-on-surface-variant mb-1">
-            Event Media
-          </p>
-          <h2 className="font-headline font-bold text-lg text-on-surface">
-            Pre-Recorded TED-Style Talks
-          </h2>
+    <section id="media" className="mt-8 space-y-8">
+
+      {/* Event Trailer */}
+      <div>
+        <p className="text-xs font-label font-bold uppercase tracking-widest text-on-surface-variant mb-1">
+          Official Trailer
+        </p>
+        <h2 className="font-headline font-bold text-lg text-on-surface mb-4">
+          Soft Skills 2026: A Student Talent Special Edition
+        </h2>
+        <div className="relative w-full rounded-2xl overflow-hidden shadow-card bg-surface-container-high"
+             style={{ paddingBottom: '56.25%' }}>
+          <iframe
+            src="https://drive.google.com/file/d/1i1sKDahY94nTQ7D7vH0ZTzpBG7HnsryF/preview"
+            title="Soft Skills 2026 Event Trailer"
+            allow="autoplay"
+            allowFullScreen
+            className="absolute inset-0 w-full h-full border-0"
+          />
         </div>
       </div>
 
-      {/* Horizontal scroll row */}
-      <div className="flex gap-3 overflow-x-auto pb-3 scrollbar-hide">
-        {TALKS.map((talk) => (
-          <TalkCard key={talk.id} talk={talk} />
-        ))}
+      {/* Talk cards */}
+      <div>
+        <p className="text-xs font-label font-bold uppercase tracking-widest text-on-surface-variant mb-1">
+          Event Media
+        </p>
+        <h2 className="font-headline font-bold text-lg text-on-surface mb-4">
+          Pre-Recorded TED-Style Talks
+        </h2>
+        <div className="flex gap-3 overflow-x-auto pb-3 scrollbar-hide">
+          {TALKS.map((talk) => (
+            <TalkCard key={talk.id} talk={talk} />
+          ))}
+        </div>
       </div>
+
     </section>
   );
 }
