@@ -16,8 +16,8 @@
   }
 
   body {
-    background-color: #0c0e12;
-    color: #e2e6f0;
+    background-color: #f5f6fa;
+    color: #111827;
     font-family: 'Inter', sans-serif;
     min-height: 100vh;
   }
@@ -40,25 +40,19 @@
 }
 
 @layer utilities {
-  /* Dark spotlight gradient — subtle top-centre cyan glow */
+  /* Subtle light background — very faint top gradient */
   .spotlight-bg {
     background-image:
-      radial-gradient(ellipse 80% 40% at 50% 0%, rgba(105, 218, 255, 0.06) 0%, transparent 70%),
-      radial-gradient(ellipse 40% 30% at 80% 20%, rgba(255, 215, 9, 0.03) 0%, transparent 60%);
+      radial-gradient(ellipse 80% 40% at 50% 0%, rgba(17, 17, 17, 0.025) 0%, transparent 70%);
   }
 
-  [dir='rtl'] .spotlight-bg {
-    background-image:
-      radial-gradient(ellipse 80% 40% at 50% 0%, rgba(105, 218, 255, 0.06) 0%, transparent 70%),
-      radial-gradient(ellipse 40% 30% at 20% 20%, rgba(255, 215, 9, 0.03) 0%, transparent 60%);
-  }
-
-  /* Dark glassmorphism for modals/overlays */
+  /* Light glassmorphism for modals/overlays */
   .glass {
-    background: rgba(15, 17, 23, 0.94);
+    background: rgba(255, 255, 255, 0.97);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.50), 0 1px 0 rgba(255,255,255,0.05) inset;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.12), 0 1px 0 rgba(0,0,0,0.04) inset;
+    border: 1px solid rgba(0, 0, 0, 0.06);
   }
 
   .material-icon {

@@ -4,9 +4,9 @@ import { useVoteStatus } from '../../hooks/useVoteStatus';
 import api from '../../services/api';
 
 const MEDAL_COLORS = [
-  { bg: 'bg-secondary/20', border: 'border-secondary/50', text: 'text-secondary', label: '1st' },
-  { bg: 'bg-on-surface-variant/10', border: 'border-outline-variant', text: 'text-on-surface-variant', label: '2nd' },
-  { bg: 'bg-tertiary/20', border: 'border-tertiary/50', text: 'text-tertiary', label: '3rd' },
+  { bg: 'bg-secondary/15', border: 'border-secondary/40', text: 'text-secondary', label: '1st' },
+  { bg: 'bg-surface-container', border: 'border-outline-variant', text: 'text-on-surface-variant', label: '2nd' },
+  { bg: 'bg-tertiary/10', border: 'border-tertiary/30', text: 'text-tertiary', label: '3rd' },
 ];
 
 const PODIUM_ORDER = [1, 0, 2]; // 2nd, 1st, 3rd (visual left→right)
@@ -49,8 +49,8 @@ export default function FanVoteLeaderboard() {
 
   if (loading) {
     return (
-      <div className="bg-surface-container-high rounded-2xl p-5 shadow-card space-y-3 animate-pulse">
-        <div className="h-3 w-32 bg-surface-container-highest rounded-full" />
+      <div className="bg-surface-container-high rounded-2xl p-5 shadow-card border border-outline-variant space-y-3 animate-pulse">
+        <div className="h-3 w-32 bg-surface-container rounded-full" />
         <div className="h-24 bg-surface-container rounded-xl" />
         {[...Array(4)].map((_, i) => (
           <div key={i} className="h-10 bg-surface-container rounded-xl" />
@@ -60,7 +60,7 @@ export default function FanVoteLeaderboard() {
   }
 
   return (
-    <div className="bg-surface-container-high rounded-2xl p-5 shadow-card">
+    <div className="bg-surface-container-high rounded-2xl p-5 shadow-card border border-outline-variant">
       <p className="text-xs font-label font-bold uppercase tracking-widest text-on-surface-variant mb-5">
         Top 3 &amp; Fan-Vote Leaderboard
       </p>
@@ -135,7 +135,7 @@ export default function FanVoteLeaderboard() {
                 <button
                   onClick={() => handleVote(p._id)}
                   disabled={hasVoted || !!voting}
-                  className="shrink-0 px-2.5 py-0.5 rounded-full bg-primary text-on-primary text-[10px] font-label font-bold disabled:opacity-40 disabled:cursor-not-allowed hover:shadow-glow-primary transition-all duration-200"
+                  className="shrink-0 px-2.5 py-0.5 rounded-full bg-primary text-on-primary text-[10px] font-label font-bold disabled:opacity-40 disabled:cursor-not-allowed hover:bg-primary-fixed transition-all duration-200"
                 >
                   {isVotingThis ? '…' : 'Vote'}
                 </button>
@@ -148,7 +148,7 @@ export default function FanVoteLeaderboard() {
       {/* View full link */}
       <Link
         to="/vote"
-        className="mt-4 block text-center text-xs font-label font-semibold text-primary hover:text-primary-dim transition-colors duration-200"
+        className="mt-4 block text-center text-xs font-label font-semibold text-on-surface-variant hover:text-on-surface transition-colors duration-200"
       >
         View Full Leaderboard →
       </Link>

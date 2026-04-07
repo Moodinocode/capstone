@@ -12,7 +12,7 @@ export default function GlassModal({ open, onClose, title, children }) {
   return (
     <div
       className="fixed inset-0 z-[100] flex items-center justify-center p-4"
-      style={{ background: 'rgba(0,0,0,0.65)', backdropFilter: 'blur(8px)' }}
+      style={{ background: 'rgba(0,0,0,0.40)', backdropFilter: 'blur(6px)' }}
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
       <div className="glass rounded-3xl p-6 w-full max-w-md animate-fade-in">

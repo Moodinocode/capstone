@@ -16,8 +16,7 @@ export default function TopNavBar() {
   const handleLogout = () => { logout(); navigate('/'); };
 
   return (
-    <nav className="sticky top-0 z-50 border-b border-outline-variant/50"
-         style={{ background: 'rgba(12, 14, 18, 0.95)', backdropFilter: 'blur(20px)' }}>
+    <nav className="sticky top-0 z-50 bg-white border-b border-outline-variant shadow-nav-top">
       <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
 
@@ -29,8 +28,8 @@ export default function TopNavBar() {
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-error" />
               </span>
             )}
-            <span className="font-headline font-extrabold text-base tracking-tight text-on-surface group-hover:text-primary transition-colors duration-200">
-              Project Event Hero &amp; Hub
+            <span className="font-headline font-extrabold text-base tracking-tight text-on-surface group-hover:text-on-surface-variant transition-colors duration-200">
+              Project<span className="text-on-surface-variant font-medium"> Event Hub</span>
             </span>
           </NavLink>
 
@@ -43,15 +42,14 @@ export default function TopNavBar() {
                 className={({ isActive }) =>
                   `px-4 py-2 text-sm font-label font-medium rounded-xl transition-all duration-200 ${
                     isActive
-                      ? 'text-primary bg-primary/10'
-                      : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high'
+                      ? 'text-on-surface bg-surface-container'
+                      : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low'
                   }`
                 }
               >
                 {link.label}
               </NavLink>
             ))}
-
           </div>
 
           {/* Right actions */}
@@ -59,7 +57,7 @@ export default function TopNavBar() {
             {/* Language toggle */}
             <button
               onClick={toggle}
-              className="px-3 py-1.5 text-xs font-label font-semibold rounded-full bg-surface-container text-on-surface-variant hover:text-on-surface transition-colors duration-200 tracking-widest uppercase border border-outline-variant/50"
+              className="px-3 py-1.5 text-xs font-label font-semibold rounded-full bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-colors duration-200 tracking-widest uppercase border border-outline-variant"
             >
               {lang === 'en' ? 'AR' : 'EN'}
             </button>
@@ -69,14 +67,17 @@ export default function TopNavBar() {
               <div className="hidden md:flex items-center gap-2">
                 <NavLink
                   to="/judge/dashboard"
-                  className="w-9 h-9 rounded-full bg-primary/20 flex items-center justify-center hover:bg-primary/30 transition-colors duration-200"
+                  className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-surface-container hover:bg-surface-container-highest transition-colors duration-200"
                   title={judge.name || 'Judge Dashboard'}
                 >
-                  <span className="material-icon text-base text-primary">person</span>
+                  <div className="w-6 h-6 rounded-full bg-primary flex items-center justify-center">
+                    <span className="material-icon text-sm text-on-primary" style={{ fontSize: '14px' }}>person</span>
+                  </div>
+                  <span className="text-xs font-label font-semibold text-on-surface">{judge.name?.split(' ')[0]}</span>
                 </NavLink>
                 <button
                   onClick={handleLogout}
-                  className="p-2 text-on-surface-variant hover:text-error transition-colors duration-200 rounded-xl hover:bg-surface-container-high"
+                  className="p-2 text-on-surface-variant hover:text-error transition-colors duration-200 rounded-xl hover:bg-error-container"
                   title="Sign out"
                 >
                   <span className="material-icon text-base">logout</span>
@@ -85,17 +86,18 @@ export default function TopNavBar() {
             ) : (
               <NavLink
                 to="/judge/login"
-                className="hidden md:flex w-9 h-9 rounded-full bg-surface-container-high items-center justify-center hover:bg-surface-container-highest transition-colors duration-200"
+                className="hidden md:flex items-center gap-1.5 px-4 py-2 rounded-xl bg-primary text-on-primary text-xs font-label font-semibold hover:bg-primary-fixed transition-all duration-200"
                 title="Judge Portal"
               >
-                <span className="material-icon text-base text-on-surface-variant">person</span>
+                <span className="material-icon text-sm">verified_user</span>
+                Judge Portal
               </NavLink>
             )}
 
             {/* Mobile hamburger */}
             <button
               onClick={() => setMenuOpen(!menuOpen)}
-              className="md:hidden p-2 rounded-xl text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"
+              className="md:hidden p-2 rounded-xl text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors"
             >
               <span className="material-icon">{menuOpen ? 'close' : 'menu'}</span>
             </button>
@@ -104,7 +106,7 @@ export default function TopNavBar() {
 
         {/* Mobile menu */}
         {menuOpen && (
-          <div className="md:hidden pb-4 flex flex-col gap-1 border-t border-outline-variant/30 pt-3 mt-1">
+          <div className="md:hidden pb-4 flex flex-col gap-1 border-t border-outline-variant pt-3 mt-1">
             {navLinks.map((link) => (
               <NavLink
                 key={link.to}
@@ -112,7 +114,7 @@ export default function TopNavBar() {
                 onClick={() => setMenuOpen(false)}
                 className={({ isActive }) =>
                   `px-4 py-3 text-sm font-label font-medium rounded-xl transition-colors ${
-                    isActive ? 'text-primary bg-surface-container' : 'text-on-surface-variant hover:text-on-surface'
+                    isActive ? 'text-on-surface bg-surface-container' : 'text-on-surface-variant hover:text-on-surface'
                   }`
                 }
               >
@@ -120,13 +122,31 @@ export default function TopNavBar() {
               </NavLink>
             ))}
             {judge ? (
-              <button
-                onClick={() => { handleLogout(); setMenuOpen(false); }}
-                className="px-4 py-3 text-sm font-medium text-error text-start"
+              <>
+                <NavLink
+                  to="/judge/dashboard"
+                  onClick={() => setMenuOpen(false)}
+                  className="px-4 py-3 text-sm font-medium text-on-surface"
+                >
+                  {judge.name}
+                </NavLink>
+                <button
+                  onClick={() => { handleLogout(); setMenuOpen(false); }}
+                  className="px-4 py-3 text-sm font-medium text-error text-start"
+                >
+                  Sign Out
+                </button>
+              </>
+            ) : (
+              <NavLink
+                to="/judge/login"
+                onClick={() => setMenuOpen(false)}
+                className="mx-2 mt-1 flex items-center justify-center gap-1.5 px-4 py-3 rounded-xl bg-primary text-on-primary text-sm font-label font-semibold"
               >
-                Sign Out
-              </button>
-            ) : null}
+                <span className="material-icon text-base">verified_user</span>
+                Judge Portal
+              </NavLink>
+            )}
           </div>
         )}
       </div>

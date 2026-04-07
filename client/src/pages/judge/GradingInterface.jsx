@@ -7,12 +7,26 @@ import RubricBar from '../../components/ui/RubricBar';
 import AutoSaveIndicator from '../../components/ui/AutoSaveIndicator';
 import api from '../../services/api';
 
-const CRITERIA = [
-  { key: 'innovation',   labelKey: 'grade.innovation',   descKey: 'grade.innovationDesc' },
-  { key: 'softSkills',   labelKey: 'grade.softSkills',   descKey: 'grade.softSkillsDesc' },
-  { key: 'presentation', labelKey: 'grade.presentation', descKey: 'grade.presentationDesc' },
-  { key: 'viability',    labelKey: 'grade.viability',    descKey: 'grade.viabilityDesc' },
-];
+const CRITERIA_BY_SEGMENT = {
+  project: [
+    { key: 'innovation',   label: 'Innovation',   desc: 'Originality and creativity of the idea' },
+    { key: 'softSkills',   label: 'Soft Skills',  desc: 'Teamwork, communication, and interpersonal qualities' },
+    { key: 'presentation', label: 'Presentation', desc: 'Clarity, confidence, and structure of the pitch' },
+    { key: 'viability',    label: 'Viability',    desc: 'Feasibility and real-world impact potential' },
+  ],
+  ted_talk: [
+    { key: 'innovation',   label: 'Content',      desc: 'Depth, relevance, and originality of the topic' },
+    { key: 'softSkills',   label: 'Delivery',     desc: 'Vocal presence, body language, and engagement' },
+    { key: 'presentation', label: 'Structure',    desc: 'Logical flow and clarity of the talk' },
+    { key: 'viability',    label: 'Impact',       desc: 'Inspiration and takeaway value for the audience' },
+  ],
+  interview: [
+    { key: 'innovation',   label: 'Communication', desc: 'Clarity and articulation of ideas' },
+    { key: 'softSkills',   label: 'Confidence',    desc: 'Composure and presence during the interview' },
+    { key: 'presentation', label: 'Clarity',       desc: 'Precision and conciseness of answers' },
+    { key: 'viability',    label: 'Overall',       desc: 'General impression and professional readiness' },
+  ],
+};
 
 const QUICK_TAGS = ['Strong Research', 'Innovative Approach', 'Excellent Delivery', 'Good Flow', 'Technical Depth', 'Clear Vision', 'Strong Teamwork'];
 
@@ -31,7 +45,6 @@ export default function GradingInterface() {
 
   const { saveStatus, lastSavedAt, saveNow } = useAutoSave(projectId, scores, feedback, !isSubmitted);
 
-  // Load project + existing grade
   useEffect(() => {
     Promise.all([
       api.get(`/projects/${projectId}`),
@@ -47,7 +60,6 @@ export default function GradingInterface() {
     }).catch(() => {}).finally(() => setLoading(false));
   }, [projectId]);
 
-  // Save before page unload
   useEffect(() => {
     const handler = () => { if (!isSubmitted) saveNow(); };
     window.addEventListener('beforeunload', handler);
@@ -78,8 +90,8 @@ export default function GradingInterface() {
   if (loading) return (
     <div className="max-w-6xl mx-auto px-4 py-12">
       <div className="animate-pulse space-y-4">
-        <div className="h-8 bg-surface-container-high rounded-xl w-64" />
-        <div className="h-96 bg-surface-container-high rounded-3xl" />
+        <div className="h-8 bg-white rounded-xl w-64 border border-outline-variant" />
+        <div className="h-96 bg-white rounded-3xl border border-outline-variant" />
       </div>
     </div>
   );
@@ -89,6 +101,9 @@ export default function GradingInterface() {
   );
 
   const title = lang === 'ar' && project.titleAr ? project.titleAr : project.title;
+  const segmentType = project.segmentType ?? 'project';
+  const criteria = CRITERIA_BY_SEGMENT[segmentType] ?? CRITERIA_BY_SEGMENT.project;
+  const SEGMENT_LABEL = { project: 'Project Pitch', ted_talk: 'TED-Style Talk', interview: 'Interview' };
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -99,12 +114,13 @@ export default function GradingInterface() {
             <span className="material-icon text-base">arrow_back</span>
             {t('grade.backToDash')}
           </Link>
+          <p className="text-xs font-label font-bold uppercase tracking-widest text-on-surface-variant mb-1">{SEGMENT_LABEL[segmentType]}</p>
           <h1 className="font-headline font-extrabold text-2xl md:text-3xl text-on-surface">{title}</h1>
           <p className="text-on-surface-variant text-sm mt-1">{project.projectNumber} · {project.category} · {project.teamName}</p>
         </div>
         <div className="flex items-center gap-3">
           {isSubmitted ? (
-            <span className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-secondary/20 text-secondary text-xs font-label font-bold uppercase tracking-wider">
+            <span className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-secondary/15 text-secondary text-xs font-label font-bold uppercase tracking-wider border border-secondary/30">
               <span className="material-icon text-sm material-icon-filled">check_circle</span>
               {t('grade.submitted')}
             </span>
@@ -115,7 +131,7 @@ export default function GradingInterface() {
       </div>
 
       {isSubmitted && (
-        <div className="mb-6 p-4 rounded-xl bg-secondary/10 text-secondary text-sm font-label flex items-center gap-2">
+        <div className="mb-6 p-4 rounded-xl bg-secondary/10 text-secondary text-sm font-label flex items-center gap-2 border border-secondary/20">
           <span className="material-icon text-base">lock</span>
           {t('grade.submittedMsg')}
         </div>
@@ -125,12 +141,12 @@ export default function GradingInterface() {
       <div className="grid lg:grid-cols-12 gap-6">
         {/* Rubric section */}
         <div className="lg:col-span-7 space-y-4">
-          {CRITERIA.map((c) => (
-            <div key={c.key} className="p-6 rounded-3xl bg-surface-container-high">
+          {criteria.map((c) => (
+            <div key={c.key} className="p-6 rounded-3xl bg-white border border-outline-variant shadow-card">
               <div className="flex items-start justify-between gap-4 mb-4">
                 <div className="flex-1">
-                  <h3 className="font-headline font-bold text-on-surface text-base">{t(c.labelKey)}</h3>
-                  <p className="text-xs text-on-surface-variant mt-0.5">{t(c.descKey)}</p>
+                  <h3 className="font-headline font-bold text-on-surface text-base">{c.label}</h3>
+                  <p className="text-xs text-on-surface-variant mt-0.5">{c.desc}</p>
                 </div>
                 <ScoreInput
                   value={scores[c.key]}
@@ -146,22 +162,22 @@ export default function GradingInterface() {
         {/* Sidebar */}
         <div className="lg:col-span-5 space-y-4">
           {/* Running total */}
-          <div className="p-6 rounded-3xl bg-surface-container-high">
-            <p className="text-xs font-label font-bold uppercase tracking-widest text-on-surface-variant mb-3">{t('grade.total')}</p>
+          <div className="p-6 rounded-3xl bg-primary border border-primary shadow-card">
+            <p className="text-xs font-label font-bold uppercase tracking-widest text-on-primary/60 mb-3">{t('grade.total')}</p>
             <div className="flex items-end gap-1">
-              <span className="font-headline font-extrabold text-5xl text-on-surface">{totalScore}</span>
-              <span className="text-on-surface-variant text-xl mb-1.5">/ 40</span>
+              <span className="font-headline font-extrabold text-5xl text-on-primary">{totalScore}</span>
+              <span className="text-on-primary/60 text-xl mb-1.5">/ 40</span>
             </div>
-            <div className="mt-4 w-full h-2 rounded-full bg-surface-container-highest">
+            <div className="mt-4 w-full h-2 rounded-full bg-on-primary/20">
               <div
-                className="h-full rounded-full bg-primary transition-all duration-500"
+                className="h-full rounded-full bg-on-primary transition-all duration-500"
                 style={{ width: `${(totalScore / 40) * 100}%` }}
               />
             </div>
           </div>
 
           {/* Feedback */}
-          <div className="p-6 rounded-3xl bg-surface-container-high">
+          <div className="p-6 rounded-3xl bg-white border border-outline-variant shadow-card">
             <p className="text-xs font-label font-bold uppercase tracking-widest text-on-surface-variant mb-3">{t('grade.feedback')}</p>
             <textarea
               value={feedback}
@@ -169,7 +185,7 @@ export default function GradingInterface() {
               disabled={isSubmitted}
               placeholder={t('grade.feedbackPlaceholder')}
               rows={6}
-              className="w-full rounded-xl bg-surface-container-highest text-on-surface placeholder-on-surface-variant text-sm p-4 resize-none focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-200 border-0 disabled:opacity-50"
+              className="w-full rounded-xl bg-surface-container text-on-surface placeholder-on-surface-variant text-sm p-4 resize-none focus:outline-none focus:ring-2 focus:ring-on-surface transition-all duration-200 border border-outline-variant disabled:opacity-50"
             />
 
             {/* Quick tags */}
@@ -181,7 +197,7 @@ export default function GradingInterface() {
                     <button
                       key={tag}
                       onClick={() => appendTag(tag)}
-                      className="px-2.5 py-1 rounded-full text-xs font-label bg-surface-container-highest text-on-surface-variant hover:text-on-surface hover:bg-outline-variant/30 transition-colors"
+                      className="px-2.5 py-1 rounded-full text-xs font-label bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-colors border border-outline-variant"
                     >
                       + {tag}
                     </button>
@@ -193,7 +209,7 @@ export default function GradingInterface() {
 
           {/* Documentation link */}
           {project.documentUrl && (
-            <div className="p-4 rounded-2xl bg-surface-container-high flex items-center justify-between">
+            <div className="p-4 rounded-2xl bg-white flex items-center justify-between border border-outline-variant shadow-card">
               <div className="flex items-center gap-3">
                 <span className="material-icon text-on-surface-variant">picture_as_pdf</span>
                 <div>
@@ -202,7 +218,7 @@ export default function GradingInterface() {
                 </div>
               </div>
               <a href={project.documentUrl} target="_blank" rel="noopener noreferrer"
-                className="text-xs font-label font-semibold text-primary hover:text-primary-dim transition-colors">
+                className="text-xs font-label font-semibold text-on-surface-variant hover:text-on-surface transition-colors">
                 {t('grade.downloadDoc')} →
               </a>
             </div>
@@ -212,12 +228,12 @@ export default function GradingInterface() {
           {!isSubmitted && (
             <div className="space-y-3">
               {submitError && (
-                <p className="text-sm text-error bg-error/10 rounded-xl px-4 py-3">{submitError}</p>
+                <p className="text-sm text-error bg-error-container rounded-xl px-4 py-3">{submitError}</p>
               )}
               <button
                 onClick={handleSubmit}
                 disabled={submitting || !allFilled}
-                className="w-full h-14 rounded-xl bg-primary text-on-primary font-headline font-bold hover:shadow-glow-primary disabled:opacity-40 disabled:cursor-not-allowed active:scale-95 transition-all duration-200"
+                className="w-full h-14 rounded-xl bg-primary text-on-primary font-headline font-bold hover:bg-primary-fixed disabled:opacity-40 disabled:cursor-not-allowed active:scale-95 transition-all duration-200"
               >
                 {submitting ? (
                   <span className="material-icon animate-spin">progress_activity</span>
@@ -226,7 +242,7 @@ export default function GradingInterface() {
               <button
                 onClick={saveNow}
                 disabled={saveStatus === 'saving'}
-                className="w-full py-3 rounded-xl bg-surface-container-highest text-on-surface-variant font-label font-semibold text-sm hover:text-on-surface transition-colors"
+                className="w-full py-3 rounded-xl bg-surface-container text-on-surface-variant font-label font-semibold text-sm hover:text-on-surface hover:bg-surface-container-highest transition-colors border border-outline-variant"
               >
                 {t('grade.saveDraft')}
               </button>

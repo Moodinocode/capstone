@@ -48,7 +48,7 @@ export default {
   'project.category':    'Category',
   'project.viewDoc':     'View Documentation',
   'project.joinZoom':    'Join Zoom Session',
-  'project.backToGallery': '← Back to Gallery',
+  'project.backToGallery': 'Back to Gallery',
 
   // Vote
   'vote.title':          "People's Choice",

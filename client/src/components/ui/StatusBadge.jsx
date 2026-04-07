@@ -2,17 +2,17 @@ import { useLang } from '../../context/LanguageContext';
 
 const config = {
   not_started: {
-    bg:   'bg-surface-container-highest',
+    bg:   'bg-surface-container border border-outline-variant',
     text: 'text-on-surface-variant',
     icon: 'radio_button_unchecked',
   },
   in_progress: {
-    bg:   'bg-primary-container/20',
-    text: 'text-primary',
+    bg:   'bg-surface-container border border-outline',
+    text: 'text-on-surface',
     icon: 'pending',
   },
   submitted: {
-    bg:   'bg-secondary-container/30',
+    bg:   'bg-secondary/15 border border-secondary/30',
     text: 'text-secondary',
     icon: 'check_circle',
   },

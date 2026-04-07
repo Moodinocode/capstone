@@ -54,7 +54,7 @@ export default function ProjectGallery() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder={t('projects.search')}
-            className="w-full ps-12 pe-4 py-3.5 rounded-xl bg-surface-container-high text-on-surface placeholder-on-surface-variant focus:outline-none focus:ring-2 focus:ring-primary text-sm font-body transition-all duration-200"
+            className="w-full ps-12 pe-4 py-3.5 rounded-xl bg-white text-on-surface placeholder-on-surface-variant focus:outline-none focus:ring-2 focus:ring-on-surface text-sm font-body transition-all duration-200 border border-outline-variant shadow-card"
           />
         </div>
       </div>
@@ -67,8 +67,8 @@ export default function ProjectGallery() {
             onClick={() => setActiveCategory(cat)}
             className={`px-4 py-2 rounded-full text-sm font-label font-semibold transition-all duration-200 ${
               activeCategory === cat
-                ? 'bg-primary text-on-primary shadow-glow-primary'
-                : 'bg-surface-container-high text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest'
+                ? 'bg-primary text-on-primary'
+                : 'bg-white text-on-surface-variant hover:text-on-surface hover:bg-surface-container border border-outline-variant'
             }`}
           >
             {cat === 'All Projects' ? t('projects.all') : cat}

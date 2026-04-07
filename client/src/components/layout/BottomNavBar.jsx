@@ -13,8 +13,7 @@ export default function BottomNavBar() {
 
   return (
     <nav
-      className="md:hidden fixed bottom-0 inset-x-0 z-50 border-t border-outline-variant/40"
-      style={{ background: 'rgba(12, 14, 18, 0.97)', backdropFilter: 'blur(20px)' }}
+      className="md:hidden fixed bottom-0 inset-x-0 z-50 bg-white border-t border-outline-variant shadow-nav-bottom"
     >
       <div className="flex items-stretch h-16">
         {items.map((item) => (
@@ -24,16 +23,20 @@ export default function BottomNavBar() {
             end={item.to === '/'}
             className={({ isActive }) =>
               `flex-1 flex flex-col items-center justify-center gap-0.5 transition-colors duration-200 ${
-                isActive ? 'text-primary' : 'text-on-surface-variant'
+                isActive ? 'text-on-surface' : 'text-on-surface-variant'
               }`
             }
           >
             {({ isActive }) => (
               <>
-                <span className={`material-icon text-2xl ${isActive ? 'material-icon-filled' : ''}`}>
-                  {item.icon}
+                <div className={`p-1.5 rounded-xl transition-colors duration-200 ${isActive ? 'bg-surface-container' : ''}`}>
+                  <span className={`material-icon text-xl ${isActive ? 'material-icon-filled' : ''}`}>
+                    {item.icon}
+                  </span>
+                </div>
+                <span className={`text-[10px] font-label font-medium tracking-wide ${isActive ? 'font-semibold' : ''}`}>
+                  {item.label}
                 </span>
-                <span className="text-[10px] font-label font-medium tracking-wide">{item.label}</span>
               </>
             )}
           </NavLink>
