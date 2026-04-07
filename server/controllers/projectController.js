@@ -18,18 +18,22 @@ const shapeProject = (row) => ({
   isLive: row.is_live,
   voteCount: row.vote_count,
   tags: row.tags ?? [],
+  segmentType: row.segment_type ?? 'project',
   createdAt: row.created_at,
   updatedAt: row.updated_at,
 });
 
 export const getProjects = async (req, res) => {
-  const { category, search, page = 1, limit = 50 } = req.query;
+  const { category, search, page = 1, limit = 50, segmentType } = req.query;
 
   let query = supabase
     .from('projects')
     .select('*', { count: 'exact' })
     .order('project_number', { ascending: true })
     .range((page - 1) * limit, page * limit - 1);
+
+  // Public gallery only shows pitches; judges can request other types
+  query = query.eq('segment_type', segmentType ?? 'project');
 
   if (category && category !== 'All') query = query.eq('category', category);
   if (search) {

@@ -10,6 +10,7 @@ import projectRoutes from './routes/projectRoutes.js';
 import gradeRoutes from './routes/gradeRoutes.js';
 import voteRoutes from './routes/voteRoutes.js';
 import sessionRoutes from './routes/sessionRoutes.js';
+import scheduleRoutes from './routes/scheduleRoutes.js';
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.use('/api/projects', projectRoutes);
 app.use('/api/grades', gradeRoutes);
 app.use('/api/votes', voteRoutes);
 app.use('/api/session', sessionRoutes);
+app.use('/api/schedule', scheduleRoutes);
 
 app.get('/api/health', (req, res) => res.json({ status: 'ok' }));
 
