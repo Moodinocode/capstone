@@ -41,7 +41,10 @@ export const getProjects = async (req, res) => {
   }
 
   const { data, count, error } = await query;
-  if (error) return res.status(500).json({ message: error.message });
+  if (error) {
+    console.error('[getProjects] Supabase error:', error);
+    return res.status(500).json({ message: error.message });
+  }
 
   res.json({ projects: data.map(shapeProject), total: count, page: Number(page) });
 };
