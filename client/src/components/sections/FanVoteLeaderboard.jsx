@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
 import { useVoteStatus } from '../../hooks/useVoteStatus';
 import api from '../../services/api';
 
@@ -59,10 +58,11 @@ function AnimatedCount({ value }) {
 
 export default function FanVoteLeaderboard() {
   const { hasVoted, votedProjectId, castVote } = useVoteStatus();
-  const [projects, setProjects]     = useState([]);
-  const [voting, setVoting]         = useState(null);
-  const [loading, setLoading]       = useState(true);
+  const [projects, setProjects]       = useState([]);
+  const [voting, setVoting]           = useState(null);
+  const [loading, setLoading]         = useState(true);
   const [lastUpdated, setLastUpdated] = useState(null);
+  const containerRef = useRef(null);
 
   const fetchProjects = async () => {
     try {
@@ -90,8 +90,6 @@ export default function FanVoteLeaderboard() {
   };
 
   const totalVotes = projects.reduce((sum, p) => sum + p.voteCount, 0);
-  const top3 = projects.slice(0, 3);
-  const rest = projects.slice(3, 6);
 
   if (loading) {
     return (
@@ -100,8 +98,8 @@ export default function FanVoteLeaderboard() {
           <div className="h-3 w-36 bg-surface-container rounded-full" />
           <div className="h-4 w-10 bg-surface-container rounded-full" />
         </div>
-        {[...Array(4)].map((_, i) => (
-          <div key={i} className="h-14 bg-surface-container rounded-xl" />
+        {[...Array(5)].map((_, i) => (
+          <div key={i} className="h-12 bg-surface-container rounded-xl" />
         ))}
       </div>
     );
@@ -115,61 +113,103 @@ export default function FanVoteLeaderboard() {
         <p className="text-xs font-label font-bold uppercase tracking-widest text-on-surface-variant">
           Fan Vote Leaderboard
         </p>
-        <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-error/10 text-error text-[9px] font-label font-bold uppercase tracking-widest">
-          <span className="relative flex h-1.5 w-1.5">
-            <span className="animate-ping-slow absolute inline-flex h-full w-full rounded-full bg-error opacity-75" />
-            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-error" />
+        <div className="flex items-center gap-2">
+          {lastUpdated && (
+            <span className="text-[9px] font-label text-on-surface-variant">
+              {lastUpdated.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+            </span>
+          )}
+          <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-error/10 text-error text-[9px] font-label font-bold uppercase tracking-widest">
+            <span className="relative flex h-1.5 w-1.5">
+              <span className="animate-ping-slow absolute inline-flex h-full w-full rounded-full bg-error opacity-75" />
+              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-error" />
+            </span>
+            Live
           </span>
-          Live
-        </span>
+        </div>
       </div>
 
-      {/* Top 3 */}
-      <div className="space-y-2 mb-3">
-        {top3.map((p, i) => {
-          const style         = RANK_STYLE[i];
+      {/* Scrollable list */}
+      <div
+        ref={containerRef}
+        onMouseLeave={() => containerRef.current?.scrollTo({ top: 0, behavior: 'smooth' })}
+        className="overflow-y-auto scrollbar-hide space-y-2"
+        style={{ height: '320px' }}
+      >
+        {projects.map((p, i) => {
+          const style          = RANK_STYLE[i] ?? null;
+          const isTop3         = i < 3;
           const isVotedForThis = votedProjectId === p._id;
-          const isVotingThis  = voting === p._id;
-          const pct           = totalVotes > 0 ? (p.voteCount / totalVotes) * 100 : 0;
+          const isVotingThis   = voting === p._id;
+          const pct            = totalVotes > 0 ? (p.voteCount / totalVotes) * 100 : 0;
+
+          if (isTop3) {
+            return (
+              <div
+                key={p._id}
+                className={`flex items-center gap-3 px-3 py-2.5 rounded-xl border ${style.border} ${style.bg} ${style.glow} transition-all duration-500`}
+              >
+                <div className={`shrink-0 w-7 h-7 rounded-lg ${style.rankBg} ${style.rankText} flex items-center justify-center`}>
+                  <span className="text-xs font-headline font-extrabold">{i + 1}</span>
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-xs font-label font-semibold text-on-surface truncate leading-tight mb-1.5">
+                    {p.title}
+                  </p>
+                  <div className="w-full h-1 rounded-full bg-black/10">
+                    <div
+                      className={`h-full rounded-full ${style.bar} transition-all duration-700`}
+                      style={{ width: `${pct}%` }}
+                    />
+                  </div>
+                </div>
+                <span className="shrink-0 text-[11px] font-label font-semibold text-on-surface-variant">
+                  <AnimatedCount value={p.voteCount} />
+                </span>
+                {isVotedForThis ? (
+                  <span className="shrink-0 px-2 py-1 rounded-lg bg-primary/15 text-primary text-[10px] font-label font-bold">
+                    Voted
+                  </span>
+                ) : (
+                  <button
+                    onClick={() => handleVote(p._id)}
+                    disabled={hasVoted || !!voting}
+                    className="shrink-0 px-2.5 py-1 rounded-lg bg-primary text-on-primary text-[10px] font-label font-bold disabled:opacity-40 disabled:cursor-not-allowed hover:bg-primary-fixed transition-all duration-200"
+                  >
+                    {isVotingThis ? '…' : 'Vote'}
+                  </button>
+                )}
+              </div>
+            );
+          }
 
           return (
             <div
               key={p._id}
-              className={`flex items-center gap-3 px-3 py-2.5 rounded-xl border ${style.border} ${style.bg} ${style.glow} transition-all duration-500`}
+              className="flex items-center gap-2.5 px-3 py-2 rounded-xl border border-outline-variant bg-white hover:bg-surface-container-low transition-colors duration-150"
             >
-              {/* Rank badge */}
-              <div className={`shrink-0 w-7 h-7 rounded-lg ${style.rankBg} ${style.rankText} flex items-center justify-center`}>
-                <span className="text-xs font-headline font-extrabold">{i + 1}</span>
-              </div>
-
-              {/* Name + progress bar */}
+              <span className="shrink-0 w-5 text-center text-xs font-headline font-bold text-outline">
+                {i + 1}
+              </span>
               <div className="flex-1 min-w-0">
-                <p className="text-xs font-label font-semibold text-on-surface truncate leading-tight mb-1.5">
-                  {p.title}
-                </p>
-                <div className="w-full h-1 rounded-full bg-black/10">
+                <p className="text-xs font-label text-on-surface truncate">{p.title}</p>
+                <div className="w-full h-0.5 rounded-full bg-black/10 mt-1">
                   <div
-                    className={`h-full rounded-full ${style.bar} transition-all duration-700`}
+                    className="h-full rounded-full bg-on-surface transition-all duration-700"
                     style={{ width: `${pct}%` }}
                   />
                 </div>
               </div>
-
-              {/* Vote count */}
-              <span className="shrink-0 text-[11px] font-label font-semibold text-on-surface-variant">
+              <span className="shrink-0 text-[10px] font-label text-on-surface-variant">
                 <AnimatedCount value={p.voteCount} />
               </span>
-
-              {/* Vote button */}
               {isVotedForThis ? (
-                <span className="shrink-0 px-2 py-1 rounded-lg bg-primary/15 text-primary text-[10px] font-label font-bold">
-                  Voted
-                </span>
+                <span className="shrink-0 px-2 py-0.5 rounded-full bg-primary/15 text-primary text-[10px] font-label font-bold">✓</span>
               ) : (
                 <button
                   onClick={() => handleVote(p._id)}
                   disabled={hasVoted || !!voting}
-                  className="shrink-0 px-2.5 py-1 rounded-lg bg-primary text-on-primary text-[10px] font-label font-bold disabled:opacity-40 disabled:cursor-not-allowed hover:bg-primary-fixed transition-all duration-200"
+                  className="shrink-0 px-2 py-0.5 rounded-full bg-primary text-on-primary text-[10px] font-label font-bold disabled:opacity-40 hover:bg-primary-fixed transition-all"
                 >
                   {isVotingThis ? '…' : 'Vote'}
                 </button>
@@ -177,67 +217,6 @@ export default function FanVoteLeaderboard() {
             </div>
           );
         })}
-      </div>
-
-      {/* Ranks 4–6 */}
-      {rest.length > 0 && (
-        <div className="space-y-1.5 mb-3">
-          {rest.map((p, i) => {
-            const rank          = i + 4;
-            const isVotedForThis = votedProjectId === p._id;
-            const isVotingThis  = voting === p._id;
-            const pct           = totalVotes > 0 ? (p.voteCount / totalVotes) * 100 : 0;
-
-            return (
-              <div
-                key={p._id}
-                className="flex items-center gap-2.5 px-3 py-2 rounded-xl border border-outline-variant bg-white hover:bg-surface-container-low transition-colors duration-150"
-              >
-                <span className="shrink-0 w-5 text-center text-xs font-headline font-bold text-outline">
-                  {rank}
-                </span>
-                <div className="flex-1 min-w-0">
-                  <p className="text-xs font-label text-on-surface truncate">{p.title}</p>
-                  <div className="w-full h-0.5 rounded-full bg-black/10 mt-1">
-                    <div
-                      className="h-full rounded-full bg-on-surface transition-all duration-700"
-                      style={{ width: `${pct}%` }}
-                    />
-                  </div>
-                </div>
-                <span className="shrink-0 text-[10px] font-label text-on-surface-variant">
-                  <AnimatedCount value={p.voteCount} />
-                </span>
-                {isVotedForThis ? (
-                  <span className="shrink-0 px-2 py-0.5 rounded-full bg-primary/15 text-primary text-[10px] font-label font-bold">✓</span>
-                ) : (
-                  <button
-                    onClick={() => handleVote(p._id)}
-                    disabled={hasVoted || !!voting}
-                    className="shrink-0 px-2 py-0.5 rounded-full bg-primary text-on-primary text-[10px] font-label font-bold disabled:opacity-40 hover:bg-primary-fixed transition-all"
-                  >
-                    {isVotingThis ? '…' : 'Vote'}
-                  </button>
-                )}
-              </div>
-            );
-          })}
-        </div>
-      )}
-
-      {/* Footer */}
-      <div className="flex items-center justify-between mt-3 pt-3 border-t border-outline-variant">
-        {lastUpdated && (
-          <span className="text-[9px] font-label text-on-surface-variant">
-            Updated {lastUpdated.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-          </span>
-        )}
-        <Link
-          to="/vote"
-          className="ml-auto text-xs font-label font-semibold text-on-surface-variant hover:text-on-surface transition-colors duration-200"
-        >
-          View Full Leaderboard →
-        </Link>
       </div>
     </div>
   );
