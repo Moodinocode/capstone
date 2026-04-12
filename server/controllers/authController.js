@@ -14,7 +14,6 @@ const shapeJudge = async (row) => {
   return {
     _id: row.id,
     name: row.name,
-    nameAr: row.name_ar,
     email: row.email,
     isAdmin: row.is_admin,
     assignedProjects: assignments?.map((a) => a.project_id) ?? [],

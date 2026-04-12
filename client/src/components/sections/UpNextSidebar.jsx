@@ -16,13 +16,13 @@ function useCountdown(targetDate) {
 
 export default function UpNextSidebar() {
   const { upNext, loading } = useLiveSession();
-  const { t, lang } = useLang();
+  const { t } = useLang();
   const diff = useCountdown(upNext?.startsAt);
 
   if (loading) return <div className="rounded-3xl bg-surface-container-high p-6 animate-pulse h-40" />;
   if (!upNext?.title) return null;
 
-  const title = lang === 'ar' && upNext.titleAr ? upNext.titleAr : upNext.title;
+  const title = upNext.title;
 
   const formatCountdown = () => {
     if (diff == null) return '';

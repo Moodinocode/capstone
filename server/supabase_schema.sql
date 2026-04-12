@@ -7,7 +7,6 @@
 CREATE TABLE judges (
   id            UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   name          TEXT NOT NULL,
-  name_ar       TEXT DEFAULT '',
   email         TEXT UNIQUE NOT NULL,
   password      TEXT NOT NULL,
   is_admin      BOOLEAN DEFAULT false,
@@ -15,19 +14,14 @@ CREATE TABLE judges (
   updated_at    TIMESTAMPTZ DEFAULT now()
 );
 
--- Projects
+-- Projects (pitches, TED talks, and interviews — distinguished by segment_type)
 CREATE TABLE projects (
   id             UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   project_number TEXT UNIQUE NOT NULL,
   title          TEXT NOT NULL,
-  title_ar       TEXT DEFAULT '',
   team_name      TEXT NOT NULL,
-  team_name_ar   TEXT DEFAULT '',
-  category       TEXT NOT NULL CHECK (category IN (
-                   'Engineering','Tech Innovation','Social Impact',
-                   'Business Strategy','Creative Arts','Med-Tech')),
+  category       TEXT NOT NULL,
   description    TEXT DEFAULT '',
-  description_ar TEXT DEFAULT '',
   members        JSONB DEFAULT '[]',
   image_url      TEXT DEFAULT '',
   video_url      TEXT DEFAULT '',
@@ -36,6 +30,9 @@ CREATE TABLE projects (
   is_live        BOOLEAN DEFAULT false,
   vote_count     INTEGER DEFAULT 0,
   tags           TEXT[] DEFAULT '{}',
+  segment_type   TEXT NOT NULL DEFAULT 'project'
+                   CHECK (segment_type IN ('project','ted_talk','interview')),
+  is_seeded      BOOLEAN DEFAULT false,
   created_at     TIMESTAMPTZ DEFAULT now(),
   updated_at     TIMESTAMPTZ DEFAULT now()
 );
@@ -85,6 +82,17 @@ CREATE TABLE live_sessions (
   up_next        JSONB DEFAULT '{}',
   created_at     TIMESTAMPTZ DEFAULT now(),
   updated_at     TIMESTAMPTZ DEFAULT now()
+);
+
+-- Event program schedule (opening, TED talks, pitches, breaks, closing)
+CREATE TABLE schedule_items (
+  id         UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  sort_order INTEGER NOT NULL,
+  time       TEXT NOT NULL,
+  label      TEXT NOT NULL,
+  type       TEXT NOT NULL,
+  start_time TIME,
+  created_at TIMESTAMPTZ DEFAULT now()
 );
 
 -- Helper function to atomically increment vote count

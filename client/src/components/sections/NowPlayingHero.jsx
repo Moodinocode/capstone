@@ -3,7 +3,7 @@ import { useLang } from '../../context/LanguageContext';
 
 export default function NowPlayingHero() {
   const { nowPlaying, isEventLive, loading } = useLiveSession();
-  const { t, lang } = useLang();
+  const { t } = useLang();
 
   if (loading) return (
     <div className="rounded-3xl bg-surface-container-high p-8 animate-pulse h-64" />
@@ -16,7 +16,7 @@ export default function NowPlayingHero() {
     </div>
   );
 
-  const title = lang === 'ar' && nowPlaying?.titleAr ? nowPlaying.titleAr : nowPlaying?.title;
+  const title = nowPlaying?.title;
   const sessionType = t(`session.${nowPlaying?.type}`) || nowPlaying?.type;
 
   return (

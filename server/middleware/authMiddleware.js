@@ -12,7 +12,7 @@ export const protect = async (req, res, next) => {
 
     const { data: judge } = await supabase
       .from('judges')
-      .select('id, name, name_ar, email, is_admin')
+      .select('id, name, email, is_admin')
       .eq('id', decoded.id)
       .single();
 
@@ -26,7 +26,6 @@ export const protect = async (req, res, next) => {
     req.judge = {
       _id: judge.id,
       name: judge.name,
-      nameAr: judge.name_ar,
       email: judge.email,
       isAdmin: judge.is_admin,
       assignedProjects: assignments?.map((a) => a.project_id) ?? [],

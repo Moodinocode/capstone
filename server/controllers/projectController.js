@@ -4,12 +4,9 @@ const shapeProject = (row) => ({
   _id: row.id,
   projectNumber: row.project_number,
   title: row.title,
-  titleAr: row.title_ar,
   teamName: row.team_name,
-  teamNameAr: row.team_name_ar,
   category: row.category,
   description: row.description,
-  descriptionAr: row.description_ar,
   members: row.members ?? [],
   imageUrl: row.image_url,
   videoUrl: row.video_url,
@@ -67,12 +64,9 @@ export const createProject = async (req, res) => {
     .insert({
       project_number: b.projectNumber,
       title: b.title,
-      title_ar: b.titleAr ?? '',
       team_name: b.teamName,
-      team_name_ar: b.teamNameAr ?? '',
       category: b.category,
       description: b.description ?? '',
-      description_ar: b.descriptionAr ?? '',
       members: b.members ?? [],
       image_url: b.imageUrl ?? '',
       video_url: b.videoUrl ?? '',
@@ -94,12 +88,9 @@ export const updateProject = async (req, res) => {
 
   if (b.projectNumber !== undefined) updates.project_number = b.projectNumber;
   if (b.title !== undefined) updates.title = b.title;
-  if (b.titleAr !== undefined) updates.title_ar = b.titleAr;
   if (b.teamName !== undefined) updates.team_name = b.teamName;
-  if (b.teamNameAr !== undefined) updates.team_name_ar = b.teamNameAr;
   if (b.category !== undefined) updates.category = b.category;
   if (b.description !== undefined) updates.description = b.description;
-  if (b.descriptionAr !== undefined) updates.description_ar = b.descriptionAr;
   if (b.members !== undefined) updates.members = b.members;
   if (b.imageUrl !== undefined) updates.image_url = b.imageUrl;
   if (b.videoUrl !== undefined) updates.video_url = b.videoUrl;
