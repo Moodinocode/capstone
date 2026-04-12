@@ -15,12 +15,15 @@ export default function JudgeDashboard() {
   useEffect(() => {
     Promise.all([
       api.get('/grades/my'),
-      api.get('/projects?limit=50'),
-    ]).then(([gradesRes, projectsRes]) => {
+      api.get('/projects?limit=50&segmentType=project'),
+      api.get('/projects?limit=50&segmentType=ted_talk'),
+      api.get('/projects?limit=50&segmentType=interview'),
+    ]).then(([gradesRes, pitchRes, tedRes, intRes]) => {
       setGrades(gradesRes.data.grades);
       setUngraded(gradesRes.data.ungraded);
       const map = {};
-      projectsRes.data.projects.forEach((p) => { map[p._id] = p; });
+      [...pitchRes.data.projects, ...tedRes.data.projects, ...intRes.data.projects]
+        .forEach((p) => { map[p._id] = p; });
       setProjects(map);
     }).catch(() => {}).finally(() => setLoading(false));
   }, []);

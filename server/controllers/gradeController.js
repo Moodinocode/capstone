@@ -11,6 +11,7 @@ const shapeGrade = (row, projectRow = null) => ({
         teamName: projectRow.team_name,
         category: projectRow.category,
         imageUrl: projectRow.image_url,
+        segmentType: projectRow.segment_type ?? 'project',
       }
     : row.project_id,
   scores: {
@@ -33,7 +34,7 @@ export const getMyGrades = async (req, res) => {
 
   const { data: grades } = await supabase
     .from('grades')
-    .select('*, projects(id, project_number, title, team_name, category, image_url)')
+    .select('*, projects(id, project_number, title, team_name, category, image_url, segment_type)')
     .eq('judge_id', judgeId);
 
   const gradedProjectIds = new Set(grades?.map((g) => g.project_id) ?? []);

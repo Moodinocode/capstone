@@ -92,6 +92,7 @@ async function seed() {
     is_live: p.isLive ?? false,
     tags: p.tags ?? [],
     segment_type: segmentType,
+    is_seeded: true,
   });
 
   console.log('Seeding projects (pitches)...');
