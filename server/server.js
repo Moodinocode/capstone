@@ -14,6 +14,7 @@ import scheduleRoutes from './routes/scheduleRoutes.js';
 
 const app = express();
 
+app.set('trust proxy', 1);
 app.use(helmet());
 const allowedOrigins = process.env.FRONTEND_URL
   ? [process.env.FRONTEND_URL]
