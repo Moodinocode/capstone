@@ -1,31 +1,82 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useVoteStatus } from '../../hooks/useVoteStatus';
 import api from '../../services/api';
 
-const MEDAL_COLORS = [
-  { bg: 'bg-secondary/15', border: 'border-secondary/40', text: 'text-secondary', label: '1st' },
-  { bg: 'bg-surface-container', border: 'border-outline-variant', text: 'text-on-surface-variant', label: '2nd' },
-  { bg: 'bg-tertiary/10', border: 'border-tertiary/30', text: 'text-tertiary', label: '3rd' },
+const RANK_STYLE = [
+  {
+    border:   'border-amber-400',
+    bg:       'bg-amber-50',
+    rankBg:   'bg-amber-400',
+    rankText: 'text-white',
+    bar:      'bg-amber-400',
+    glow:     'shadow-[0_0_14px_rgba(251,191,36,0.28)]',
+  },
+  {
+    border:   'border-slate-300',
+    bg:       'bg-slate-50',
+    rankBg:   'bg-slate-400',
+    rankText: 'text-white',
+    bar:      'bg-slate-400',
+    glow:     'shadow-[0_0_14px_rgba(148,163,184,0.22)]',
+  },
+  {
+    border:   'border-orange-300',
+    bg:       'bg-orange-50',
+    rankBg:   'bg-orange-400',
+    rankText: 'text-white',
+    bar:      'bg-orange-400',
+    glow:     'shadow-[0_0_14px_rgba(251,146,60,0.22)]',
+  },
 ];
 
-const PODIUM_ORDER = [1, 0, 2]; // 2nd, 1st, 3rd (visual left→right)
-const PODIUM_HEIGHTS = ['h-16', 'h-24', 'h-10'];
+function AnimatedCount({ value }) {
+  const [display, setDisplay] = useState(value);
+  const prev = useRef(value);
+
+  useEffect(() => {
+    if (value === prev.current) return;
+    const diff  = value - prev.current;
+    const steps = Math.min(Math.abs(diff), 20);
+    const step  = diff / steps;
+    let current = prev.current;
+    let count   = 0;
+    const id = setInterval(() => {
+      count++;
+      current += step;
+      setDisplay(Math.round(current));
+      if (count >= steps) {
+        clearInterval(id);
+        setDisplay(value);
+        prev.current = value;
+      }
+    }, 30);
+    return () => clearInterval(id);
+  }, [value]);
+
+  return <span className="tabular-nums">{display}</span>;
+}
 
 export default function FanVoteLeaderboard() {
   const { hasVoted, votedProjectId, castVote } = useVoteStatus();
-  const [projects, setProjects] = useState([]);
-  const [voting, setVoting] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [projects, setProjects]     = useState([]);
+  const [voting, setVoting]         = useState(null);
+  const [loading, setLoading]       = useState(true);
+  const [lastUpdated, setLastUpdated] = useState(null);
+
+  const fetchProjects = async () => {
+    try {
+      const res    = await api.get('/projects?limit=50');
+      const sorted = [...res.data.projects].sort((a, b) => b.voteCount - a.voteCount);
+      setProjects(sorted);
+      setLastUpdated(new Date());
+    } catch {}
+  };
 
   useEffect(() => {
-    api.get('/projects?limit=50')
-      .then((res) => {
-        const sorted = [...res.data.projects].sort((a, b) => b.voteCount - a.voteCount);
-        setProjects(sorted);
-      })
-      .catch(() => {})
-      .finally(() => setLoading(false));
+    fetchProjects().finally(() => setLoading(false));
+    const id = setInterval(fetchProjects, 30_000);
+    return () => clearInterval(id);
   }, []);
 
   const handleVote = async (projectId) => {
@@ -33,109 +84,92 @@ export default function FanVoteLeaderboard() {
     setVoting(projectId);
     try {
       await castVote(projectId);
-      // Refresh list
-      const res = await api.get('/projects?limit=50');
-      const sorted = [...res.data.projects].sort((a, b) => b.voteCount - a.voteCount);
-      setProjects(sorted);
-    } catch {
-      // ignore
-    } finally {
-      setVoting(null);
-    }
+      await fetchProjects();
+    } catch {}
+    finally { setVoting(null); }
   };
 
-  const top3   = projects.slice(0, 3);
-  const topAll = projects.slice(0, 6);
+  const totalVotes = projects.reduce((sum, p) => sum + p.voteCount, 0);
+  const top3 = projects.slice(0, 3);
+  const rest = projects.slice(3, 6);
 
   if (loading) {
     return (
-      <div className="bg-surface-container-high rounded-2xl p-5 shadow-card border border-outline-variant space-y-3 animate-pulse">
-        <div className="h-3 w-32 bg-surface-container rounded-full" />
-        <div className="h-24 bg-surface-container rounded-xl" />
+      <div className="bg-white rounded-2xl p-5 shadow-card border border-outline-variant space-y-2.5 animate-pulse">
+        <div className="flex justify-between mb-4">
+          <div className="h-3 w-36 bg-surface-container rounded-full" />
+          <div className="h-4 w-10 bg-surface-container rounded-full" />
+        </div>
         {[...Array(4)].map((_, i) => (
-          <div key={i} className="h-10 bg-surface-container rounded-xl" />
+          <div key={i} className="h-14 bg-surface-container rounded-xl" />
         ))}
       </div>
     );
   }
 
   return (
-    <div className="bg-surface-container-high rounded-2xl p-5 shadow-card border border-outline-variant">
-      <p className="text-xs font-label font-bold uppercase tracking-widest text-on-surface-variant mb-5">
-        Top 3 &amp; Fan-Vote Leaderboard
-      </p>
+    <div className="bg-white rounded-2xl p-5 shadow-card border border-outline-variant">
 
-      {/* Podium */}
-      {top3.length === 3 && (
-        <div className="flex items-end justify-center gap-1.5 mb-6 px-2">
-          {PODIUM_ORDER.map((rank, col) => {
-            const p = top3[rank];
-            const medal = MEDAL_COLORS[rank];
-            const height = PODIUM_HEIGHTS[col];
-            const isFirst = rank === 0;
-
-            return (
-              <div key={rank} className="flex-1 flex flex-col items-center gap-1">
-                {/* Name above podium */}
-                <p className={`text-[10px] font-label font-semibold text-center leading-tight ${isFirst ? 'text-secondary' : 'text-on-surface-variant'}`}>
-                  {p.title.length > 12 ? p.title.slice(0, 12) + '…' : p.title}
-                </p>
-                <p className={`text-[9px] font-label ${medal.text}`}>
-                  {p.voteCount} Votes
-                </p>
-                {/* Podium block */}
-                <div className={`w-full ${height} rounded-t-lg border ${medal.border} ${medal.bg} flex items-center justify-center`}>
-                  <span className={`text-sm font-headline font-extrabold ${medal.text}`}>
-                    {rank + 1}
-                  </span>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      )}
-
-      {/* Numbered list */}
-      <div className="space-y-1.5">
-        <p className="text-[10px] font-label font-bold uppercase tracking-widest text-on-surface-variant mb-2">
-          Fan-Vote Leaderboard
+      {/* Header */}
+      <div className="flex items-center justify-between mb-4">
+        <p className="text-xs font-label font-bold uppercase tracking-widest text-on-surface-variant">
+          Fan Vote Leaderboard
         </p>
-        {topAll.map((p, i) => {
+        <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-error/10 text-error text-[9px] font-label font-bold uppercase tracking-widest">
+          <span className="relative flex h-1.5 w-1.5">
+            <span className="animate-ping-slow absolute inline-flex h-full w-full rounded-full bg-error opacity-75" />
+            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-error" />
+          </span>
+          Live
+        </span>
+      </div>
+
+      {/* Top 3 */}
+      <div className="space-y-2 mb-3">
+        {top3.map((p, i) => {
+          const style         = RANK_STYLE[i];
           const isVotedForThis = votedProjectId === p._id;
-          const isVotingThis   = voting === p._id;
+          const isVotingThis  = voting === p._id;
+          const pct           = totalVotes > 0 ? (p.voteCount / totalVotes) * 100 : 0;
 
           return (
             <div
               key={p._id}
-              className="flex items-center gap-2 px-3 py-2 rounded-xl bg-surface-container hover:bg-surface-container-highest transition-colors duration-150"
+              className={`flex items-center gap-3 px-3 py-2.5 rounded-xl border ${style.border} ${style.bg} ${style.glow} transition-all duration-500`}
             >
-              {/* Rank */}
-              <span className={`shrink-0 w-5 text-center text-xs font-headline font-bold
-                ${i === 0 ? 'text-secondary' : i === 1 ? 'text-on-surface-variant' : i === 2 ? 'text-tertiary' : 'text-outline'}
-              `}>
-                {i + 1}.
-              </span>
+              {/* Rank badge */}
+              <div className={`shrink-0 w-7 h-7 rounded-lg ${style.rankBg} ${style.rankText} flex items-center justify-center`}>
+                <span className="text-xs font-headline font-extrabold">{i + 1}</span>
+              </div>
 
-              {/* Name */}
-              <span className="flex-1 text-xs font-label text-on-surface truncate">
-                {p.title}
-              </span>
+              {/* Name + progress bar */}
+              <div className="flex-1 min-w-0">
+                <p className="text-xs font-label font-semibold text-on-surface truncate leading-tight mb-1.5">
+                  {p.title}
+                </p>
+                <div className="w-full h-1 rounded-full bg-black/10">
+                  <div
+                    className={`h-full rounded-full ${style.bar} transition-all duration-700`}
+                    style={{ width: `${pct}%` }}
+                  />
+                </div>
+              </div>
 
               {/* Vote count */}
-              <span className="shrink-0 text-[10px] text-on-surface-variant tabular-nums">
-                ({p.voteCount})
+              <span className="shrink-0 text-[11px] font-label font-semibold text-on-surface-variant">
+                <AnimatedCount value={p.voteCount} />
               </span>
 
               {/* Vote button */}
               {isVotedForThis ? (
-                <span className="shrink-0 px-2 py-0.5 rounded-full bg-primary/20 text-primary text-[10px] font-label font-bold">
-                  ✓ Voted
+                <span className="shrink-0 px-2 py-1 rounded-lg bg-primary/15 text-primary text-[10px] font-label font-bold">
+                  Voted
                 </span>
               ) : (
                 <button
                   onClick={() => handleVote(p._id)}
                   disabled={hasVoted || !!voting}
-                  className="shrink-0 px-2.5 py-0.5 rounded-full bg-primary text-on-primary text-[10px] font-label font-bold disabled:opacity-40 disabled:cursor-not-allowed hover:bg-primary-fixed transition-all duration-200"
+                  className="shrink-0 px-2.5 py-1 rounded-lg bg-primary text-on-primary text-[10px] font-label font-bold disabled:opacity-40 disabled:cursor-not-allowed hover:bg-primary-fixed transition-all duration-200"
                 >
                   {isVotingThis ? '…' : 'Vote'}
                 </button>
@@ -145,13 +179,66 @@ export default function FanVoteLeaderboard() {
         })}
       </div>
 
-      {/* View full link */}
-      <Link
-        to="/vote"
-        className="mt-4 block text-center text-xs font-label font-semibold text-on-surface-variant hover:text-on-surface transition-colors duration-200"
-      >
-        View Full Leaderboard →
-      </Link>
+      {/* Ranks 4–6 */}
+      {rest.length > 0 && (
+        <div className="space-y-1.5 mb-3">
+          {rest.map((p, i) => {
+            const rank          = i + 4;
+            const isVotedForThis = votedProjectId === p._id;
+            const isVotingThis  = voting === p._id;
+            const pct           = totalVotes > 0 ? (p.voteCount / totalVotes) * 100 : 0;
+
+            return (
+              <div
+                key={p._id}
+                className="flex items-center gap-2.5 px-3 py-2 rounded-xl border border-outline-variant bg-white hover:bg-surface-container-low transition-colors duration-150"
+              >
+                <span className="shrink-0 w-5 text-center text-xs font-headline font-bold text-outline">
+                  {rank}
+                </span>
+                <div className="flex-1 min-w-0">
+                  <p className="text-xs font-label text-on-surface truncate">{p.title}</p>
+                  <div className="w-full h-0.5 rounded-full bg-black/10 mt-1">
+                    <div
+                      className="h-full rounded-full bg-on-surface transition-all duration-700"
+                      style={{ width: `${pct}%` }}
+                    />
+                  </div>
+                </div>
+                <span className="shrink-0 text-[10px] font-label text-on-surface-variant">
+                  <AnimatedCount value={p.voteCount} />
+                </span>
+                {isVotedForThis ? (
+                  <span className="shrink-0 px-2 py-0.5 rounded-full bg-primary/15 text-primary text-[10px] font-label font-bold">✓</span>
+                ) : (
+                  <button
+                    onClick={() => handleVote(p._id)}
+                    disabled={hasVoted || !!voting}
+                    className="shrink-0 px-2 py-0.5 rounded-full bg-primary text-on-primary text-[10px] font-label font-bold disabled:opacity-40 hover:bg-primary-fixed transition-all"
+                  >
+                    {isVotingThis ? '…' : 'Vote'}
+                  </button>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Footer */}
+      <div className="flex items-center justify-between mt-3 pt-3 border-t border-outline-variant">
+        {lastUpdated && (
+          <span className="text-[9px] font-label text-on-surface-variant">
+            Updated {lastUpdated.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+          </span>
+        )}
+        <Link
+          to="/vote"
+          className="ml-auto text-xs font-label font-semibold text-on-surface-variant hover:text-on-surface transition-colors duration-200"
+        >
+          View Full Leaderboard →
+        </Link>
+      </div>
     </div>
   );
 }
