@@ -1,31 +1,29 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useLang } from '../../context/LanguageContext';
 import { useVoteStatus } from '../../hooks/useVoteStatus';
 import GlassModal from './GlassModal';
 
 export default function HubProjectCard({ project, totalVotes = 0, index = 0 }) {
-  const { t, lang } = useLang();
   const { hasVoted, votedProjectId, castVote } = useVoteStatus();
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [voting, setVoting] = useState(false);
   const [error, setError] = useState('');
 
-  const title = lang === 'ar' && project.titleAr ? project.titleAr : project.title;
-  const desc  = lang === 'ar' && project.descriptionAr ? project.descriptionAr : project.description;
+  const title = project.title;
+  const desc  = project.description;
 
   const isVotedForThis = votedProjectId === project._id;
   const progressPct = totalVotes > 0 ? Math.round((project.voteCount / totalVotes) * 100) : 0;
   const projectNum = String(index + 1).padStart(2, '0');
 
   const handleVote = async () => {
-    if (hasVoted) { setError(t('vote.alreadyVoted')); return; }
+    if (hasVoted) { setError('You have already voted.'); return; }
     setVoting(true);
     try {
       await castVote(project._id);
       setConfirmOpen(false);
     } catch (err) {
-      setError(err.response?.data?.message || t('common.error'));
+      setError(err.response?.data?.message || 'Something went wrong.');
     } finally {
       setVoting(false);
     }
@@ -99,7 +97,7 @@ export default function HubProjectCard({ project, totalVotes = 0, index = 0 }) {
           </div>
         ) : (
           <button
-            onClick={() => hasVoted ? setError(t('vote.alreadyVoted')) : setConfirmOpen(true)}
+            onClick={() => hasVoted ? setError('You have already voted.') : setConfirmOpen(true)}
             disabled={hasVoted}
             className="mx-4 mb-4 flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-primary text-on-primary text-sm font-label font-semibold hover:bg-primary-fixed disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-200"
           >
@@ -112,23 +110,23 @@ export default function HubProjectCard({ project, totalVotes = 0, index = 0 }) {
       </div>
 
       {/* Vote confirmation modal */}
-      <GlassModal open={confirmOpen} onClose={() => setConfirmOpen(false)} title={t('vote.confirm')}>
+      <GlassModal open={confirmOpen} onClose={() => setConfirmOpen(false)} title="Confirm Your Vote">
         <p className="text-on-surface-variant text-sm mb-6">
-          {t('vote.confirmMsg')} <span className="text-on-surface font-semibold">"{title}"</span>?
+          Are you sure you want to vote for <span className="text-on-surface font-semibold">"{title}"</span>?
         </p>
         <div className="flex gap-3">
           <button
             onClick={() => setConfirmOpen(false)}
             className="flex-1 py-3 rounded-xl text-sm font-semibold bg-surface-container text-on-surface-variant hover:text-on-surface transition-colors border border-outline-variant"
           >
-            {t('vote.cancel')}
+            Cancel
           </button>
           <button
             onClick={handleVote}
             disabled={voting}
             className="flex-1 py-3 rounded-xl text-sm font-semibold bg-primary text-on-primary hover:bg-primary-fixed disabled:opacity-50 transition-all duration-200"
           >
-            {voting ? t('grade.saving') : t('vote.cast')}
+            {voting ? 'Saving...' : 'Cast Vote'}
           </button>
         </div>
       </GlassModal>

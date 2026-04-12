@@ -1,35 +1,47 @@
 import { useRef, useEffect, useState } from 'react';
 import api from '../../services/api';
 
+const FALLBACK = [
+  { id: '1',  time: '09:00', startTime: '09:00:00', label: 'Opening Ceremony',            type: 'Opening'    },
+  { id: '2',  time: '09:30', startTime: '09:30:00', label: 'TED Talk: Emotional IQ',       type: 'TED Talk'   },
+  { id: '3',  time: '09:50', startTime: '09:50:00', label: 'Project Pitches P-201–203',    type: 'Pitch'      },
+  { id: '4',  time: '10:35', startTime: '10:35:00', label: 'Coffee Break',                 type: 'Break'      },
+  { id: '5',  time: '10:45', startTime: '10:45:00', label: 'Project Pitches P-204–206',    type: 'Pitch'      },
+  { id: '6',  time: '11:30', startTime: '11:30:00', label: 'TED Talk: Digital Leadership', type: 'TED Talk'   },
+  { id: '7',  time: '11:50', startTime: '11:50:00', label: 'Project Pitches P-207–208',    type: 'Pitch'      },
+  { id: '8',  time: '12:20', startTime: '12:20:00', label: 'Lunch Break',                  type: 'Break'      },
+  { id: '9',  time: '13:00', startTime: '13:00:00', label: 'Project Pitches P-209–212',    type: 'Pitch'      },
+  { id: '10', time: '14:00', startTime: '14:00:00', label: 'Expo & Networking',            type: 'Networking' },
+  { id: '11', time: '14:30', startTime: '14:30:00', label: 'Awards & Closing Ceremony',    type: 'Closing'    },
+];
+
 const TYPE_COLORS = {
   'Opening':    'text-secondary',
   'TED Talk':   'text-tertiary',
-  'Pitch':      'text-on-surface-variant',
-  'Break':      'text-outline',
+  'Pitch':      'text-tertiary',
+  'Break':      'text-on-surface-variant',
   'Networking': 'text-tertiary',
   'Closing':    'text-secondary',
 };
 
-// Convert "HH:MM:SS" or "HH:MM" to total minutes since midnight
+// Set to e.g. '10:45' to pin the active item during testing. Set to null for real clock.
+const TEST_TIME = '10:45';
+
 function toMinutes(timeStr) {
   const [h, m] = timeStr.split(':').map(Number);
   return h * 60 + m;
 }
 
-// Given a sorted list of items (each with startTime), compute status from current clock
 function computeStatuses(items) {
   const now = new Date();
-  const nowMin = now.getHours() * 60 + now.getMinutes();
-
+  const nowMin = TEST_TIME ? toMinutes(TEST_TIME) : now.getHours() * 60 + now.getMinutes();
   return items.map((item, i) => {
     const itemMin = toMinutes(item.startTime);
     const nextMin = items[i + 1] ? toMinutes(items[i + 1].startTime) : Infinity;
-
     let status;
-    if (nowMin >= nextMin)    status = 'done';
+    if (nowMin >= nextMin)      status = 'done';
     else if (nowMin >= itemMin) status = 'active';
     else                        status = 'upcoming';
-
     return { ...item, status };
   });
 }
@@ -37,19 +49,17 @@ function computeStatuses(items) {
 export default function EventProgramTimeline() {
   const containerRef = useRef(null);
   const activeRef    = useRef(null);
-  const [items, setItems] = useState([]);
+  const [items, setItems]     = useState([]);
   const [loading, setLoading] = useState(true);
+  const [tick, setTick]       = useState(0);
 
-  // Fetch once on mount
   useEffect(() => {
     api.get('/schedule')
-      .then((res) => setItems(res.data.items))
-      .catch(() => {})
+      .then((res) => setItems(res.data.items?.length > 0 ? res.data.items : FALLBACK))
+      .catch(() => setItems(FALLBACK))
       .finally(() => setLoading(false));
   }, []);
 
-  // Re-compute statuses every minute so the timeline updates automatically
-  const [tick, setTick] = useState(0);
   useEffect(() => {
     const id = setInterval(() => setTick((t) => t + 1), 60_000);
     return () => clearInterval(id);
@@ -64,100 +74,118 @@ export default function EventProgramTimeline() {
     const containerRect = container.getBoundingClientRect();
     const activeRect    = active.getBoundingClientRect();
     const relativeTop   = activeRect.top - containerRect.top + container.scrollTop;
-    container.scrollTo({ top: Math.max(0, relativeTop - 56), behavior });
+    container.scrollTo({ top: Math.max(0, relativeTop - 72), behavior });
   };
 
-  // Scroll to active whenever milestones update (including after fetch + every tick)
   useEffect(() => {
     if (milestones.length > 0) scrollToActive('instant');
   }, [milestones.length, tick]);
 
   if (loading) {
     return (
-      <div className="bg-surface-container-high rounded-2xl p-5 shadow-card border border-outline-variant animate-pulse space-y-3">
-        <div className="h-3 w-28 bg-surface-container rounded-full" />
-        {[...Array(5)].map((_, i) => (
-          <div key={i} className="flex gap-3">
-            <div className="w-6 h-6 rounded-full bg-surface-container shrink-0" />
-            <div className="flex-1 h-10 bg-surface-container rounded-xl" />
-          </div>
+      <div className="bg-white rounded-2xl p-5 shadow-card border border-outline-variant animate-pulse space-y-2">
+        <div className="h-3 w-28 bg-surface-container rounded-full mb-4" />
+        {[...Array(4)].map((_, i) => (
+          <div key={i} className="h-14 bg-surface-container rounded-2xl" />
         ))}
       </div>
     );
   }
 
   return (
-    <div className="bg-surface-container-high rounded-2xl p-5 shadow-card border border-outline-variant">
-      <p className="text-xs font-label font-bold uppercase tracking-widest text-on-surface-variant mb-5">
+    <div className="bg-white rounded-2xl p-5 shadow-card border border-outline-variant">
+      <p className="text-xs font-label font-bold uppercase tracking-widest text-on-surface-variant mb-4">
         Event Program
       </p>
 
-      {/* Scrollable container — snaps back to active on mouse leave */}
       <div
         ref={containerRef}
         onMouseLeave={() => scrollToActive('smooth')}
         className="overflow-y-auto scrollbar-hide"
-        style={{ height: '280px' }}
+        style={{ height: '320px' }}
       >
-        <div className="space-y-0">
+        <div className="flex flex-col px-1 py-1">
           {milestones.map((m, i) => {
-            const isDone   = m.status === 'done';
-            const isActive = m.status === 'active';
-            const isLast   = i === milestones.length - 1;
+            const isDone    = m.status === 'done';
+            const isActive  = m.status === 'active';
+            const isLast    = i === milestones.length - 1;
             const typeColor = TYPE_COLORS[m.type] ?? 'text-on-surface-variant';
 
             return (
               <div
                 key={m.id ?? m.time}
                 ref={isActive ? activeRef : null}
-                className={`flex gap-3 transition-opacity duration-300 ${isDone ? 'opacity-35' : 'opacity-100'}`}
+                className="flex gap-3"
               >
-                {/* Left: dot + connector */}
-                <div className="flex flex-col items-center shrink-0">
-                  <div className={`relative flex items-center justify-center w-6 h-6 rounded-full border-2 shrink-0 transition-colors
-                    ${isDone   ? 'bg-surface-container border-on-surface/20' : ''}
-                    ${isActive ? 'bg-on-surface border-on-surface' : ''}
-                    ${!isDone && !isActive ? 'bg-surface border-outline-variant' : ''}
-                  `}>
-                    {isDone && (
-                      <span className="material-icon text-xs text-on-surface-variant material-icon-filled">check</span>
-                    )}
-                    {isActive && (
-                      <span className="material-icon text-xs text-on-primary material-icon-filled">check</span>
-                    )}
-                    {!isDone && !isActive && (
-                      <div className="w-1.5 h-1.5 rounded-full bg-outline" />
-                    )}
-                  </div>
+                {/* Left: dot + line */}
+                <div className="flex flex-col items-center" style={{ width: '16px', flexShrink: 0 }}>
+                  {/* Dot */}
+                  <div
+                    style={{
+                      width:  isActive ? '12px' : '6px',
+                      height: isActive ? '12px' : '6px',
+                      borderRadius: '50%',
+                      flexShrink: 0,
+                      marginTop: isActive ? '10px' : '13px',
+                      transition: 'all 0.3s ease',
+                      backgroundColor: isActive
+                        ? '#111111'
+                        : isDone
+                        ? '#c5c8d0'
+                        : '#d1d5db',
+                    }}
+                  />
+                  {/* Line */}
                   {!isLast && (
-                    <div className={`w-px flex-1 my-0.5 min-h-[1.25rem] ${isDone ? 'bg-on-surface/15' : 'bg-outline-variant'}`} />
+                    <div
+                      style={{
+                        flex: 1,
+                        width: '1.5px',
+                        minHeight: '8px',
+                        backgroundColor: isDone ? '#c5c8d0' : '#e5e7eb',
+                        marginTop: '3px',
+                      }}
+                    />
                   )}
                 </div>
 
                 {/* Right: content */}
-                {isActive ? (
-                  <div
-                    className="mb-4 flex-1 -mx-1 px-3 py-2.5 bg-white rounded-xl border border-outline relative z-10"
-                    style={{ boxShadow: '0 4px 16px rgba(0,0,0,0.12), 0 1px 4px rgba(0,0,0,0.06)' }}
-                  >
-                    <div className="flex items-baseline gap-2">
-                      <p className="text-[10px] font-label font-bold tabular-nums shrink-0 text-on-surface">{m.time}</p>
-                      <span className={`text-[9px] font-label font-bold uppercase tracking-widest shrink-0 ${typeColor}`}>{m.type}</span>
-                    </div>
-                    <p className="text-xs leading-snug mt-0.5 text-on-surface font-semibold">{m.label}</p>
-                    <span className="inline-block mt-1.5 px-2 py-0.5 rounded-full bg-on-surface text-on-primary text-[9px] font-label font-bold uppercase tracking-widest">
-                      Now
+                <div
+                  style={{
+                    paddingBottom: isLast ? '4px' : '12px',
+                    opacity: isDone ? 0.45 : isActive ? 1 : 0.75,
+                    transition: 'opacity 0.3s ease',
+                  }}
+                >
+                  <div className="flex items-baseline gap-2 mb-0.5">
+                    <span
+                      className="font-label font-bold tabular-nums text-on-surface"
+                      style={{ fontSize: '10px' }}
+                    >
+                      {m.time}
                     </span>
+                    <span
+                      className={`font-label font-bold uppercase tracking-widest ${typeColor}`}
+                      style={{ fontSize: '9px' }}
+                    >
+                      {m.type}
+                    </span>
+                    {isActive && (
+                      <span
+                        className="px-1.5 py-0.5 rounded-full bg-on-surface text-on-primary font-label font-bold uppercase tracking-widest"
+                        style={{ fontSize: '8px' }}
+                      >
+                        Now
+                      </span>
+                    )}
                   </div>
-                ) : (
-                  <div className="pb-4 min-w-0 flex-1">
-                    <div className="flex items-baseline gap-2">
-                      <p className="text-[10px] font-label font-bold tabular-nums shrink-0 text-on-surface-variant">{m.time}</p>
-                      <span className={`text-[9px] font-label font-bold uppercase tracking-widest shrink-0 ${typeColor}`}>{m.type}</span>
-                    </div>
-                    <p className="text-xs leading-snug mt-0.5 text-on-surface-variant">{m.label}</p>
-                  </div>
-                )}
+                  <p
+                    className={`leading-snug ${isActive ? 'font-semibold text-on-surface' : 'text-on-surface-variant'}`}
+                    style={{ fontSize: '12px' }}
+                  >
+                    {m.label}
+                  </p>
+                </div>
               </div>
             );
           })}

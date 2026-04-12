@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ProjectCard from '../components/ui/ProjectCard';
-import { useLang } from '../context/LanguageContext';
 import { useDebounce } from '../hooks/useDebounce';
 import api from '../services/api';
 
@@ -9,7 +8,6 @@ const CATEGORIES = ['All Projects', 'Engineering', 'Tech Innovation', 'Social Im
 
 export default function ProjectGallery() {
   const navigate = useNavigate();
-  const { t, lang } = useLang();
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
@@ -41,9 +39,9 @@ export default function ProjectGallery() {
 
       {/* Hero header */}
       <div className="mb-10">
-        <p className="text-xs font-label font-bold uppercase tracking-widest text-secondary mb-3">{t('projects.subtitle')}</p>
+        <p className="text-xs font-label font-bold uppercase tracking-widest text-secondary mb-3">LAU Capstone 2025</p>
         <h1 className="font-headline font-extrabold text-4xl md:text-6xl text-on-surface tracking-tight mb-6" style={{ letterSpacing: '-0.02em' }}>
-          {t('projects.title')}
+          All Projects
         </h1>
 
         {/* Search */}
@@ -53,7 +51,7 @@ export default function ProjectGallery() {
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder={t('projects.search')}
+            placeholder="Search projects..."
             className="w-full ps-12 pe-4 py-3.5 rounded-xl bg-white text-on-surface placeholder-on-surface-variant focus:outline-none focus:ring-2 focus:ring-on-surface text-sm font-body transition-all duration-200 border border-outline-variant shadow-card"
           />
         </div>
@@ -71,7 +69,7 @@ export default function ProjectGallery() {
                 : 'bg-white text-on-surface-variant hover:text-on-surface hover:bg-surface-container border border-outline-variant'
             }`}
           >
-            {cat === 'All Projects' ? t('projects.all') : cat}
+            {cat}
           </button>
         ))}
       </div>
@@ -86,7 +84,7 @@ export default function ProjectGallery() {
       ) : projects.length === 0 ? (
         <div className="text-center py-24">
           <span className="material-icon text-5xl text-on-surface-variant block mb-4">search_off</span>
-          <p className="text-on-surface-variant font-label">{t('projects.noResults')}</p>
+          <p className="text-on-surface-variant font-label">No projects found.</p>
         </div>
       ) : (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">

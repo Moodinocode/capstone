@@ -1,19 +1,15 @@
-import { useLang } from '../../context/LanguageContext';
-
 export default function AutoSaveIndicator({ saveStatus, lastSavedAt }) {
-  const { t } = useLang();
-
   const map = {
-    idle:    { icon: 'cloud_done',  text: '',                      color: 'text-on-surface-variant' },
-    saving:  { icon: 'sync',        text: t('grade.saving'),        color: 'text-on-surface-variant animate-spin' },
-    saved:   {
+    idle:   { icon: 'cloud_done',  text: '',          color: 'text-on-surface-variant' },
+    saving: { icon: 'sync',        text: 'Saving...',  color: 'text-on-surface-variant' },
+    saved:  {
       icon: 'cloud_done',
       text: lastSavedAt
-        ? `${t('grade.saved')} ${lastSavedAt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`
-        : t('grade.saved'),
+        ? `Saved at ${lastSavedAt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`
+        : 'Saved',
       color: 'text-primary',
     },
-    error:   { icon: 'cloud_off',   text: t('grade.saveError'),     color: 'text-error' },
+    error:  { icon: 'cloud_off',   text: 'Save failed', color: 'text-error' },
   };
 
   const { icon, text, color } = map[saveStatus] ?? map.idle;

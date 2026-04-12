@@ -1,6 +1,5 @@
 import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
-import { LanguageProvider } from './context/LanguageContext';
 import { LiveSessionProvider } from './context/LiveSessionContext';
 
 import PageWrapper from './components/layout/PageWrapper';
@@ -46,13 +45,11 @@ function AppRoutes() {
 export default function App() {
   return (
     <HashRouter>
-      <LanguageProvider>
-        <AuthProvider>
-          <LiveSessionProvider>
-            <AppRoutes />
-          </LiveSessionProvider>
-        </AuthProvider>
-      </LanguageProvider>
+      <AuthProvider>
+        <LiveSessionProvider>
+          <AppRoutes />
+        </LiveSessionProvider>
+      </AuthProvider>
     </HashRouter>
   );
 }

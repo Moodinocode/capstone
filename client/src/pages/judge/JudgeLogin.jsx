@@ -1,10 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { useLang } from '../../context/LanguageContext';
 
 export default function JudgeLogin() {
-  const { t } = useLang();
   const { login } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail]       = useState('');
@@ -20,7 +18,7 @@ export default function JudgeLogin() {
       await login(email, password);
       navigate('/judge/dashboard');
     } catch (err) {
-      setError(err.response?.data?.message || t('common.error'));
+      setError(err.response?.data?.message || 'Something went wrong.');
     } finally {
       setLoading(false);
     }
@@ -34,14 +32,14 @@ export default function JudgeLogin() {
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary mb-4">
             <span className="material-icon text-3xl text-on-primary">verified_user</span>
           </div>
-          <h1 className="font-headline font-extrabold text-3xl text-on-surface">{t('judge.login')}</h1>
-          <p className="text-on-surface-variant text-sm mt-2">{t('judge.loginSubtitle')}</p>
+          <h1 className="font-headline font-extrabold text-3xl text-on-surface">Judge Portal</h1>
+          <p className="text-on-surface-variant text-sm mt-2">Sign in to access your grading dashboard</p>
         </div>
 
         <form onSubmit={handleSubmit} className="bg-white rounded-3xl p-8 flex flex-col gap-5 shadow-card border border-outline-variant">
           <div>
             <label className="block text-xs font-label font-semibold uppercase tracking-wider text-on-surface-variant mb-2">
-              {t('judge.email')}
+              Email
             </label>
             <input
               type="email"
@@ -56,7 +54,7 @@ export default function JudgeLogin() {
 
           <div>
             <label className="block text-xs font-label font-semibold uppercase tracking-wider text-on-surface-variant mb-2">
-              {t('judge.password')}
+              Password
             </label>
             <input
               type="password"
@@ -80,7 +78,7 @@ export default function JudgeLogin() {
           >
             {loading ? (
               <span className="material-icon animate-spin">progress_activity</span>
-            ) : t('judge.signIn')}
+            ) : 'Sign In'}
           </button>
 
           <p className="text-center text-xs text-on-surface-variant">

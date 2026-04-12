@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useLang } from '../../context/LanguageContext';
 import { useVoteStatus } from '../../hooks/useVoteStatus';
 import GlassModal from './GlassModal';
 
@@ -14,27 +13,26 @@ const CATEGORY_COLORS = {
 };
 
 export default function ProjectCard({ project, showVoteCount = false }) {
-  const { t, lang } = useLang();
   const { hasVoted, votedProjectId, castVote } = useVoteStatus();
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [voting, setVoting] = useState(false);
   const [error, setError] = useState('');
 
-  const title = lang === 'ar' && project.titleAr ? project.titleAr : project.title;
-  const desc  = lang === 'ar' && project.descriptionAr ? project.descriptionAr : project.description;
-  const team  = lang === 'ar' && project.teamNameAr ? project.teamNameAr : project.teamName;
+  const title = project.title;
+  const desc  = project.description;
+  const team  = project.teamName;
   const catColor = CATEGORY_COLORS[project.category] ?? 'bg-white/90 text-on-surface-variant border border-outline-variant';
 
   const isVotedForThis = votedProjectId === project._id;
 
   const handleVote = async () => {
-    if (hasVoted) { setError(t('vote.alreadyVoted')); return; }
+    if (hasVoted) { setError('You have already voted.'); return; }
     setVoting(true);
     try {
       await castVote(project._id);
       setConfirmOpen(false);
     } catch (err) {
-      setError(err.response?.data?.message || t('common.error'));
+      setError(err.response?.data?.message || 'Something went wrong.');
     } finally {
       setVoting(false);
     }
@@ -70,7 +68,7 @@ export default function ProjectCard({ project, showVoteCount = false }) {
                   <span className="animate-ping-slow absolute inline-flex h-full w-full rounded-full bg-white opacity-75" />
                   <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-white" />
                 </span>
-                {t('projects.presenting')}
+                Presenting
               </span>
             </div>
           )}
@@ -86,7 +84,7 @@ export default function ProjectCard({ project, showVoteCount = false }) {
 
           {showVoteCount && (
             <p className="text-xs font-label text-on-surface-variant mb-3">
-              <span className="text-on-surface font-semibold">{project.voteCount}</span> {t('vote.votes')}
+              <span className="text-on-surface font-semibold">{project.voteCount}</span> votes
             </p>
           )}
 
@@ -95,20 +93,20 @@ export default function ProjectCard({ project, showVoteCount = false }) {
               to={`/projects/${project._id}`}
               className="flex-1 text-center py-2 rounded-xl text-sm font-label font-semibold text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors duration-200 border border-outline-variant"
             >
-              {t('projects.viewDetails')}
+              View Details
             </Link>
             {isVotedForThis ? (
               <span className="flex items-center gap-1 px-4 py-2 rounded-xl text-sm font-label font-semibold text-secondary bg-secondary/10 border border-secondary/20">
                 <span className="material-icon text-base material-icon-filled">check_circle</span>
-                {t('vote.voted')}
+                Voted
               </span>
             ) : (
               <button
-                onClick={() => hasVoted ? setError(t('vote.alreadyVoted')) : setConfirmOpen(true)}
+                onClick={() => hasVoted ? setError('You have already voted.') : setConfirmOpen(true)}
                 disabled={hasVoted}
                 className="px-4 py-2 rounded-xl text-sm font-label font-semibold bg-primary text-on-primary hover:bg-primary-fixed disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-200"
               >
-                {t('projects.voteNow')}
+                Vote Now
               </button>
             )}
           </div>
@@ -117,23 +115,23 @@ export default function ProjectCard({ project, showVoteCount = false }) {
       </div>
 
       {/* Vote confirmation modal */}
-      <GlassModal open={confirmOpen} onClose={() => setConfirmOpen(false)} title={t('vote.confirm')}>
+      <GlassModal open={confirmOpen} onClose={() => setConfirmOpen(false)} title="Confirm Your Vote">
         <p className="text-on-surface-variant text-sm mb-6">
-          {t('vote.confirmMsg')} <span className="text-on-surface font-semibold">"{title}"</span>?
+          Are you sure you want to vote for <span className="text-on-surface font-semibold">"{title}"</span>?
         </p>
         <div className="flex gap-3">
           <button
             onClick={() => setConfirmOpen(false)}
             className="flex-1 py-3 rounded-xl text-sm font-semibold bg-surface-container text-on-surface-variant hover:text-on-surface transition-colors border border-outline-variant"
           >
-            {t('vote.cancel')}
+            Cancel
           </button>
           <button
             onClick={handleVote}
             disabled={voting}
             className="flex-1 py-3 rounded-xl text-sm font-semibold bg-primary text-on-primary hover:bg-primary-fixed disabled:opacity-50 transition-all duration-200"
           >
-            {voting ? t('grade.saving') : t('vote.cast')}
+            {voting ? 'Saving...' : 'Cast Vote'}
           </button>
         </div>
       </GlassModal>

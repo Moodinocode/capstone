@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { useLang } from '../context/LanguageContext';
 import { useVoteStatus } from '../hooks/useVoteStatus';
 import GlassModal from '../components/ui/GlassModal';
 import api from '../services/api';
@@ -17,7 +16,6 @@ const CATEGORY_COLORS = {
 export default function ProjectSpotlight() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { t, lang } = useLang();
   const { hasVoted, votedProjectId, castVote } = useVoteStatus();
   const [project, setProject] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -39,12 +37,12 @@ export default function ProjectSpotlight() {
   );
 
   if (!project) return (
-    <div className="text-center py-24 text-on-surface-variant">{t('common.error')}</div>
+    <div className="text-center py-24 text-on-surface-variant">Project not found.</div>
   );
 
-  const title       = lang === 'ar' && project.titleAr ? project.titleAr : project.title;
-  const description = lang === 'ar' && project.descriptionAr ? project.descriptionAr : project.description;
-  const team        = lang === 'ar' && project.teamNameAr ? project.teamNameAr : project.teamName;
+  const title       = project.title;
+  const description = project.description;
+  const team        = project.teamName;
   const catColor    = CATEGORY_COLORS[project.category] ?? 'bg-surface-container-high text-on-surface-variant';
   const isVotedForThis = votedProjectId === project._id;
 
@@ -55,7 +53,7 @@ export default function ProjectSpotlight() {
       await castVote(project._id);
       setConfirmOpen(false);
     } catch (err) {
-      setVoteError(err.response?.data?.message || t('common.error'));
+      setVoteError(err.response?.data?.message || 'Something went wrong.');
     } finally {
       setVoting(false);
     }
@@ -65,7 +63,7 @@ export default function ProjectSpotlight() {
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <button onClick={() => navigate(-1)} className="inline-flex items-center gap-1 text-sm text-on-surface-variant hover:text-on-surface mb-8 transition-colors">
         <span className="material-icon text-base">arrow_back</span>
-        {t('project.backToGallery')}
+        Back to Gallery
       </button>
 
       {/* Hero image */}
@@ -80,7 +78,7 @@ export default function ProjectSpotlight() {
                   <span className="animate-ping-slow absolute inline-flex h-full w-full rounded-full bg-white opacity-75" />
                   <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-white" />
                 </span>
-                {t('projects.presenting')}
+                Presenting
               </span>
             </div>
           )}
@@ -114,7 +112,7 @@ export default function ProjectSpotlight() {
           {/* Team members */}
           {project.members?.length > 0 && (
             <div>
-              <p className="text-xs font-label font-bold uppercase tracking-widest text-on-surface-variant mb-4">{t('project.team')}</p>
+              <p className="text-xs font-label font-bold uppercase tracking-widest text-on-surface-variant mb-4">Team</p>
               <div className="grid sm:grid-cols-2 gap-3">
                 {project.members.map((m, i) => (
                   <div key={i} className="flex items-center gap-3 p-4 rounded-xl bg-surface-container-high">
@@ -136,21 +134,21 @@ export default function ProjectSpotlight() {
         <div className="flex flex-col gap-4">
           {/* Vote card */}
           <div className="p-6 rounded-3xl bg-surface-container-high">
-            <p className="text-xs font-label font-bold uppercase tracking-widest text-on-surface-variant mb-4">{t('vote.title')}</p>
+            <p className="text-xs font-label font-bold uppercase tracking-widest text-on-surface-variant mb-4">People's Choice</p>
             <p className="text-3xl font-headline font-bold text-secondary mb-1">{project.voteCount}</p>
-            <p className="text-xs text-on-surface-variant mb-6">{t('vote.votes')}</p>
+            <p className="text-xs text-on-surface-variant mb-6">votes</p>
             {isVotedForThis ? (
               <div className="flex items-center gap-2 text-secondary">
                 <span className="material-icon material-icon-filled">check_circle</span>
-                <span className="text-sm font-semibold">{t('vote.voted')}</span>
+                <span className="text-sm font-semibold">Voted</span>
               </div>
             ) : (
               <button
-                onClick={() => hasVoted ? setVoteError(t('vote.alreadyVoted')) : setConfirmOpen(true)}
+                onClick={() => hasVoted ? setVoteError('You have already voted.') : setConfirmOpen(true)}
                 disabled={hasVoted}
                 className="w-full py-3 rounded-xl font-label font-semibold bg-primary text-on-primary hover:shadow-glow-primary disabled:opacity-40 transition-all duration-200"
               >
-                {t('projects.voteNow')}
+                Vote Now
               </button>
             )}
             {voteError && <p className="text-xs text-error mt-2">{voteError}</p>}
@@ -162,14 +160,14 @@ export default function ProjectSpotlight() {
               <a href={project.zoomLink} target="_blank" rel="noopener noreferrer"
                 className="flex items-center gap-2 py-3 px-4 rounded-xl bg-primary/10 text-primary text-sm font-semibold hover:bg-primary/20 transition-colors">
                 <span className="material-icon">videocam</span>
-                {t('project.joinZoom')}
+                Join Zoom
               </a>
             )}
             {project.documentUrl && (
               <a href={project.documentUrl} target="_blank" rel="noopener noreferrer"
                 className="flex items-center gap-2 py-3 px-4 rounded-xl bg-surface-container-highest text-on-surface-variant text-sm font-semibold hover:text-on-surface transition-colors">
                 <span className="material-icon">picture_as_pdf</span>
-                {t('project.viewDoc')}
+                View Document
               </a>
             )}
           </div>
@@ -177,18 +175,18 @@ export default function ProjectSpotlight() {
       </div>
 
       {/* Vote modal */}
-      <GlassModal open={confirmOpen} onClose={() => setConfirmOpen(false)} title={t('vote.confirm')}>
+      <GlassModal open={confirmOpen} onClose={() => setConfirmOpen(false)} title="Confirm Your Vote">
         <p className="text-on-surface-variant text-sm mb-6">
-          {t('vote.confirmMsg')} <span className="text-on-surface font-semibold">"{title}"</span>?
+          Are you sure you want to vote for <span className="text-on-surface font-semibold">"{title}"</span>?
         </p>
         <div className="flex gap-3">
           <button onClick={() => setConfirmOpen(false)}
             className="flex-1 py-3 rounded-xl text-sm font-semibold bg-surface-container-highest text-on-surface-variant hover:text-on-surface transition-colors">
-            {t('vote.cancel')}
+            Cancel
           </button>
           <button onClick={handleVote} disabled={voting}
             className="flex-1 py-3 rounded-xl text-sm font-semibold bg-primary text-on-primary hover:shadow-glow-primary disabled:opacity-50 transition-all duration-200">
-            {voting ? t('grade.saving') : t('vote.cast')}
+            {voting ? 'Saving...' : 'Cast Vote'}
           </button>
         </div>
       </GlassModal>

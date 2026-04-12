@@ -1,12 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { useLang } from '../../context/LanguageContext';
 import StatusBadge from '../../components/ui/StatusBadge';
 import api from '../../services/api';
 
 export default function JudgeDashboard() {
-  const { t, lang } = useLang();
   const { judge, logout } = useAuth();
   const navigate = useNavigate();
   const [grades, setGrades] = useState([]);
@@ -28,7 +26,6 @@ export default function JudgeDashboard() {
   }, []);
 
   const submitted  = grades.filter((g) => g.status === 'submitted').length;
-  const inProgress = grades.filter((g) => g.status === 'in_progress').length;
   const total      = grades.length + ungraded.length;
 
   // Build full list: graded + ungraded
@@ -56,9 +53,9 @@ export default function JudgeDashboard() {
 
   const getCTA = (grade, projectId) => {
     const status = getStatus(grade);
-    if (status === 'submitted')   return { label: t('judge.viewScore'),  to: `/judge/grade/${projectId}` };
-    if (status === 'in_progress') return { label: t('judge.continue'),   to: `/judge/grade/${projectId}` };
-    return { label: t('judge.evaluate'), to: `/judge/grade/${projectId}` };
+    if (status === 'submitted')   return { label: 'View Score',  to: `/judge/grade/${projectId}` };
+    if (status === 'in_progress') return { label: 'Continue',    to: `/judge/grade/${projectId}` };
+    return { label: 'Evaluate', to: `/judge/grade/${projectId}` };
   };
 
   return (
@@ -66,7 +63,7 @@ export default function JudgeDashboard() {
       {/* Header */}
       <div className="flex items-start justify-between mb-10">
         <div>
-          <p className="text-xs font-label font-bold uppercase tracking-widest text-on-surface-variant mb-1">{t('judge.welcome')}</p>
+          <p className="text-xs font-label font-bold uppercase tracking-widest text-on-surface-variant mb-1">Welcome back</p>
           <h1 className="font-headline font-extrabold text-3xl text-on-surface">{judge?.name}</h1>
         </div>
         <button
@@ -74,16 +71,16 @@ export default function JudgeDashboard() {
           className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-label font-semibold text-on-surface-variant hover:text-error hover:bg-error-container transition-all duration-200 border border-outline-variant"
         >
           <span className="material-icon text-base">logout</span>
-          {t('judge.logout')}
+          Sign Out
         </button>
       </div>
 
       {/* Stats */}
       <div className="grid grid-cols-3 gap-4 mb-10">
         {[
-          { label: t('judge.total'),     value: total,      icon: 'list_alt',    color: 'text-on-surface',         bg: 'bg-white' },
-          { label: t('judge.completed'), value: submitted,  icon: 'check_circle',color: 'text-secondary',           bg: 'bg-white' },
-          { label: t('judge.pending'),   value: total - submitted, icon: 'pending', color: 'text-on-surface',       bg: 'bg-primary' },
+          { label: 'Total',     value: total,           icon: 'list_alt',     color: 'text-on-surface',   bg: 'bg-white' },
+          { label: 'Completed', value: submitted,        icon: 'check_circle', color: 'text-secondary',    bg: 'bg-white' },
+          { label: 'Pending',   value: total - submitted, icon: 'pending',     color: 'text-on-surface',   bg: 'bg-primary' },
         ].map((stat) => (
           <div key={stat.label} className={`${stat.bg} rounded-3xl p-6 flex flex-col gap-2 shadow-card border border-outline-variant`}>
             <span className={`material-icon text-2xl ${stat.bg === 'bg-primary' ? 'text-on-primary' : stat.color}`}>{stat.icon}</span>
@@ -96,8 +93,8 @@ export default function JudgeDashboard() {
       {/* Progress bar */}
       <div className="mb-10">
         <div className="flex items-center justify-between mb-2">
-          <p className="text-xs font-label font-semibold text-on-surface-variant">{t('judge.completed')}</p>
-          <p className="text-xs font-label font-semibold text-on-surface-variant">{submitted} {t('common.of')} {total}</p>
+          <p className="text-xs font-label font-semibold text-on-surface-variant">Completed</p>
+          <p className="text-xs font-label font-semibold text-on-surface-variant">{submitted} of {total}</p>
         </div>
         <div className="w-full h-2 rounded-full bg-surface-container border border-outline-variant">
           <div
@@ -127,7 +124,7 @@ export default function JudgeDashboard() {
                   {items.map(({ grade, project }, i) => {
                     const status = getStatus(grade);
                     const cta = getCTA(grade, project?._id ?? grade.project);
-                    const title = lang === 'ar' && project?.titleAr ? project.titleAr : project?.title;
+                    const title = project?.title;
                     return (
                       <div key={i} className="flex items-center gap-4 p-5 rounded-2xl bg-white hover:bg-surface-container-low transition-colors duration-200 border border-outline-variant shadow-card">
                         <div className="shrink-0 w-10 h-10 rounded-xl bg-surface-container flex items-center justify-center border border-outline-variant">

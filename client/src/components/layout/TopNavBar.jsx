@@ -1,11 +1,9 @@
 import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { useLang } from '../../context/LanguageContext';
 import { useAuth } from '../../context/AuthContext';
 import { useLiveSession } from '../../context/LiveSessionContext';
 
 export default function TopNavBar() {
-  const { toggle, lang } = useLang();
   const { judge, logout } = useAuth();
   const { isEventLive } = useLiveSession();
   const navigate = useNavigate();
@@ -54,14 +52,6 @@ export default function TopNavBar() {
 
           {/* Right actions */}
           <div className="flex items-center gap-2">
-            {/* Language toggle */}
-            <button
-              onClick={toggle}
-              className="px-3 py-1.5 text-xs font-label font-semibold rounded-full bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-colors duration-200 tracking-widest uppercase border border-outline-variant"
-            >
-              {lang === 'en' ? 'AR' : 'EN'}
-            </button>
-
             {/* User / judge avatar */}
             {judge ? (
               <div className="hidden md:flex items-center gap-2">

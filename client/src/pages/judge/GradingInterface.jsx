@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { useLang } from '../../context/LanguageContext';
 import { useAutoSave } from '../../hooks/useAutoSave';
 import ScoreInput from '../../components/ui/ScoreInput';
 import RubricBar from '../../components/ui/RubricBar';
@@ -32,7 +31,6 @@ const QUICK_TAGS = ['Strong Research', 'Innovative Approach', 'Excellent Deliver
 
 export default function GradingInterface() {
   const { projectId } = useParams();
-  const { t, lang } = useLang();
   const navigate = useNavigate();
 
   const [project, setProject] = useState(null);
@@ -77,7 +75,7 @@ export default function GradingInterface() {
       await api.post(`/grades/${projectId}/submit`, { scores, feedback });
       navigate('/judge/dashboard');
     } catch (err) {
-      setSubmitError(err.response?.data?.message || t('common.error'));
+      setSubmitError(err.response?.data?.message || 'Something went wrong.');
     } finally {
       setSubmitting(false);
     }
@@ -97,10 +95,10 @@ export default function GradingInterface() {
   );
 
   if (!project) return (
-    <div className="text-center py-24 text-on-surface-variant">{t('common.error')}</div>
+    <div className="text-center py-24 text-on-surface-variant">Project not found.</div>
   );
 
-  const title = lang === 'ar' && project.titleAr ? project.titleAr : project.title;
+  const title = project.title;
   const segmentType = project.segmentType ?? 'project';
   const criteria = CRITERIA_BY_SEGMENT[segmentType] ?? CRITERIA_BY_SEGMENT.project;
   const SEGMENT_LABEL = { project: 'Project Pitch', ted_talk: 'TED-Style Talk', interview: 'Interview' };
@@ -112,7 +110,7 @@ export default function GradingInterface() {
         <div>
           <Link to="/judge/dashboard" className="inline-flex items-center gap-1 text-sm text-on-surface-variant hover:text-on-surface mb-3 transition-colors">
             <span className="material-icon text-base">arrow_back</span>
-            {t('grade.backToDash')}
+            Back to Dashboard
           </Link>
           <p className="text-xs font-label font-bold uppercase tracking-widest text-on-surface-variant mb-1">{SEGMENT_LABEL[segmentType]}</p>
           <h1 className="font-headline font-extrabold text-2xl md:text-3xl text-on-surface">{title}</h1>
@@ -122,7 +120,7 @@ export default function GradingInterface() {
           {isSubmitted ? (
             <span className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-secondary/15 text-secondary text-xs font-label font-bold uppercase tracking-wider border border-secondary/30">
               <span className="material-icon text-sm material-icon-filled">check_circle</span>
-              {t('grade.submitted')}
+              Submitted
             </span>
           ) : (
             <AutoSaveIndicator saveStatus={saveStatus} lastSavedAt={lastSavedAt} />
@@ -133,7 +131,7 @@ export default function GradingInterface() {
       {isSubmitted && (
         <div className="mb-6 p-4 rounded-xl bg-secondary/10 text-secondary text-sm font-label flex items-center gap-2 border border-secondary/20">
           <span className="material-icon text-base">lock</span>
-          {t('grade.submittedMsg')}
+          This evaluation has been submitted and is now read-only.
         </div>
       )}
 
@@ -163,7 +161,7 @@ export default function GradingInterface() {
         <div className="lg:col-span-5 space-y-4">
           {/* Running total */}
           <div className="p-6 rounded-3xl bg-primary border border-primary shadow-card">
-            <p className="text-xs font-label font-bold uppercase tracking-widest text-on-primary/60 mb-3">{t('grade.total')}</p>
+            <p className="text-xs font-label font-bold uppercase tracking-widest text-on-primary/60 mb-3">Total Score</p>
             <div className="flex items-end gap-1">
               <span className="font-headline font-extrabold text-5xl text-on-primary">{totalScore}</span>
               <span className="text-on-primary/60 text-xl mb-1.5">/ 40</span>
@@ -178,12 +176,12 @@ export default function GradingInterface() {
 
           {/* Feedback */}
           <div className="p-6 rounded-3xl bg-white border border-outline-variant shadow-card">
-            <p className="text-xs font-label font-bold uppercase tracking-widest text-on-surface-variant mb-3">{t('grade.feedback')}</p>
+            <p className="text-xs font-label font-bold uppercase tracking-widest text-on-surface-variant mb-3">Feedback</p>
             <textarea
               value={feedback}
               onChange={(e) => setFeedback(e.target.value)}
               disabled={isSubmitted}
-              placeholder={t('grade.feedbackPlaceholder')}
+              placeholder="Share your thoughts on this presentation..."
               rows={6}
               className="w-full rounded-xl bg-surface-container text-on-surface placeholder-on-surface-variant text-sm p-4 resize-none focus:outline-none focus:ring-2 focus:ring-on-surface transition-all duration-200 border border-outline-variant disabled:opacity-50"
             />
@@ -191,7 +189,7 @@ export default function GradingInterface() {
             {/* Quick tags */}
             {!isSubmitted && (
               <div className="mt-3">
-                <p className="text-xs text-on-surface-variant mb-2">{t('grade.quickTags')}</p>
+                <p className="text-xs text-on-surface-variant mb-2">Quick tags</p>
                 <div className="flex flex-wrap gap-1.5">
                   {QUICK_TAGS.map((tag) => (
                     <button
@@ -213,13 +211,13 @@ export default function GradingInterface() {
               <div className="flex items-center gap-3">
                 <span className="material-icon text-on-surface-variant">picture_as_pdf</span>
                 <div>
-                  <p className="text-xs font-label font-semibold text-on-surface">{t('grade.documentation')}</p>
+                  <p className="text-xs font-label font-semibold text-on-surface">Documentation</p>
                   <p className="text-xs text-on-surface-variant">{project.projectNumber}</p>
                 </div>
               </div>
               <a href={project.documentUrl} target="_blank" rel="noopener noreferrer"
                 className="text-xs font-label font-semibold text-on-surface-variant hover:text-on-surface transition-colors">
-                {t('grade.downloadDoc')} →
+                Download →
               </a>
             </div>
           )}
@@ -237,14 +235,14 @@ export default function GradingInterface() {
               >
                 {submitting ? (
                   <span className="material-icon animate-spin">progress_activity</span>
-                ) : t('grade.submit')}
+                ) : 'Submit Evaluation'}
               </button>
               <button
                 onClick={saveNow}
                 disabled={saveStatus === 'saving'}
                 className="w-full py-3 rounded-xl bg-surface-container text-on-surface-variant font-label font-semibold text-sm hover:text-on-surface hover:bg-surface-container-highest transition-colors border border-outline-variant"
               >
-                {t('grade.saveDraft')}
+                Save Draft
               </button>
             </div>
           )}
