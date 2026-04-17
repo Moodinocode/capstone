@@ -8,22 +8,25 @@ import api from '../../services/api';
 
 const CRITERIA_BY_SEGMENT = {
   project: [
-    { key: 'innovation',   label: 'Innovation',   desc: 'Originality and creativity of the idea' },
-    { key: 'softSkills',   label: 'Soft Skills',  desc: 'Teamwork, communication, and interpersonal qualities' },
-    { key: 'presentation', label: 'Presentation', desc: 'Clarity, confidence, and structure of the pitch' },
-    { key: 'viability',    label: 'Viability',    desc: 'Feasibility and real-world impact potential' },
+    { key: 'c1', label: 'Innovative Idea & Value Proposition',       desc: 'Originality of the concept and the value it delivers' },
+    { key: 'c2', label: 'Market Need & Target Audience',             desc: 'Evidence of real demand and a clearly defined audience' },
+    { key: 'c3', label: 'Technology Fit & Feasibility',              desc: 'Appropriateness of the tech stack and practicality of execution' },
+    { key: 'c4', label: 'Business Model & Financial Viability',      desc: 'Cost structure and revenue model' },
+    { key: 'c5', label: 'Scalability & Presentation Quality',        desc: 'Growth potential and overall delivery of the pitch' },
   ],
   ted_talk: [
-    { key: 'innovation',   label: 'Content',      desc: 'Depth, relevance, and originality of the topic' },
-    { key: 'softSkills',   label: 'Delivery',     desc: 'Vocal presence, body language, and engagement' },
-    { key: 'presentation', label: 'Structure',    desc: 'Logical flow and clarity of the talk' },
-    { key: 'viability',    label: 'Impact',       desc: 'Inspiration and takeaway value for the audience' },
+    { key: 'c1', label: 'Clarity of Idea & Key Message',             desc: 'How clearly the central idea comes through' },
+    { key: 'c2', label: 'Organization & Logical Flow',               desc: 'Structure and progression of the talk' },
+    { key: 'c3', label: 'Audience Engagement & Online Presence',     desc: 'Ability to hold attention in a filmed/online format' },
+    { key: 'c4', label: 'Delivery',                                  desc: 'Tone of voice, confidence, and body language — factoring in that the talk is filmed, not in person' },
+    { key: 'c5', label: 'Originality & Overall Impact',              desc: 'Freshness of perspective and takeaway value' },
   ],
   interview: [
-    { key: 'innovation',   label: 'Communication', desc: 'Clarity and articulation of ideas' },
-    { key: 'softSkills',   label: 'Confidence',    desc: 'Composure and presence during the interview' },
-    { key: 'presentation', label: 'Clarity',       desc: 'Precision and conciseness of answers' },
-    { key: 'viability',    label: 'Overall',       desc: 'General impression and professional readiness' },
+    { key: 'c1', label: 'Relevance & Quality of Answers',            desc: 'Substance and directness of responses' },
+    { key: 'c2', label: 'Clarity & Professionalism in Communication',desc: 'Articulation and professional tone' },
+    { key: 'c3', label: 'Online Presence & Interview Etiquette',     desc: 'Framing, eye contact, timing, and conduct on camera' },
+    { key: 'c4', label: 'Confidence & Attentiveness',                desc: 'Composure and active engagement throughout' },
+    { key: 'c5', label: 'Overall Fit, Critical Thinking & Impression',desc: 'General readiness and quality of reasoning' },
   ],
 };
 
@@ -34,7 +37,7 @@ export default function GradingInterface() {
   const navigate = useNavigate();
 
   const [project, setProject] = useState(null);
-  const [scores, setScores]   = useState({ innovation: null, softSkills: null, presentation: null, viability: null });
+  const [scores, setScores]   = useState({ c1: null, c2: null, c3: null, c4: null, c5: null });
   const [feedback, setFeedback] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [loading, setLoading]   = useState(true);
@@ -51,7 +54,7 @@ export default function GradingInterface() {
       setProject(projRes.data);
       if (gradeRes.data) {
         const g = gradeRes.data;
-        setScores(g.scores ?? { innovation: null, softSkills: null, presentation: null, viability: null });
+        setScores(g.scores ?? { c1: null, c2: null, c3: null, c4: null, c5: null });
         setFeedback(g.feedback ?? '');
         setIsSubmitted(g.status === 'submitted');
       }
@@ -68,7 +71,7 @@ export default function GradingInterface() {
   const allFilled  = Object.values(scores).every((v) => v !== null && v !== undefined);
 
   const handleSubmit = async () => {
-    if (!allFilled) { setSubmitError('Please fill in all 4 scores before submitting.'); return; }
+    if (!allFilled) { setSubmitError('Please fill in all 5 scores before submitting.'); return; }
     setSubmitting(true);
     setSubmitError('');
     try {
@@ -164,12 +167,12 @@ export default function GradingInterface() {
             <p className="text-xs font-label font-bold uppercase tracking-widest text-on-primary/60 mb-3">Total Score</p>
             <div className="flex items-end gap-1">
               <span className="font-headline font-extrabold text-5xl text-on-primary">{totalScore}</span>
-              <span className="text-on-primary/60 text-xl mb-1.5">/ 40</span>
+              <span className="text-on-primary/60 text-xl mb-1.5">/ 50</span>
             </div>
             <div className="mt-4 w-full h-2 rounded-full bg-on-primary/20">
               <div
                 className="h-full rounded-full bg-on-primary transition-all duration-500"
-                style={{ width: `${(totalScore / 40) * 100}%` }}
+                style={{ width: `${(totalScore / 50) * 100}%` }}
               />
             </div>
           </div>

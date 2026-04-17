@@ -87,14 +87,6 @@ export default {
 
   // Grading
   'grade.title':         'واجهة التحكيم',
-  'grade.innovation':    'الابتكار',
-  'grade.innovationDesc':'أصالة وإبداع الحل وجدّته',
-  'grade.softSkills':    'المهارات الشخصية',
-  'grade.softSkillsDesc':'التواصل والعمل الجماعي والسلوك المهني',
-  'grade.presentation':  'العرض التقديمي',
-  'grade.presentationDesc': 'الوضوح والبنية وجودة التقديم',
-  'grade.viability':     'الجدوى',
-  'grade.viabilityDesc': 'الجدوى والإمكانات السوقية والحجة التجارية',
   'grade.total':         'المجموع',
   'grade.feedback':      'ملاحظات نوعية',
   'grade.feedbackPlaceholder': 'شاركنا ملاحظاتك حول هذا المشروع...',
