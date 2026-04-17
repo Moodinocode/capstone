@@ -15,10 +15,11 @@ const shapeGrade = (row, projectRow = null) => ({
       }
     : row.project_id,
   scores: {
-    innovation: row.score_innovation,
-    softSkills: row.score_soft_skills,
-    presentation: row.score_presentation,
-    viability: row.score_viability,
+    c1: row.score_c1,
+    c2: row.score_c2,
+    c3: row.score_c3,
+    c4: row.score_c4,
+    c5: row.score_c5,
   },
   totalScore: row.total_score,
   feedback: row.feedback,
@@ -89,10 +90,11 @@ export const saveDraft = async (req, res) => {
       {
         judge_id: req.judge._id,
         project_id: projectId,
-        score_innovation: scores?.innovation ?? null,
-        score_soft_skills: scores?.softSkills ?? null,
-        score_presentation: scores?.presentation ?? null,
-        score_viability: scores?.viability ?? null,
+        score_c1: scores?.c1 ?? null,
+        score_c2: scores?.c2 ?? null,
+        score_c3: scores?.c3 ?? null,
+        score_c4: scores?.c4 ?? null,
+        score_c5: scores?.c5 ?? null,
         total_score: totalScore,
         feedback: feedback ?? '',
         status: 'in_progress',
@@ -127,8 +129,8 @@ export const submitGrade = async (req, res) => {
     return res.status(403).json({ message: 'Grade already submitted' });
 
   const vals = Object.values(scores || {});
-  if (vals.length < 4 || vals.some((v) => v === null || v === undefined))
-    return res.status(400).json({ message: 'All 4 scores are required to submit' });
+  if (vals.length < 5 || vals.some((v) => v === null || v === undefined))
+    return res.status(400).json({ message: 'All 5 scores are required to submit' });
 
   const totalScore = vals.reduce((sum, v) => sum + v, 0);
   const now = new Date().toISOString();
@@ -139,10 +141,11 @@ export const submitGrade = async (req, res) => {
       {
         judge_id: req.judge._id,
         project_id: projectId,
-        score_innovation: scores?.innovation,
-        score_soft_skills: scores?.softSkills,
-        score_presentation: scores?.presentation,
-        score_viability: scores?.viability,
+        score_c1: scores?.c1,
+        score_c2: scores?.c2,
+        score_c3: scores?.c3,
+        score_c4: scores?.c4,
+        score_c5: scores?.c5,
         total_score: totalScore,
         feedback: feedback ?? '',
         status: 'submitted',

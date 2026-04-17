@@ -87,14 +87,6 @@ export default {
 
   // Grading
   'grade.title':         'Grading Interface',
-  'grade.innovation':    'Innovation',
-  'grade.innovationDesc':'Originality, creativity, and novelty of the solution',
-  'grade.softSkills':    'Soft Skills',
-  'grade.softSkillsDesc':'Communication, teamwork, and professional conduct',
-  'grade.presentation':  'Presentation',
-  'grade.presentationDesc': 'Clarity, structure, and delivery quality',
-  'grade.viability':     'Viability',
-  'grade.viabilityDesc': 'Feasibility, market potential, and business case',
   'grade.total':         'Total Score',
   'grade.feedback':      'Qualitative Feedback',
   'grade.feedbackPlaceholder': 'Share your observations about this project...',

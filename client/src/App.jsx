@@ -8,6 +8,7 @@ import Home             from './pages/Home';
 import ProjectGallery   from './pages/ProjectGallery';
 import ProjectSpotlight from './pages/ProjectSpotlight';
 import VotingPage       from './pages/VotingPage';
+import Winners          from './pages/Winners';
 import NotFound         from './pages/NotFound';
 
 import JudgeLogin       from './pages/judge/JudgeLogin';
@@ -29,6 +30,7 @@ function AppRoutes() {
         <Route path="/projects"     element={<ProjectGallery />} />
         <Route path="/projects/:id" element={<ProjectSpotlight />} />
         <Route path="/vote"         element={<VotingPage />} />
+        <Route path="/winners"      element={<Winners />} />
 
         <Route path="/judge/login"     element={<JudgeLogin />} />
         <Route path="/judge/dashboard" element={<ProtectedRoute><JudgeDashboard /></ProtectedRoute>} />
