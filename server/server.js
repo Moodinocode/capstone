@@ -17,9 +17,11 @@ const app = express();
 
 app.set('trust proxy', 1);
 app.use(helmet());
-const allowedOrigins = process.env.FRONTEND_URL
-  ? [process.env.FRONTEND_URL]
-  : ['http://localhost:5173'];
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://lau-soft-skills.vercel.app',
+  ...(process.env.FRONTEND_URL ? [process.env.FRONTEND_URL] : []),
+];
 app.use(cors({ origin: allowedOrigins, credentials: true }));
 app.use(express.json());
 
