@@ -27,7 +27,7 @@ export default function TopNavBar() {
               </span>
             )}
             <span className="font-headline font-extrabold text-base tracking-tight text-on-surface group-hover:text-on-surface-variant transition-colors duration-200">
-              Project<span className="text-on-surface-variant font-medium"> Event Hub</span>
+              Soft Skills<span className="text-on-surface-variant font-medium"> 2026</span>
             </span>
           </NavLink>
 
