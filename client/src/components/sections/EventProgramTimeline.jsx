@@ -2,30 +2,31 @@ import { useRef, useEffect, useState } from 'react';
 import api from '../../services/api';
 
 const FALLBACK = [
-  { id: '1',  time: '09:00', startTime: '09:00:00', label: 'Opening Ceremony',            type: 'Opening'    },
-  { id: '2',  time: '09:30', startTime: '09:30:00', label: 'TED Talk: Emotional IQ',       type: 'TED Talk'   },
-  { id: '3',  time: '09:50', startTime: '09:50:00', label: 'Project Pitches P-201–203',    type: 'Pitch'      },
-  { id: '4',  time: '10:35', startTime: '10:35:00', label: 'Coffee Break',                 type: 'Break'      },
-  { id: '5',  time: '10:45', startTime: '10:45:00', label: 'Project Pitches P-204–206',    type: 'Pitch'      },
-  { id: '6',  time: '11:30', startTime: '11:30:00', label: 'TED Talk: Digital Leadership', type: 'TED Talk'   },
-  { id: '7',  time: '11:50', startTime: '11:50:00', label: 'Project Pitches P-207–208',    type: 'Pitch'      },
-  { id: '8',  time: '12:20', startTime: '12:20:00', label: 'Lunch Break',                  type: 'Break'      },
-  { id: '9',  time: '13:00', startTime: '13:00:00', label: 'Project Pitches P-209–212',    type: 'Pitch'      },
-  { id: '10', time: '14:00', startTime: '14:00:00', label: 'Expo & Networking',            type: 'Networking' },
-  { id: '11', time: '14:30', startTime: '14:30:00', label: 'Awards & Closing Ceremony',    type: 'Closing'    },
+  { id: '1',  time: '14:00', startTime: '14:00:00', label: 'Welcome and Opening',            type: 'Opening'  },
+  { id: '2',  time: '14:10', startTime: '14:10:00', label: 'Opening Remarks — Dean Jamali',  type: 'Remarks'  },
+  { id: '3',  time: '14:15', startTime: '14:15:00', label: 'Guest Speaker Success Story',    type: 'Guest'    },
+  { id: '4',  time: '14:18', startTime: '14:18:00', label: 'Moderated Exchange — Dean Jamali', type: 'Remarks'},
+  { id: '5',  time: '14:25', startTime: '14:25:00', label: 'HR Manager Remarks',             type: 'Remarks'  },
+  { id: '6',  time: '14:35', startTime: '14:35:00', label: 'TED-Style Talks',                type: 'TED Talk' },
+  { id: '7',  time: '14:50', startTime: '14:50:00', label: 'Business Plan Elevator Pitches', type: 'Pitch'    },
+  { id: '8',  time: '15:05', startTime: '15:05:00', label: 'Mock Interviews',                type: 'Interview'},
+  { id: '9',  time: '15:30', startTime: '15:30:00', label: 'Jury Scoring & Reflections',     type: 'Jury'     },
+  { id: '10', time: '15:35', startTime: '15:35:00', label: 'Announcement of Winners',        type: 'Closing'  },
+  { id: '11', time: '15:40', startTime: '15:40:00', label: 'Closing Remarks',                type: 'Closing'  },
 ];
 
 const TYPE_COLORS = {
-  'Opening':    'text-secondary',
-  'TED Talk':   'text-tertiary',
-  'Pitch':      'text-tertiary',
-  'Break':      'text-on-surface-variant',
-  'Networking': 'text-tertiary',
-  'Closing':    'text-secondary',
+  'Opening':   'text-secondary',
+  'Remarks':   'text-on-surface-variant',
+  'Guest':     'text-tertiary',
+  'TED Talk':  'text-tertiary',
+  'Pitch':     'text-tertiary',
+  'Interview': 'text-tertiary',
+  'Jury':      'text-on-surface-variant',
+  'Closing':   'text-secondary',
 };
 
-// Set to e.g. '10:45' to pin the active item during testing. Set to null for real clock.
-const TEST_TIME = '10:45';
+const TEST_TIME = null;
 
 function toMinutes(timeStr) {
   const [h, m] = timeStr.split(':').map(Number);

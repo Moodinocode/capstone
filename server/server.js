@@ -11,6 +11,7 @@ import gradeRoutes from './routes/gradeRoutes.js';
 import voteRoutes from './routes/voteRoutes.js';
 import sessionRoutes from './routes/sessionRoutes.js';
 import scheduleRoutes from './routes/scheduleRoutes.js';
+import winnersRoutes from './routes/winnersRoutes.js';
 
 const app = express();
 
@@ -31,6 +32,7 @@ app.use('/api/grades', gradeRoutes);
 app.use('/api/votes', voteRoutes);
 app.use('/api/session', sessionRoutes);
 app.use('/api/schedule', scheduleRoutes);
+app.use('/api/winners', winnersRoutes);
 
 app.get('/api/health', (req, res) => res.json({ status: 'ok' }));
 
