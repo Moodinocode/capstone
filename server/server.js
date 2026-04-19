@@ -17,12 +17,7 @@ const app = express();
 
 app.set('trust proxy', 1);
 app.use(helmet());
-const allowedOrigins = [
-  'http://localhost:5173',
-  'https://lau-soft-skills.vercel.app',
-  ...(process.env.FRONTEND_URL ? [process.env.FRONTEND_URL] : []),
-];
-app.use(cors({ origin: allowedOrigins, credentials: true }));
+app.use(cors({ origin: '*' }));
 app.use(express.json());
 
 const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 200 });
