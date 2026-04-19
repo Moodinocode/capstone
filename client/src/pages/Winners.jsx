@@ -1,53 +1,6 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-
-// ─────────────────────────────────────────────
-// Mock data — replace with live /api/winners feed later
-// ─────────────────────────────────────────────
-const MOCK = {
-  pitches: {
-    champions: [
-      { id: 'p1', rank: 1, projectNumber: 'P-203', title: 'Quantum Shielding Protocol', teamOrSpeaker: 'Team CipherX',  category: 'Tech Innovation', totalScore: 47.2,
-        imageUrl: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&q=80' },
-      { id: 'p2', rank: 2, projectNumber: 'P-207', title: 'Eco-Supply Chain AI',        teamOrSpeaker: 'Team LogiGreen', category: 'Business Strategy', totalScore: 45.0,
-        imageUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&q=80' },
-      { id: 'p3', rank: 3, projectNumber: 'P-201', title: 'Autonomous Site Inspector',  teamOrSpeaker: 'Team Alpha',     category: 'Engineering',       totalScore: 44.1,
-        imageUrl: 'https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=800&q=80' },
-    ],
-    honorableMentions: [
-      { id: 'p4', projectNumber: 'P-211', title: 'BioSync Patch',        teamOrSpeaker: 'Team VitalTech',  imageUrl: 'https://images.unsplash.com/photo-1530497610245-94d3c16cda28?w=400&q=80' },
-      { id: 'p5', projectNumber: 'P-205', title: 'Civic Pulse Platform', teamOrSpeaker: 'Team Agora',      imageUrl: 'https://images.unsplash.com/photo-1529400971008-f566de0e6dfc?w=400&q=80' },
-      { id: 'p6', projectNumber: 'P-209', title: 'Neural Canvas',        teamOrSpeaker: 'Team Luminary',   imageUrl: 'https://images.unsplash.com/photo-1547891654-e66ed7ebb968?w=400&q=80' },
-    ],
-  },
-  tedTalks: {
-    champions: [
-      { id: 't1', rank: 1, projectNumber: 'T-101', title: 'The Power of Vulnerability in Leadership', teamOrSpeaker: 'Lina Mansour', category: 'Leadership',      totalScore: 48.5,
-        imageUrl: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&q=80' },
-      { id: 't2', rank: 2, projectNumber: 'T-103', title: 'Resilience: Bouncing Forward',             teamOrSpeaker: 'Dana Khoury',  category: 'Personal Growth', totalScore: 46.3,
-        imageUrl: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=800&q=80' },
-      { id: 't3', rank: 3, projectNumber: 'T-104', title: 'The Art of Active Listening',              teamOrSpeaker: 'Karim Nassar', category: 'Communication',   totalScore: 44.8,
-        imageUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80' },
-    ],
-    honorableMentions: [
-      { id: 't4', projectNumber: 'T-102', title: 'Communicating Across Cultures', teamOrSpeaker: 'Rami Aziz', imageUrl: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&q=80' },
-    ],
-  },
-  interviews: {
-    champions: [
-      { id: 'i1', rank: 1, projectNumber: 'I-301', title: 'Leading Through Uncertainty',      teamOrSpeaker: 'Sara Frem',         category: 'Leadership',         totalScore: 46.7,
-        imageUrl: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=800&q=80' },
-      { id: 'i2', rank: 2, projectNumber: 'I-303', title: 'Emotional Intelligence at Work',   teamOrSpeaker: 'Nadia Saleh',       category: 'Personal Growth',    totalScore: 45.2,
-        imageUrl: 'https://images.unsplash.com/photo-1521119989659-a83eee488004?w=800&q=80' },
-      { id: 'i3', rank: 3, projectNumber: 'I-302', title: 'Building Your Personal Brand',     teamOrSpeaker: 'Georges Abi Nader', category: 'Career Development', totalScore: 43.9,
-        imageUrl: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=800&q=80' },
-    ],
-    honorableMentions: [],
-  },
-  peoplesChoice: {
-    id: 'pc', projectNumber: 'P-201', title: 'Autonomous Site Inspector', teamOrSpeaker: 'Team Alpha', category: 'Engineering', voteCount: 42,
-    imageUrl: 'https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=800&q=80',
-  },
-};
+import api from '../services/api';
 
 // ─────────────────────────────────────────────
 // Rank visual vocabulary (extends FanVoteLeaderboard's palette)
@@ -213,8 +166,23 @@ function HonorableCard({ winner, delayMs = 0 }) {
 // Category section — podium + honorable mentions
 // ─────────────────────────────────────────────
 function CategorySection({ icon, label, title, subtitle, data, baseDelay = 0 }) {
-  const [first, second, third] = data.champions;
-  const hasHonorable = data.honorableMentions.length > 0;
+  const [first, second, third] = data.champions ?? [];
+  const hasHonorable = (data.honorableMentions ?? []).length > 0;
+
+  if (!first) return (
+    <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+      <div className="flex items-start gap-3 mb-6">
+        <div className="shrink-0 w-10 h-10 rounded-2xl bg-surface-container flex items-center justify-center border border-outline-variant">
+          <span className="material-icon text-xl text-on-surface">{icon}</span>
+        </div>
+        <div>
+          <p className="text-xs font-label font-bold uppercase tracking-widest text-on-surface-variant mb-1">{label}</p>
+          <h2 className="font-headline font-extrabold text-2xl md:text-3xl text-on-surface">{title}</h2>
+        </div>
+      </div>
+      <p className="text-sm text-on-surface-variant">Results will appear once judging is complete.</p>
+    </section>
+  );
 
   return (
     <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
@@ -264,7 +232,7 @@ function CategorySection({ icon, label, title, subtitle, data, baseDelay = 0 }) 
             Honorable Mentions
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            {data.honorableMentions.map((hm, i) => (
+            {(data.honorableMentions ?? []).map((hm, i) => (
               <HonorableCard key={hm.id} winner={hm} delayMs={baseDelay + 600 + i * 80} />
             ))}
           </div>
@@ -392,44 +360,76 @@ function WinnersHero() {
 // Page
 // ─────────────────────────────────────────────
 export default function Winners() {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    api.get('/winners')
+      .then((res) => setData(res.data))
+      .catch(() => setData(null))
+      .finally(() => setLoading(false));
+  }, []);
+
+  const empty = { champions: [], honorableMentions: [] };
+
   return (
     <div className="min-h-screen bg-background">
       <WinnersHero />
 
-      <CategorySection
-        icon="science"
-        label="Track 01"
-        title="Business Plan Pitches"
-        subtitle="Top pitches ranked by our judge panel's combined rubric scores"
-        data={MOCK.pitches}
-        baseDelay={400}
-      />
+      {loading && (
+        <div className="flex justify-center items-center py-32">
+          <span className="material-icon animate-spin text-4xl text-on-surface-variant">progress_activity</span>
+        </div>
+      )}
 
-      <div className="h-px max-w-6xl mx-auto bg-outline-variant" />
+      {!loading && !data && (
+        <div className="text-center py-32 text-on-surface-variant">
+          <span className="material-icon text-4xl mb-4 block">error_outline</span>
+          <p className="font-label">Could not load results. Please try again later.</p>
+        </div>
+      )}
 
-      <CategorySection
-        icon="mic"
-        label="Track 02"
-        title="TED-Style Talks"
-        subtitle="The talks that moved, challenged, and inspired the room the most"
-        data={MOCK.tedTalks}
-        baseDelay={400}
-      />
+      {!loading && data && (
+        <>
+          <CategorySection
+            icon="science"
+            label="Track 01"
+            title="Business Plan Pitches"
+            subtitle="Top pitches ranked by our judge panel's combined rubric scores"
+            data={data.pitches ?? empty}
+            baseDelay={400}
+          />
 
-      <div className="h-px max-w-6xl mx-auto bg-outline-variant" />
+          <div className="h-px max-w-6xl mx-auto bg-outline-variant" />
 
-      <CategorySection
-        icon="record_voice_over"
-        label="Track 03"
-        title="Mock Interviews"
-        subtitle="Candidates who brought the clearest thinking and strongest presence"
-        data={MOCK.interviews}
-        baseDelay={400}
-      />
+          <CategorySection
+            icon="mic"
+            label="Track 02"
+            title="TED-Style Talks"
+            subtitle="The talks that moved, challenged, and inspired the room the most"
+            data={data.tedTalks ?? empty}
+            baseDelay={400}
+          />
 
-      <div className="h-px max-w-6xl mx-auto bg-outline-variant" />
+          <div className="h-px max-w-6xl mx-auto bg-outline-variant" />
 
-      <PeoplesChoice winner={MOCK.peoplesChoice} baseDelay={400} />
+          <CategorySection
+            icon="record_voice_over"
+            label="Track 03"
+            title="Mock Interviews"
+            subtitle="Candidates who brought the clearest thinking and strongest presence"
+            data={data.interviews ?? empty}
+            baseDelay={400}
+          />
+
+          {data.peoplesChoice && (
+            <>
+              <div className="h-px max-w-6xl mx-auto bg-outline-variant" />
+              <PeoplesChoice winner={data.peoplesChoice} baseDelay={400} />
+            </>
+          )}
+        </>
+      )}
 
       {/* Closing note */}
       <footer className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 text-center">

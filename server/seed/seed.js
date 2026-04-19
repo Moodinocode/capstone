@@ -34,19 +34,34 @@ const SPEAKER_IMAGES = [
 // ─────────────────────────────────────────────
 // Data
 // ─────────────────────────────────────────────
+// ── poster images served from /public/projects/ ──────────────────────────────
+// PDF-only entries have imageUrl: '' — fill in a real image URL before the event
+// or replace with a screenshot of the PDF poster.
+// teamName, category, description, members → fill in before the event.
+// ─────────────────────────────────────────────────────────────────────────────
 const projectsData = [
-  { projectNumber: 'P-201', title: 'Autonomous Site Inspector',            teamName: 'Team Alpha',     category: 'Engineering',       description: 'A drone-based autonomous inspection system for construction sites that detects structural anomalies using computer vision and generates real-time safety reports.', members: [{ name: 'Nour Khalil', role: 'Lead Engineer' }, { name: 'Rami Saad', role: 'ML Developer' }, { name: 'Lana Hayek', role: 'UX Designer' }], tags: ['drone','computer vision','safety','construction'], zoomLink: 'https://lau.zoom.us/j/demo201' },
-  { projectNumber: 'P-202', title: 'Solar-Pulse Drone',                    teamName: 'Team Helios',    category: 'Engineering',       description: 'A solar-powered delivery drone capable of continuous daylight operation, eliminating battery recharging downtime for last-mile logistics.', members: [{ name: 'Omar Frem', role: 'Aerospace Engineer' }, { name: 'Mia Sleiman', role: 'Electronics' }], tags: ['solar','drone','logistics','sustainability'], zoomLink: 'https://lau.zoom.us/j/demo202' },
-  { projectNumber: 'P-203', title: 'Quantum Shielding Protocol',           teamName: 'Team CipherX',   category: 'Tech Innovation',   description: 'A post-quantum cryptography implementation for legacy banking infrastructure.', members: [{ name: 'Karim Abi Nader', role: 'Security Architect' }, { name: 'Sara Haddad', role: 'Backend Dev' }, { name: 'Joe Najm', role: 'Research' }], tags: ['security','quantum','cryptography','fintech'], zoomLink: 'https://lau.zoom.us/j/demo203', isLive: true },
-  { projectNumber: 'P-204', title: 'ShieldGate AI',                        teamName: 'Team Firewall',  category: 'Tech Innovation',   description: 'An AI-powered network intrusion detection system that learns from traffic patterns.', members: [{ name: 'Lara Khoury', role: 'AI Engineer' }, { name: 'Fadi Rizk', role: 'Network Specialist' }], tags: ['AI','cybersecurity','intrusion detection'], zoomLink: 'https://lau.zoom.us/j/demo204' },
-  { projectNumber: 'P-205', title: 'Civic Pulse Platform',                 teamName: 'Team Agora',     category: 'Social Impact',     description: 'A civic engagement platform connecting citizens with local government.', members: [{ name: 'Maya Saab', role: 'Product Manager' }, { name: 'Georges Frem', role: 'Full Stack' }, { name: 'Dana Hanna', role: 'UX' }], tags: ['civic tech','government','community','transparency'], zoomLink: 'https://lau.zoom.us/j/demo205' },
-  { projectNumber: 'P-206', title: 'EcoFlow Solutions',                    teamName: 'Team GreenWave', category: 'Social Impact',     description: 'Smart water recycling units for Lebanese households.', members: [{ name: 'Elias Khoury', role: 'Environmental Eng.' }, { name: 'Rita Nassar', role: 'Hardware' }], tags: ['water','sustainability','environment','hardware'], zoomLink: 'https://lau.zoom.us/j/demo206' },
-  { projectNumber: 'P-207', title: 'Eco-Supply Chain AI',                  teamName: 'Team LogiGreen', category: 'Business Strategy', description: 'An AI platform optimizing supply chain routes to minimize carbon emissions.', members: [{ name: 'Ali Hassan', role: 'Business Analyst' }, { name: 'Celine Abou', role: 'Data Scientist' }, { name: 'Mark Tawk', role: 'Developer' }], tags: ['supply chain','AI','sustainability','logistics'], zoomLink: 'https://lau.zoom.us/j/demo207' },
-  { projectNumber: 'P-208', title: 'Negotiation Dynamics',                 teamName: 'Team Leverage',  category: 'Business Strategy', description: 'A simulation-based training platform using AI role-playing to develop negotiation skills.', members: [{ name: 'Joelle Abi', role: 'L&D Specialist' }, { name: 'Karl Salam', role: 'AI Developer' }], tags: ['training','soft skills','AI','simulation'], zoomLink: 'https://lau.zoom.us/j/demo208' },
-  { projectNumber: 'P-209', title: 'Neural Canvas',                        teamName: 'Team Luminary',  category: 'Creative Arts',     description: 'An AI-assisted collaborative mural tool for public spaces.', members: [{ name: 'Nadine Ghanem', role: 'Creative Director' }, { name: 'Sami Fares', role: 'ML Artist' }], tags: ['generative art','AI','community','installation'], zoomLink: 'https://lau.zoom.us/j/demo209' },
-  { projectNumber: 'P-210', title: 'Visual Storytelling for Public Policy', teamName: 'Team Narrative', category: 'Creative Arts',    description: 'A data visualization framework translating government policy into visual narratives.', members: [{ name: 'Tina Haddad', role: 'Motion Designer' }, { name: 'Bechara Rizk', role: 'Data Viz' }, { name: 'Lea Nader', role: 'Policy Research' }], tags: ['data visualization','policy','design','storytelling'], zoomLink: 'https://lau.zoom.us/j/demo210' },
-  { projectNumber: 'P-211', title: 'BioSync Patch',                        teamName: 'Team VitalTech', category: 'Med-Tech',          description: 'A wearable biosensor patch for continuous monitoring of diabetic patients.', members: [{ name: 'Dr. Hassan Mourad', role: 'Biomedical Eng.' }, { name: 'Yara Nassar', role: 'Software' }], tags: ['wearable','diabetes','IoT','healthcare'], zoomLink: 'https://lau.zoom.us/j/demo211' },
-  { projectNumber: 'P-212', title: 'AI-Driven Soft Skill Enhancement',     teamName: 'Team EduSpark',  category: 'Med-Tech',          description: 'An adaptive learning platform using NLP and speech analysis.', members: [{ name: 'Sandra Khoury', role: 'NLP Engineer' }, { name: 'Ziad Atallah', role: 'Product' }, { name: 'Maya Salem', role: 'UX Research' }], tags: ['NLP','education','soft skills','adaptive learning'], zoomLink: 'https://lau.zoom.us/j/demo212' },
+  { projectNumber: 'P-101', title: 'AFY Services',               teamName: '', category: 'Business Plan', description: '', members: [], tags: [], imageUrl: '/projects/afy-services.png',        documentUrl: '/projects/afy-services.pdf' },
+  { projectNumber: 'P-102', title: 'AI Voice Platform',          teamName: '', category: 'Business Plan', description: '', members: [], tags: [], imageUrl: '/projects/ai-voice-platform.jpeg', documentUrl: '' },
+  { projectNumber: 'P-103', title: 'Giftr App',                  teamName: '', category: 'Business Plan', description: '', members: [], tags: [], imageUrl: '/projects/giftr-app.png',          documentUrl: '/projects/giftr-app.pdf' },
+  { projectNumber: 'P-104', title: 'Sports Connect',             teamName: '', category: 'Business Plan', description: '', members: [], tags: [], imageUrl: '/projects/sports-connect.jpeg',  documentUrl: '' },
+  { projectNumber: 'P-105', title: 'Taxi Digital Advertising',   teamName: '', category: 'Business Plan', description: '', members: [], tags: [], imageUrl: '/projects/taxi-digital-advertising.png', documentUrl: '/projects/taxi-digital-advertising.pdf' },
+  { projectNumber: 'P-106', title: 'MentorMatch',                teamName: '', category: 'Business Plan', description: '', members: [], tags: [], imageUrl: '/projects/mentormatch.png',        documentUrl: '/projects/mentormatch.pdf' },
+  { projectNumber: 'P-107', title: 'Sofra',                      teamName: '', category: 'Business Plan', description: '', members: [], tags: [], imageUrl: '/projects/sofra.png',            documentUrl: '' },
+  { projectNumber: 'P-108', title: 'Etoile',                     teamName: '', category: 'Business Plan', description: '', members: [], tags: [], imageUrl: '/projects/etoile.png',            documentUrl: '/projects/etoile.pdf' },
+  { projectNumber: 'P-109', title: 'FixLink',                    teamName: '', category: 'Business Plan', description: '', members: [], tags: [], imageUrl: '/projects/fixlink.png',          documentUrl: '' },
+  { projectNumber: 'P-110', title: 'Fixongo',                    teamName: '', category: 'Business Plan', description: '', members: [], tags: [], imageUrl: '/projects/fixongo.jpeg',         documentUrl: '' },
+  { projectNumber: 'P-111', title: 'Handy',                      teamName: '', category: 'Business Plan', description: '', members: [], tags: [], imageUrl: '/projects/handy.jpeg',           documentUrl: '' },
+  { projectNumber: 'P-112', title: 'Kamelna',                    teamName: '', category: 'Business Plan', description: '', members: [], tags: [], imageUrl: '/projects/kamelna.png',          documentUrl: '' },
+  { projectNumber: 'P-113', title: 'LebPay',                     teamName: '', category: 'Business Plan', description: '', members: [], tags: [], imageUrl: '/projects/lebpay.jpeg',          documentUrl: '' },
+  { projectNumber: 'P-114', title: 'LebXplore',                  teamName: '', category: 'Business Plan', description: '', members: [], tags: [], imageUrl: '/projects/lebxplore.jpeg',       documentUrl: '' },
+  { projectNumber: 'P-115', title: 'Levant Coast Lines',          teamName: '', category: 'Business Plan', description: '', members: [], tags: [], imageUrl: '/projects/levant-coast-lines.jpeg', documentUrl: '' },
+  { projectNumber: 'P-116', title: 'Mouda',                      teamName: '', category: 'Business Plan', description: '', members: [], tags: [], imageUrl: '/projects/mouda.jpeg',           documentUrl: '' },
+  { projectNumber: 'P-117', title: 'OnBoard',                    teamName: '', category: 'Business Plan', description: '', members: [], tags: [], imageUrl: '/projects/onboard.jpg',          documentUrl: '' },
+  { projectNumber: 'P-118', title: 'PodLounge',                  teamName: '', category: 'Business Plan', description: '', members: [], tags: [], imageUrl: '/projects/podlounge.jpeg',       documentUrl: '' },
+  { projectNumber: 'P-119', title: 'Sensifist',                  teamName: '', category: 'Business Plan', description: '', members: [], tags: [], imageUrl: '/projects/sensifist.jpeg',       documentUrl: '' },
+  { projectNumber: 'P-120', title: 'Torquego Mobile Mechanics',  teamName: '', category: 'Business Plan', description: '', members: [], tags: [], imageUrl: '/projects/torquego.jpeg',        documentUrl: '' },
+  { projectNumber: 'P-121', title: 'Unitutor Lebanon',           teamName: '', category: 'Business Plan', description: '', members: [], tags: [], imageUrl: '/projects/unitutor-lebanon.jpg', documentUrl: '' },
+  { projectNumber: 'P-122', title: 'Your Gift Story',            teamName: '', category: 'Business Plan', description: '', members: [], tags: [], imageUrl: '/projects/your-gift-story.jpeg', documentUrl: '' },
 ];
 
 const tedTalksData = [
@@ -63,27 +78,27 @@ const interviewsData = [
 ];
 
 const judgesData = [
-  { name: 'Dr. Elias Khoury',   email: 'elias@lau.edu.lb', password: 'judge123', isAdmin: true  },
-  { name: 'Prof. Maya Saab',    email: 'maya@lau.edu.lb',  password: 'judge123', isAdmin: false },
-  { name: 'Dr. Omar Nassif',    email: 'omar@lau.edu.lb',  password: 'judge123', isAdmin: false },
-  { name: 'Dr. Lara Haddad',    email: 'lara@lau.edu.lb',  password: 'judge123', isAdmin: false },
-  { name: 'Prof. Karim Abikar', email: 'karim@lau.edu.lb', password: 'judge123', isAdmin: false },
+  { name: 'Emilie Wahab Harb',    email: 'emilie@softskills',     password: 'Emilie@SS25',    isAdmin: true  },
+  { name: 'Ghassan Hammoud',      email: 'ghassan@softskills',    password: 'Ghassan@SS25',   isAdmin: false },
+  { name: 'Marie Josee Daibes',   email: 'mariejosee@softskills', password: 'MJosee@SS25',    isAdmin: false },
+  { name: 'Lilian Abou Hamdan',   email: 'lilian@softskills',     password: 'Lilian@SS25',    isAdmin: false },
+  { name: 'Rita Nachar',          email: 'rita@softskills',       password: 'Rita@SS25',      isAdmin: false },
 ];
 
 // Schedule labels reference the actual seeded TED talks (T-101, T-103) so the
 // homepage timeline and the Event Media section stay in sync.
 const scheduleData = [
-  { sort_order: 1,  time: '09:00', label: 'Opening Ceremony',                        type: 'Opening',    start_time: '09:00:00' },
-  { sort_order: 2,  time: '09:30', label: 'TED Talk: The Power of Vulnerability',    type: 'TED Talk',   start_time: '09:30:00' },
-  { sort_order: 3,  time: '09:50', label: 'Project Pitches P-201–203',               type: 'Pitch',      start_time: '09:50:00' },
-  { sort_order: 4,  time: '10:35', label: 'Coffee Break',                            type: 'Break',      start_time: '10:35:00' },
-  { sort_order: 5,  time: '10:45', label: 'Project Pitches P-204–206',               type: 'Pitch',      start_time: '10:45:00' },
-  { sort_order: 6,  time: '11:30', label: 'TED Talk: Resilience — Bouncing Forward', type: 'TED Talk',   start_time: '11:30:00' },
-  { sort_order: 7,  time: '11:50', label: 'Project Pitches P-207–208',               type: 'Pitch',      start_time: '11:50:00' },
-  { sort_order: 8,  time: '12:20', label: 'Lunch Break',                             type: 'Break',      start_time: '12:20:00' },
-  { sort_order: 9,  time: '13:00', label: 'Project Pitches P-209–212',               type: 'Pitch',      start_time: '13:00:00' },
-  { sort_order: 10, time: '14:00', label: 'Expo & Networking',                       type: 'Networking', start_time: '14:00:00' },
-  { sort_order: 11, time: '14:30', label: 'Awards & Closing Ceremony',               type: 'Closing',    start_time: '14:30:00' },
+  { sort_order: 1,  time: '14:00', label: 'Welcome and Opening',                     type: 'Opening',    start_time: '14:00:00' },
+  { sort_order: 2,  time: '14:10', label: 'Opening Remarks — Dean Jamali',           type: 'Remarks',    start_time: '14:10:00' },
+  { sort_order: 3,  time: '14:15', label: 'Guest Speaker Success Story',             type: 'Guest',      start_time: '14:15:00' },
+  { sort_order: 4,  time: '14:18', label: 'Moderated Exchange — Dean Jamali',        type: 'Remarks',    start_time: '14:18:00' },
+  { sort_order: 5,  time: '14:25', label: 'HR Manager Remarks',                      type: 'Remarks',    start_time: '14:25:00' },
+  { sort_order: 6,  time: '14:35', label: 'TED-Style Talks',                         type: 'TED Talk',   start_time: '14:35:00' },
+  { sort_order: 7,  time: '14:50', label: 'Business Plan Elevator Pitches',          type: 'Pitch',      start_time: '14:50:00' },
+  { sort_order: 8,  time: '15:05', label: 'Mock Interviews',                         type: 'Interview',  start_time: '15:05:00' },
+  { sort_order: 9,  time: '15:30', label: 'Jury Scoring & Reflections',              type: 'Jury',       start_time: '15:30:00' },
+  { sort_order: 10, time: '15:35', label: 'Announcement of Winners',                 type: 'Closing',    start_time: '15:35:00' },
+  { sort_order: 11, time: '15:40', label: 'Closing Remarks',                         type: 'Closing',    start_time: '15:40:00' },
 ];
 
 // ─────────────────────────────────────────────
@@ -117,8 +132,9 @@ const toProjectRow = (p, i, segmentType, imagePool) => ({
   category:       p.category,
   description:    p.description ?? '',
   members:        p.members ?? [],
-  image_url:      pick(imagePool, i),
+  image_url:      p.imageUrl !== undefined ? p.imageUrl : pick(imagePool, i),
   video_url:      p.videoUrl ?? '',
+  document_url:   p.documentUrl ?? '',
   zoom_link:      p.zoomLink ?? '',
   is_live:        p.isLive ?? false,
   vote_count:     p.voteCount ?? 0,
@@ -130,7 +146,7 @@ const toProjectRow = (p, i, segmentType, imagePool) => ({
 // Spread ~150 simulated votes across the 12 pitches so the leaderboard has a
 // realistic ranking on first load. Deterministic — not random — so the seed
 // output is reproducible.
-const VOTE_DISTRIBUTION = [42, 31, 27, 19, 15, 12, 10, 8, 6, 4, 3, 2];
+const VOTE_DISTRIBUTION = [42, 31, 27, 19, 15, 12, 10, 8, 7, 6, 5, 4, 4, 3, 3, 2, 2, 2, 1, 1, 1, 1];
 
 // Round-robin assignment: each judge gets ~5 consecutive pitches (with wraparound).
 // Every judge also grades every TED talk and every interview.
@@ -266,9 +282,9 @@ async function seed() {
   console.log(`   ${pitches.length} project pitches (with vote counts)`);
   console.log(`   ${tedTalks.length} TED talks (with video URLs)`);
   console.log(`   ${interviews.length} interviews`);
-  console.log(`   ${judges.length} judges (password: judge123)`);
+  console.log(`   ${judges.length} judges seeded:`);
+  judgesData.forEach((j) => console.log(`     ${j.email}  /  ${j.password}`));
   console.log(`   ${scheduleData.length} schedule items`);
-  console.log('   Admin login: elias@lau.edu.lb / judge123');
 }
 
 seed().catch((err) => {
