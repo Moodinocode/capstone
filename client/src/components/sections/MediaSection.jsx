@@ -167,7 +167,7 @@ export default function MediaSection() {
           Event Media
         </p>
         <h2 className="font-headline font-bold text-lg text-on-surface mb-4">
-          Pre-Recorded TED-Style Talks
+          TED-Style Talks
         </h2>
 
         {loading ? (
