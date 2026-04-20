@@ -224,51 +224,6 @@ async function seed() {
   });
   await insertOrThrow('judge_projects', assignmentRows, 'Judge assignments');
 
-  console.log('→ Seeding demo grades…');
-  const now = new Date().toISOString();
-  await insertOrThrow('grades', [
-    {
-      judge_id:           judges[0].id,
-      project_id:         pitches[0].id,
-      score_c1:           8,
-      score_c2:           9,
-      score_c3:           7,
-      score_c4:           8,
-      score_c5:           9,
-      total_score:        41,
-      feedback:           'Exceptional use of computer vision. The live demo was compelling and the team handled Q&A with confidence.',
-      status:             'submitted',
-      last_saved_at:      now,
-      submitted_at:       now,
-    },
-    {
-      judge_id:           judges[0].id,
-      project_id:         pitches[1].id,
-      score_c1:           7,
-      score_c2:           null,
-      score_c3:           8,
-      score_c4:           null,
-      score_c5:           null,
-      total_score:        15,
-      feedback:           'Strong engineering fundamentals. Need to assess remaining criteria.',
-      status:             'in_progress',
-      last_saved_at:      now,
-    },
-    {
-      judge_id:           judges[0].id,
-      project_id:         tedTalks[0].id,
-      score_c1:           9,
-      score_c2:           9,
-      score_c3:           10,
-      score_c4:           8,
-      score_c5:           9,
-      total_score:        45,
-      feedback:           'Deeply personal, well-paced, and anchored in real examples. A standout talk.',
-      status:             'submitted',
-      last_saved_at:      now,
-      submitted_at:       now,
-    },
-  ], 'Demo grades');
 
   console.log('→ Seeding schedule…');
   await insertOrThrow('schedule_items', scheduleData, 'Schedule');
