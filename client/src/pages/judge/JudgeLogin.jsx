@@ -81,9 +81,7 @@ export default function JudgeLogin() {
             ) : 'Sign In'}
           </button>
 
-          <p className="text-center text-xs text-on-surface-variant">
-            Demo: elias@lau.edu.lb / judge123
-          </p>
+
         </form>
       </div>
     </div>
