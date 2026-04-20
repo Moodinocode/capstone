@@ -5,8 +5,8 @@
 - [x] ~~T-102 Jad Chedid~~ — video confirmed working
 - [ ] **T-103** Robert Kosseifi — no video yet
 - [x] ~~T-104 Jad & AbdulRahman~~ — confirmed working
-- [x] ~~T-105 Diamony Diab~~ — confirmed working
-- [ ] **T-106** Jean Claude El Ghoul — no video yet
+- [x] ~~T-105 Diamony Diab~~ — new video link updated
+- [x] ~~T-106 Jean Claude El Ghoul~~ — video added
 
 ## Business Plan Pitches (featured — being judged)
 - [x] ~~P-103 GIFTR~~ — Anthony Estephan + team ✓

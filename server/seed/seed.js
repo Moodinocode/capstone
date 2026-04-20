@@ -75,10 +75,10 @@ const tedTalksData = [
   { projectNumber: 'T-103', title: 'TED Talk',                 teamName: 'Robert Kosseifi',        category: 'TED Talk', description: '', members: [{ name: 'Robert Kosseifi', role: 'Speaker' }], tags: [], zoomLink: '', videoUrl: '' },
   // ✅ REAL — name was wrong (was Adam), same video
   { projectNumber: 'T-104', title: 'Readyness',                teamName: 'Jad & AbdulRahman',      category: 'TED Talk', description: '', members: [{ name: 'Jad', role: 'Speaker' }, { name: 'AbdulRahman', role: 'Speaker' }], tags: [], zoomLink: '', videoUrl: 'https://drive.google.com/file/d/1c3pIOYEdhtiulv_9roiy7JsjWJ_g77gy/view?usp=sharing' },
-  // ⚠️ REAL — check voice quality before event
-  { projectNumber: 'T-105', title: 'Enough for Everyone',      teamName: 'Diamony Diab',           category: 'TED Talk', description: 'The world produces enough food to feed everyone, yet millions go hungry. A look at the SDGs and the systemic gap between abundance and access.', members: [{ name: 'Diamony Diab', role: 'Speaker' }], tags: ['SDG','hunger','food','sustainability'], zoomLink: '', videoUrl: 'https://drive.google.com/file/d/1O5w3EOfiLbrnGIxYuTZGo9aU2Aje20hr/view?usp=sharing' },
-  // ⏳ REAL — no video yet
-  { projectNumber: 'T-106', title: 'TED Talk',                 teamName: 'Jean Claude El Ghoul',   category: 'TED Talk', description: '', members: [{ name: 'Jean Claude El Ghoul', role: 'Speaker' }], tags: [], zoomLink: '', videoUrl: '' },
+  // ✅ REAL
+  { projectNumber: 'T-105', title: 'Enough for Everyone',      teamName: 'Diamony Diab',           category: 'TED Talk', description: 'The world produces enough food to feed everyone, yet millions go hungry. A look at the SDGs and the systemic gap between abundance and access.', members: [{ name: 'Diamony Diab', role: 'Speaker' }], tags: ['SDG','hunger','food','sustainability'], zoomLink: '', videoUrl: 'https://drive.google.com/file/d/1-9VIDyYPqxAz2gTtMGDHsGYEuqiudt4m/view?usp=sharing' },
+  // ✅ REAL
+  { projectNumber: 'T-106', title: 'TED Talk',                 teamName: 'Jean Claude El Ghoul',   category: 'TED Talk', description: '', members: [{ name: 'Jean Claude El Ghoul', role: 'Speaker' }], tags: [], zoomLink: '', videoUrl: 'https://drive.google.com/file/d/1rlIM-xeQ0znA34Ax18LiGMcf-VXoFCPm/view?usp=sharing' },
   // ✅ REAL
   { projectNumber: 'T-107', title: 'Moving Abroad',            teamName: 'Leah Keyrouz',           category: 'TED Talk', description: '', members: [{ name: 'Leah Keyrouz', role: 'Speaker' }], tags: [], zoomLink: '', videoUrl: 'https://drive.google.com/file/d/1APKRtzwgucAJpRYzYu0-W9kj5zZYcBuz/view?usp=sharing' },
 ];
