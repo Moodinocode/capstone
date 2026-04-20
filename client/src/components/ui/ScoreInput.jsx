@@ -2,7 +2,7 @@ export default function ScoreInput({ value, onChange, disabled }) {
   const handleChange = (e) => {
     const v = e.target.value;
     if (v === '') { onChange(null); return; }
-    const num = Math.min(10, Math.max(0, Number(v)));
+    const num = Math.min(5, Math.max(0, Number(v)));
     onChange(num);
   };
 
@@ -11,7 +11,7 @@ export default function ScoreInput({ value, onChange, disabled }) {
       <input
         type="number"
         min={0}
-        max={10}
+        max={5}
         value={value ?? ''}
         onChange={handleChange}
         disabled={disabled}
@@ -22,7 +22,7 @@ export default function ScoreInput({ value, onChange, disabled }) {
           disabled:opacity-50 disabled:cursor-not-allowed`}
       />
       <span className="absolute -bottom-4 left-1/2 -translate-x-1/2 text-[10px] font-label text-on-surface-variant whitespace-nowrap">
-        / 10
+        / 5
       </span>
     </div>
   );

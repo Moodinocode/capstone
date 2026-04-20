@@ -122,7 +122,7 @@ function WinnerCard({ winner, size = 'md', delayMs = 0 }) {
             </p>
             <p className={`font-headline font-extrabold ${size === 'lg' ? 'text-3xl' : 'text-xl'} ${style.accentText}`}>
               {winner.totalScore.toFixed(1)}
-              <span className="text-sm font-label font-medium text-on-surface-variant ms-1">/ 50</span>
+              <span className="text-sm font-label font-medium text-on-surface-variant ms-1">/ 25</span>
             </p>
           </div>
           <span className="flex items-center gap-1 text-xs font-label font-semibold text-on-surface-variant group-hover:text-on-surface transition-colors">
