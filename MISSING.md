@@ -15,7 +15,7 @@
 - [ ] **P-108 Etoile** — team pending confirmation
 - [ ] **P-116 Mouda** — presenter name unknown (members filled)
 - [x] ~~P-121 UniTutor~~ — Adham Bakri + team ✓
-- [ ] **P-123 Helperلي** — has PDF poster, no image version yet
+- [x] ~~P-123 Helperلي~~ — image added (helperli-poster.png) ✓
 - [x] ~~P-124 Second Skin~~ — Adam Sleem + team ✓
 
 ## Deployment
