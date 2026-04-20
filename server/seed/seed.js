@@ -69,10 +69,12 @@ const tedTalksData = [
   { projectNumber: 'T-101', title: 'A Crisis of Authenticity', teamName: 'Khaled Ghalayini', category: 'TED Talk', description: '', members: [{ name: 'Khaled Ghalayini', role: 'Speaker' }], tags: [], zoomLink: '', videoUrl: 'https://drive.google.com/file/d/1aRncNW5DCgxHqaHLJHSSOgsOU8fMbzjo/view?usp=sharing' },
   // ✅ REAL
   { projectNumber: 'T-102', title: 'Believe in God', teamName: 'Jad Chedid', category: 'TED Talk', description: '', members: [{ name: 'Jad Chedid', role: 'Speaker' }], tags: [], zoomLink: '', videoUrl: 'https://www.youtube.com/watch?v=XPe03ZWh0UY' },
-  // ❌ DUMMY — replace with real speaker + video
-  { projectNumber: 'T-103', title: 'Resilience: Bouncing Forward', teamName: 'Dana Khoury', category: 'Personal Growth', description: '', members: [{ name: 'Dana Khoury', role: 'Speaker' }], tags: [], zoomLink: '', videoUrl: '' },
-  // ❌ DUMMY — replace with real speaker + video
-  { projectNumber: 'T-104', title: 'The Art of Active Listening', teamName: 'Karim Nassar', category: 'Communication', description: '', members: [{ name: 'Karim Nassar', role: 'Speaker' }], tags: [], zoomLink: '', videoUrl: '' },
+  // ⏳ RESERVED — fill in speaker + video when received, shows "Coming Soon" if left empty
+  { projectNumber: 'T-103', title: 'TED Talk', teamName: '', category: 'TED Talk', description: '', members: [], tags: [], zoomLink: '', videoUrl: '' },
+  // ✅ REAL
+  { projectNumber: 'T-104', title: 'Readyness', teamName: 'Adam', category: 'TED Talk', description: '', members: [{ name: 'Adam', role: 'Speaker' }], tags: [], zoomLink: '', videoUrl: 'https://drive.google.com/file/d/1c3pIOYEdhtiulv_9roiy7JsjWJ_g77gy/view?usp=sharing' },
+  // ✅ REAL — first name unknown, update when confirmed
+  { projectNumber: 'T-105', title: 'Enough for Everyone', teamName: 'Diab', category: 'TED Talk', description: 'The world produces enough food to feed everyone, yet millions go hungry. A look at the SDGs and the systemic gap between abundance and access.', members: [{ name: 'Diab', role: 'Speaker' }], tags: ['SDG','hunger','food','sustainability'], zoomLink: '', videoUrl: 'https://drive.google.com/file/d/1O5w3EOfiLbrnGIxYuTZGo9aU2Aje20hr/view?usp=sharing' },
 ];
 
 const interviewsData = [
@@ -92,17 +94,18 @@ const judgesData = [
 // Schedule labels reference the actual seeded TED talks (T-101, T-103) so the
 // homepage timeline and the Event Media section stay in sync.
 const scheduleData = [
-  { sort_order: 1,  time: '14:00', label: 'Welcome and Opening',                     type: 'Opening',    start_time: '14:00:00' },
-  { sort_order: 2,  time: '14:10', label: 'Opening Remarks — Dean Jamali',           type: 'Remarks',    start_time: '14:10:00' },
-  { sort_order: 3,  time: '14:15', label: 'Guest Speaker Success Story',             type: 'Guest',      start_time: '14:15:00' },
-  { sort_order: 4,  time: '14:18', label: 'Moderated Exchange — Dean Jamali',        type: 'Remarks',    start_time: '14:18:00' },
-  { sort_order: 5,  time: '14:25', label: 'HR Manager Remarks',                      type: 'Remarks',    start_time: '14:25:00' },
-  { sort_order: 6,  time: '14:35', label: 'TED-Style Talks',                         type: 'TED Talk',   start_time: '14:35:00' },
-  { sort_order: 7,  time: '14:50', label: 'Business Plan Elevator Pitches',          type: 'Pitch',      start_time: '14:50:00' },
-  { sort_order: 8,  time: '15:05', label: 'Mock Interviews',                         type: 'Interview',  start_time: '15:05:00' },
-  { sort_order: 9,  time: '15:30', label: 'Jury Scoring & Reflections',              type: 'Jury',       start_time: '15:30:00' },
-  { sort_order: 10, time: '15:35', label: 'Announcement of Winners',                 type: 'Closing',    start_time: '15:35:00' },
-  { sort_order: 11, time: '15:40', label: 'Closing Remarks',                         type: 'Closing',    start_time: '15:40:00' },
+  { sort_order: 1,  time: '14:00', label: 'Welcome — Dr. Maya',                                        type: 'Opening',    start_time: '14:00:00' },
+  { sort_order: 2,  time: '14:03', label: 'Soft Skills Trailer',                                       type: 'Opening',    start_time: '14:03:00' },
+  { sort_order: 3,  time: '14:08', label: 'Testimonial — Nour El Baba',                                type: 'Guest',      start_time: '14:08:00' },
+  { sort_order: 4,  time: '14:13', label: 'Opening — Dr. Grace',                                       type: 'Opening',    start_time: '14:13:00' },
+  { sort_order: 5,  time: '14:17', label: 'Introduction — Dr. Maya',                                   type: 'Remarks',    start_time: '14:17:00' },
+  { sort_order: 6,  time: '14:20', label: 'Opening Remarks — Dean Jamali',                             type: 'Remarks',    start_time: '14:20:00' },
+  { sort_order: 7,  time: '14:25', label: 'Panel Introduction — Dr. Maya & Emilie Wahab Harb',         type: 'Remarks',    start_time: '14:25:00' },
+  { sort_order: 8,  time: '14:30', label: 'TED Talk — Emilie Wahab Harb',                              type: 'TED Talk',   start_time: '14:30:00' },
+  { sort_order: 9,  time: '14:40', label: 'TED Talk — Lilian Abou Hamdan',                             type: 'TED Talk',   start_time: '14:40:00' },
+  { sort_order: 10, time: '14:50', label: 'Mock Interviews — Lilian, Marie Josée & Rita',              type: 'Interview',  start_time: '14:50:00' },
+  { sort_order: 11, time: '15:10', label: 'Business Plan Pitches — Mr. Hammoud',                       type: 'Pitch',      start_time: '15:10:00' },
+  { sort_order: 12, time: '15:30', label: 'Closing Remarks & Results — Dr. Maya & Dean Jamali',        type: 'Closing',    start_time: '15:30:00' },
 ];
 
 // ─────────────────────────────────────────────
