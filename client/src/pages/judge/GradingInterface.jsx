@@ -167,12 +167,12 @@ export default function GradingInterface() {
             <p className="text-xs font-label font-bold uppercase tracking-widest text-on-primary/60 mb-3">Total Score</p>
             <div className="flex items-end gap-1">
               <span className="font-headline font-extrabold text-5xl text-on-primary">{totalScore}</span>
-              <span className="text-on-primary/60 text-xl mb-1.5">/ 50</span>
+              <span className="text-on-primary/60 text-xl mb-1.5">/ 25</span>
             </div>
             <div className="mt-4 w-full h-2 rounded-full bg-on-primary/20">
               <div
                 className="h-full rounded-full bg-on-primary transition-all duration-500"
-                style={{ width: `${(totalScore / 50) * 100}%` }}
+                style={{ width: `${(totalScore / 25) * 100}%` }}
               />
             </div>
           </div>

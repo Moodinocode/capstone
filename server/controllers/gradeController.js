@@ -131,6 +131,8 @@ export const submitGrade = async (req, res) => {
   const vals = Object.values(scores || {});
   if (vals.length < 5 || vals.some((v) => v === null || v === undefined))
     return res.status(400).json({ message: 'All 5 scores are required to submit' });
+  if (vals.some((v) => v < 0 || v > 5))
+    return res.status(400).json({ message: 'Each score must be between 0 and 5' });
 
   const totalScore = vals.reduce((sum, v) => sum + v, 0);
   const now = new Date().toISOString();
