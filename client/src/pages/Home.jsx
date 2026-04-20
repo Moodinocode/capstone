@@ -97,7 +97,7 @@ export default function Home() {
           ) : (
             <>
               {/* Carousel stage */}
-              <div className="relative overflow-hidden" style={{ height: '360px' }}>
+              <div className="relative overflow-hidden" style={{ height: '400px' }}>
                 {projects.map((p, i) => {
                   const offset = i - activeIndex;
                   if (Math.abs(offset) > VISIBLE_RANGE) return null;
