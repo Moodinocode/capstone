@@ -68,21 +68,26 @@ const projectsData = [
 
 const tedTalksData = [
   // ✅ REAL
-  { projectNumber: 'T-101', title: 'A Crisis of Authenticity', teamName: 'Khaled Ghalayini', category: 'TED Talk', description: '', members: [{ name: 'Khaled Ghalayini', role: 'Speaker' }], tags: [], zoomLink: '', videoUrl: 'https://drive.google.com/file/d/1aRncNW5DCgxHqaHLJHSSOgsOU8fMbzjo/view?usp=sharing' },
-  // ✅ REAL
-  { projectNumber: 'T-102', title: 'Believe in God', teamName: 'Jad Chedid', category: 'TED Talk', description: '', members: [{ name: 'Jad Chedid', role: 'Speaker' }], tags: [], zoomLink: '', videoUrl: 'https://www.youtube.com/watch?v=XPe03ZWh0UY' },
-  // ⏳ RESERVED — fill in speaker + video when received, shows "Coming Soon" if left empty
-  { projectNumber: 'T-103', title: 'TED Talk', teamName: '', category: 'TED Talk', description: '', members: [], tags: [], zoomLink: '', videoUrl: '' },
-  // ✅ REAL
-  { projectNumber: 'T-104', title: 'Readyness', teamName: 'Adam', category: 'TED Talk', description: '', members: [{ name: 'Adam', role: 'Speaker' }], tags: [], zoomLink: '', videoUrl: 'https://drive.google.com/file/d/1c3pIOYEdhtiulv_9roiy7JsjWJ_g77gy/view?usp=sharing' },
-  // ✅ REAL — first name unknown, update when confirmed
-  { projectNumber: 'T-105', title: 'Enough for Everyone', teamName: 'Diab', category: 'TED Talk', description: 'The world produces enough food to feed everyone, yet millions go hungry. A look at the SDGs and the systemic gap between abundance and access.', members: [{ name: 'Diab', role: 'Speaker' }], tags: ['SDG','hunger','food','sustainability'], zoomLink: '', videoUrl: 'https://drive.google.com/file/d/1O5w3EOfiLbrnGIxYuTZGo9aU2Aje20hr/view?usp=sharing' },
+  { projectNumber: 'T-101', title: 'A Crisis of Authenticity', teamName: 'Khaled Ghalayini',       category: 'TED Talk', description: '', members: [{ name: 'Khaled Ghalayini', role: 'Speaker' }], tags: [], zoomLink: '', videoUrl: 'https://drive.google.com/file/d/1aRncNW5DCgxHqaHLJHSSOgsOU8fMbzjo/view?usp=sharing' },
+  // ⚠️ REAL — video needs to be made public by Jad Chedid
+  { projectNumber: 'T-102', title: 'Believe in God',           teamName: 'Jad Chedid',             category: 'TED Talk', description: '', members: [{ name: 'Jad Chedid', role: 'Speaker' }], tags: [], zoomLink: '', videoUrl: 'https://www.youtube.com/watch?v=XPe03ZWh0UY' },
+  // ⏳ REAL — no video yet
+  { projectNumber: 'T-103', title: 'TED Talk',                 teamName: 'Robert Kosseifi',        category: 'TED Talk', description: '', members: [{ name: 'Robert Kosseifi', role: 'Speaker' }], tags: [], zoomLink: '', videoUrl: '' },
+  // ✅ REAL — name was wrong (was Adam), same video
+  { projectNumber: 'T-104', title: 'Readyness',                teamName: 'Jad & AbdulRahman',      category: 'TED Talk', description: '', members: [{ name: 'Jad', role: 'Speaker' }, { name: 'AbdulRahman', role: 'Speaker' }], tags: [], zoomLink: '', videoUrl: 'https://drive.google.com/file/d/1c3pIOYEdhtiulv_9roiy7JsjWJ_g77gy/view?usp=sharing' },
+  // ⚠️ REAL — check voice quality before event
+  { projectNumber: 'T-105', title: 'Enough for Everyone',      teamName: 'Diamony Diab',           category: 'TED Talk', description: 'The world produces enough food to feed everyone, yet millions go hungry. A look at the SDGs and the systemic gap between abundance and access.', members: [{ name: 'Diamony Diab', role: 'Speaker' }], tags: ['SDG','hunger','food','sustainability'], zoomLink: '', videoUrl: 'https://drive.google.com/file/d/1O5w3EOfiLbrnGIxYuTZGo9aU2Aje20hr/view?usp=sharing' },
+  // ⏳ REAL — no video yet
+  { projectNumber: 'T-106', title: 'TED Talk',                 teamName: 'Jean Claude El Ghoul',   category: 'TED Talk', description: '', members: [{ name: 'Jean Claude El Ghoul', role: 'Speaker' }], tags: [], zoomLink: '', videoUrl: '' },
 ];
 
 const interviewsData = [
-  { projectNumber: 'I-301', title: 'Interview: Leading Through Uncertainty',   teamName: 'Sara Frem',         category: 'Leadership',          description: 'A candid interview on navigating organizational change, maintaining team morale, and making decisions with incomplete information.', members: [{ name: 'Sara Frem',          role: 'Interviewee' }], tags: ['leadership','uncertainty','decision-making'],  zoomLink: 'https://lau.zoom.us/j/demo-i301' },
-  { projectNumber: 'I-302', title: 'Interview: Building Your Personal Brand',  teamName: 'Georges Abi Nader', category: 'Career Development',  description: 'How to craft an authentic professional identity and communicate your value in any room.',                                               members: [{ name: 'Georges Abi Nader',  role: 'Interviewee' }], tags: ['personal brand','career','networking'],        zoomLink: 'https://lau.zoom.us/j/demo-i302' },
-  { projectNumber: 'I-303', title: 'Interview: Emotional Intelligence at Work', teamName: 'Nadia Saleh',      category: 'Personal Growth',     description: 'A deep dive into how emotional intelligence shapes workplace relationships and career trajectories.',                                   members: [{ name: 'Nadia Saleh',        role: 'Interviewee' }], tags: ['EQ','emotional intelligence','workplace'],     zoomLink: 'https://lau.zoom.us/j/demo-i303' },
+  { projectNumber: 'I-301', title: 'Mock Interview', teamName: 'Sana Takkouch',      category: 'Mock Interview', description: '', members: [{ name: 'Sana Takkouch',      role: 'Interviewee' }], tags: [], zoomLink: '' },
+  { projectNumber: 'I-302', title: 'Mock Interview', teamName: 'Abdallah Hamrawi',   category: 'Mock Interview', description: '', members: [{ name: 'Abdallah Hamrawi',   role: 'Interviewee' }], tags: [], zoomLink: '' },
+  { projectNumber: 'I-303', title: 'Mock Interview', teamName: 'AbdulRahman Sakhle', category: 'Mock Interview', description: '', members: [{ name: 'AbdulRahman Sakhle', role: 'Interviewee' }], tags: [], zoomLink: '' },
+  { projectNumber: 'I-304', title: 'Mock Interview', teamName: 'Salma El Hachem',    category: 'Mock Interview', description: '', members: [{ name: 'Salma El Hachem',    role: 'Interviewee' }], tags: [], zoomLink: '' },
+  { projectNumber: 'I-305', title: 'Mock Interview', teamName: 'Evan Kamel',         category: 'Mock Interview', description: '', members: [{ name: 'Evan Kamel',         role: 'Interviewee' }], tags: [], zoomLink: '' },
+  { projectNumber: 'I-306', title: 'Mock Interview', teamName: 'Clarissa Fares',     category: 'Mock Interview', description: '', members: [{ name: 'Clarissa Fares',     role: 'Interviewee' }], tags: [], zoomLink: '' },
 ];
 
 const judgesData = [
