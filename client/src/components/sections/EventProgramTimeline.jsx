@@ -2,17 +2,18 @@ import { useRef, useEffect, useState } from 'react';
 import api from '../../services/api';
 
 const FALLBACK = [
-  { id: '1',  time: '14:00', startTime: '14:00:00', label: 'Welcome and Opening',            type: 'Opening'  },
-  { id: '2',  time: '14:10', startTime: '14:10:00', label: 'Opening Remarks — Dean Jamali',  type: 'Remarks'  },
-  { id: '3',  time: '14:15', startTime: '14:15:00', label: 'Guest Speaker Success Story',    type: 'Guest'    },
-  { id: '4',  time: '14:18', startTime: '14:18:00', label: 'Moderated Exchange — Dean Jamali', type: 'Remarks'},
-  { id: '5',  time: '14:25', startTime: '14:25:00', label: 'HR Manager Remarks',             type: 'Remarks'  },
-  { id: '6',  time: '14:35', startTime: '14:35:00', label: 'TED-Style Talks',                type: 'TED Talk' },
-  { id: '7',  time: '14:50', startTime: '14:50:00', label: 'Business Plan Elevator Pitches', type: 'Pitch'    },
-  { id: '8',  time: '15:05', startTime: '15:05:00', label: 'Mock Interviews',                type: 'Interview'},
-  { id: '9',  time: '15:30', startTime: '15:30:00', label: 'Jury Scoring & Reflections',     type: 'Jury'     },
-  { id: '10', time: '15:35', startTime: '15:35:00', label: 'Announcement of Winners',        type: 'Closing'  },
-  { id: '11', time: '15:40', startTime: '15:40:00', label: 'Closing Remarks',                type: 'Closing'  },
+  { id: '1',  time: '14:00', startTime: '14:00:00', label: 'Welcome — Dr. Maya',                                type: 'Opening'  },
+  { id: '2',  time: '14:03', startTime: '14:03:00', label: 'Soft Skills Trailer',                               type: 'Opening'  },
+  { id: '3',  time: '14:08', startTime: '14:08:00', label: 'Testimonial — Nour El Baba',                        type: 'Guest'    },
+  { id: '4',  time: '14:13', startTime: '14:13:00', label: 'Opening — Dr. Grace',                               type: 'Opening'  },
+  { id: '5',  time: '14:17', startTime: '14:17:00', label: 'Introduction — Dr. Maya',                           type: 'Remarks'  },
+  { id: '6',  time: '14:20', startTime: '14:20:00', label: 'Opening Remarks — Dean Jamali',                     type: 'Remarks'  },
+  { id: '7',  time: '14:25', startTime: '14:25:00', label: 'Panel Introduction — Dr. Maya & Emilie Wahab Harb', type: 'Remarks'  },
+  { id: '8',  time: '14:30', startTime: '14:30:00', label: 'TED Talk — Emilie Wahab Harb',                      type: 'TED Talk' },
+  { id: '9',  time: '14:40', startTime: '14:40:00', label: 'TED Talk — Lilian Abou Hamdan',                     type: 'TED Talk' },
+  { id: '10', time: '14:50', startTime: '14:50:00', label: 'Mock Interviews — Lilian, Marie Josée & Rita',      type: 'Interview'},
+  { id: '11', time: '15:10', startTime: '15:10:00', label: 'Business Plan Pitches — Mr. Hammoud',               type: 'Pitch'    },
+  { id: '12', time: '15:30', startTime: '15:30:00', label: 'Closing Remarks & Results — Dr. Maya & Dean Jamali',type: 'Closing'  },
 ];
 
 const TYPE_COLORS = {
