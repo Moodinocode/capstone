@@ -66,8 +66,8 @@ export default function ProjectSpotlight() {
         Back to Gallery
       </button>
 
-      {/* Hero image */}
-      {project.imageUrl && (
+      {/* Hero — image or PDF poster */}
+      {project.imageUrl ? (
         <div className="relative rounded-3xl overflow-hidden aspect-[3/4] mb-8 bg-surface-container">
           <img src={project.imageUrl} alt={title} className="w-full h-full object-contain" />
           <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(26,39,68,0.35) 0%, transparent 40%)' }} />
@@ -82,6 +82,14 @@ export default function ProjectSpotlight() {
               </span>
             </div>
           )}
+        </div>
+      ) : project.documentUrl?.endsWith('.pdf') && (
+        <div className="rounded-3xl overflow-hidden mb-8 bg-surface-container border border-outline-variant" style={{ height: '520px' }}>
+          <iframe
+            src={project.documentUrl}
+            title={`${title} poster`}
+            className="w-full h-full border-0"
+          />
         </div>
       )}
 

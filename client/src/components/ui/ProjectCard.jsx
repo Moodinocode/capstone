@@ -49,6 +49,14 @@ export default function ProjectCard({ project, showVoteCount = false }) {
               alt={title}
               className="w-full h-full object-contain"
             />
+          ) : project.documentUrl?.endsWith('.pdf') ? (
+            <a href={project.documentUrl} target="_blank" rel="noopener noreferrer"
+              className="w-full h-full bg-surface-container flex flex-col items-center justify-center gap-2 hover:bg-surface-container-high transition-colors"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <span className="material-icon text-4xl text-on-surface-variant">picture_as_pdf</span>
+              <span className="text-xs font-label text-on-surface-variant">View Poster</span>
+            </a>
           ) : (
             <div className="w-full h-full bg-surface-container flex items-center justify-center">
               <span className="material-icon text-4xl text-on-surface-variant">science</span>
