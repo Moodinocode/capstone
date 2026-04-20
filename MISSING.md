@@ -1,9 +1,11 @@
 # Missing / Pending — Soft Skills 2026
 
 ## TED Talks
-- [ ] **T-103** — reserved slot, needs: speaker name + video link
-- [ ] **T-104 (Adam)** — needs: last name
-- [ ] **T-105 (Diab)** — needs: first name
+- [ ] **T-102** Jad Chedid — video needs to be made **public** on YouTube
+- [ ] **T-103** Robert Kosseifi — no video yet
+- [ ] **T-104** Jad & AbdulRahman — check voice quality before event
+- [ ] **T-105** Diamony Diab — check voice quality before event
+- [ ] **T-106** Jean Claude El Ghoul — no video yet
 
 ## Pitch Projects — Team Names (presenter unknown)
 - [ ] **P-101** AFY Services — teamName + members
@@ -32,7 +34,7 @@
 - [ ] **P-108** Etoile (Donkey Milk) — team pending confirmation
 
 ## Mock Interviews
-- [ ] Real interviewee names (currently fake: Sara Frem, Georges Abi Nader, Nadia Saleh in seed)
+- [x] ~~Real interviewee names~~ — filled: Sana Takkouch, Abdallah Hamrawi, AbdulRahman Sakhle, Salma El Hachem, Evan Kamel, Clarissa Fares
 
 ## Deployment
 - [ ] Render CORS still unreliable — verify site loads data after next deploy
