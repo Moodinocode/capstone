@@ -1,10 +1,10 @@
 # Missing / Pending — Soft Skills 2026
 
 ## TED Talks
-- [ ] **T-102** Jad Chedid — video needs to be made **public** on YouTube
+- [x] ~~T-102 Jad Chedid~~ — video confirmed working
 - [ ] **T-103** Robert Kosseifi — no video yet
-- [ ] **T-104** Jad & AbdulRahman — check voice quality before event
-- [ ] **T-105** Diamony Diab — check voice quality before event
+- [x] ~~T-104 Jad & AbdulRahman~~ — voice quality confirmed
+- [x] ~~T-105 Diamony Diab~~ — voice quality confirmed
 - [ ] **T-106** Jean Claude El Ghoul — no video yet
 
 ## Pitch Projects — Team Names (presenter unknown)
@@ -27,8 +27,9 @@
 - [ ] **P-122** Your Gift Story — teamName + members
 
 ## Pitch Projects — Poster Images Missing
-- [ ] **P-123** Helperلي — no poster image yet
-- [ ] **P-124** Second Skin — no poster image yet
+- [ ] **P-123** Helperلي — has PDF poster (landscape), needs image version or PDF embed implementation
+- [x] ~~P-124 Second Skin~~ — SecondSkin.jpeg added
+- [x] ~~P-121 Unitutor~~ — UniTutor.jpeg added (updated)
 
 ## Pitch Projects — Pending Confirmation
 - [ ] **P-108** Etoile (Donkey Milk) — team pending confirmation
