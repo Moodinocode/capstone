@@ -112,11 +112,13 @@ export default function ProjectSpotlight() {
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div className="flex items-center justify-between mb-8">
-        <button onClick={() => navigate(-1)} className="inline-flex items-center gap-1 text-sm text-on-surface-variant hover:text-on-surface transition-colors">
-          <span className="material-icon text-base">arrow_back</span>
-          Back to Gallery
-        </button>
+      <button onClick={() => navigate(-1)} className="inline-flex items-center gap-1 text-sm text-on-surface-variant hover:text-on-surface mb-8 transition-colors">
+        <span className="material-icon text-base">arrow_back</span>
+        Back to Gallery
+      </button>
+
+      {/* Stopwatch — fixed bottom left */}
+      <div className="fixed bottom-6 left-6 z-50 shadow-xl">
         <Stopwatch />
       </div>
 
