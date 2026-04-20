@@ -6,6 +6,7 @@ const shapeSession = (row) => ({
   isEventLive: row.is_event_live,
   nowPlaying: row.now_playing ?? {},
   upNext: row.up_next ?? {},
+  voteCountVisible: row.now_playing?.voteCountVisible ?? true,
   createdAt: row.created_at,
   updatedAt: row.updated_at,
 });
@@ -21,6 +22,25 @@ export const getSession = async (req, res) => {
   }
 
   res.json(shapeSession(data));
+};
+
+export const setVotesVisible = async (req, res) => {
+  const { visible } = req.body;
+  if (typeof visible !== 'boolean')
+    return res.status(400).json({ message: 'visible must be true or false' });
+
+  const { data: existing } = await supabase
+    .from('live_sessions').select('now_playing').eq('key', 'main').single();
+
+  const nowPlaying = { ...(existing?.now_playing ?? {}), voteCountVisible: visible };
+
+  const { data, error } = await supabase
+    .from('live_sessions')
+    .upsert({ key: 'main', now_playing: nowPlaying, updated_at: new Date().toISOString() }, { onConflict: 'key' })
+    .select().single();
+
+  if (error) return res.status(500).json({ message: error.message });
+  res.json({ voteCountVisible: visible });
 };
 
 export const updateSession = async (req, res) => {
