@@ -33,23 +33,23 @@ function Stopwatch() {
   const danger = elapsed >= 90;
   const warn   = elapsed >= 60 && !danger;
 
-  const circumference = 2 * Math.PI * 54;
+  const circumference = 2 * Math.PI * 110;
   const maxSec = 120;
   const progress = Math.min(elapsed / maxSec, 1);
 
   return (
-    <div className="flex flex-col items-center gap-2">
+    <div className="flex flex-col items-center gap-3">
       {/* Circle */}
-      <div className="relative w-32 h-32">
-        <svg className="absolute inset-0 -rotate-90" width="128" height="128" viewBox="0 0 128 128">
+      <div className="relative w-64 h-64">
+        <svg className="absolute inset-0 -rotate-90" width="256" height="256" viewBox="0 0 256 256">
           {/* Track */}
-          <circle cx="64" cy="64" r="54" fill="none"
+          <circle cx="128" cy="128" r="110" fill="none"
             stroke={danger ? 'rgba(239,68,68,0.15)' : warn ? 'rgba(251,191,36,0.2)' : 'rgba(0,0,0,0.08)'}
-            strokeWidth="8" />
+            strokeWidth="12" />
           {/* Progress */}
-          <circle cx="64" cy="64" r="54" fill="none"
+          <circle cx="128" cy="128" r="110" fill="none"
             stroke={danger ? '#ef4444' : warn ? '#f59e0b' : '#111827'}
-            strokeWidth="8"
+            strokeWidth="12"
             strokeLinecap="round"
             strokeDasharray={circumference}
             strokeDashoffset={circumference * (1 - progress)}
@@ -57,10 +57,10 @@ function Stopwatch() {
           />
         </svg>
         {/* Face */}
-        <div className={`absolute inset-2 rounded-full flex flex-col items-center justify-center shadow-inner ${
+        <div className={`absolute inset-3 rounded-full flex flex-col items-center justify-center shadow-inner ${
           danger ? 'bg-red-50' : warn ? 'bg-amber-50' : 'bg-white'
         }`}>
-          <span className={`font-headline font-extrabold text-2xl tabular-nums leading-none ${
+          <span className={`font-headline font-extrabold text-6xl tabular-nums leading-none ${
             danger ? 'text-error' : warn ? 'text-amber-600' : 'text-on-surface'
           }`}>
             {mm}:{ss}
