@@ -161,6 +161,28 @@ export default function MediaSection() {
         </div>
       </div>
 
+      {/* Testimonial Video */}
+      <div>
+        <p className="text-xs font-label font-bold uppercase tracking-widest text-on-surface-variant mb-1">
+          Testimonial
+        </p>
+        <h2 className="font-headline font-bold text-lg text-on-surface mb-4">
+          What Students Say
+        </h2>
+        <div
+          className="relative w-full rounded-2xl overflow-hidden shadow-card bg-surface-container-high"
+          style={{ paddingBottom: '56.25%' }}
+        >
+          <iframe
+            src="https://drive.google.com/file/d/1PmOl9f4GgmO6lhncQV4xqtlIlO8dROsV/preview"
+            title="Student Testimonial"
+            allow="autoplay"
+            allowFullScreen
+            className="absolute inset-0 w-full h-full border-0"
+          />
+        </div>
+      </div>
+
       {/* TED Talk cards */}
       <div>
         <p className="text-xs font-label font-bold uppercase tracking-widest text-on-surface-variant mb-1">
