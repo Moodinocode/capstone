@@ -42,12 +42,12 @@ const SPEAKER_IMAGES = [
 const projectsData = [
   { projectNumber: 'P-101', title: 'AFY Services',               teamName: '', category: 'Business Plan', description: '', members: [], tags: [], imageUrl: '/projects/afy-services.png',        documentUrl: '/projects/afy-services.pdf' },
   { projectNumber: 'P-102', title: 'AI Voice Platform',          teamName: '', category: 'Business Plan', description: '', members: [], tags: [], imageUrl: '/projects/ai-voice-platform.jpeg', documentUrl: '' },
-  { projectNumber: 'P-103', title: 'Giftr App',                  teamName: '', category: 'Business Plan', description: '', members: [], tags: [], imageUrl: '/projects/giftr-app.png',          documentUrl: '/projects/giftr-app.pdf' },
-  { projectNumber: 'P-104', title: 'Sports Connect',             teamName: '', category: 'Business Plan', description: '', members: [], tags: [], imageUrl: '/projects/sports-connect.jpeg',  documentUrl: '' },
+  { projectNumber: 'P-103', title: 'Giftr App',                  teamName: 'Anthony Estephan', category: 'Business Plan', description: '', members: [{ name: 'Anthony Estephan', role: 'Presenter' }, { name: 'Robert Kosseifi', role: 'Team Member' }, { name: 'Miguel Saleme', role: 'Team Member' }, { name: 'Gabriel Eid', role: 'Team Member' }, { name: 'Mark Kajakozian', role: 'Team Member' }], tags: [], imageUrl: '/projects/giftr-app.png', documentUrl: '/projects/giftr-app.pdf' },
+  { projectNumber: 'P-104', title: 'Sports Connect',             teamName: 'Joseph Makhoul',   category: 'Business Plan', description: '', members: [{ name: 'Joseph Makhoul', role: 'Presenter' }], tags: [], imageUrl: '/projects/sports-connect.jpeg', documentUrl: '' },
   { projectNumber: 'P-105', title: 'Taxi Digital Advertising',   teamName: '', category: 'Business Plan', description: '', members: [], tags: [], imageUrl: '/projects/taxi-digital-advertising.png', documentUrl: '/projects/taxi-digital-advertising.pdf' },
   { projectNumber: 'P-106', title: 'MentorMatch',                teamName: '', category: 'Business Plan', description: '', members: [], tags: [], imageUrl: '/projects/mentormatch.png',        documentUrl: '/projects/mentormatch.pdf' },
-  { projectNumber: 'P-107', title: 'Sofra',                      teamName: '', category: 'Business Plan', description: '', members: [], tags: [], imageUrl: '/projects/sofra.png',            documentUrl: '' },
-  { projectNumber: 'P-108', title: 'Etoile',                     teamName: '', category: 'Business Plan', description: '', members: [], tags: [], imageUrl: '/projects/etoile.png',            documentUrl: '/projects/etoile.pdf' },
+  { projectNumber: 'P-107', title: 'Sofra',                      teamName: 'Cezar Halabi',     category: 'Business Plan', description: '', members: [{ name: 'Cezar Halabi', role: 'Presenter' }, { name: 'Lydia BouEzzeddine', role: 'Team Member' }, { name: 'Jamil Bilani', role: 'Team Member' }, { name: 'Ali Baalbaki', role: 'Team Member' }], tags: [], imageUrl: '/projects/sofra.png', documentUrl: '' },
+  { projectNumber: 'P-108', title: 'Etoile',                     teamName: 'Pending',          category: 'Business Plan', description: '', members: [], tags: [], imageUrl: '/projects/etoile.png', documentUrl: '/projects/etoile.pdf' },
   { projectNumber: 'P-109', title: 'FixLink',                    teamName: '', category: 'Business Plan', description: '', members: [], tags: [], imageUrl: '/projects/fixlink.png',          documentUrl: '' },
   { projectNumber: 'P-110', title: 'Fixongo',                    teamName: '', category: 'Business Plan', description: '', members: [], tags: [], imageUrl: '/projects/fixongo.jpeg',         documentUrl: '' },
   { projectNumber: 'P-111', title: 'Handy',                      teamName: '', category: 'Business Plan', description: '', members: [], tags: [], imageUrl: '/projects/handy.jpeg',           documentUrl: '' },
@@ -55,13 +55,15 @@ const projectsData = [
   { projectNumber: 'P-113', title: 'LebPay',                     teamName: '', category: 'Business Plan', description: '', members: [], tags: [], imageUrl: '/projects/lebpay.jpeg',          documentUrl: '' },
   { projectNumber: 'P-114', title: 'LebXplore',                  teamName: '', category: 'Business Plan', description: '', members: [], tags: [], imageUrl: '/projects/lebxplore.jpeg',       documentUrl: '' },
   { projectNumber: 'P-115', title: 'Levant Coast Lines',          teamName: '', category: 'Business Plan', description: '', members: [], tags: [], imageUrl: '/projects/levant-coast-lines.jpeg', documentUrl: '' },
-  { projectNumber: 'P-116', title: 'Mouda',                      teamName: '', category: 'Business Plan', description: '', members: [], tags: [], imageUrl: '/projects/mouda.jpeg',           documentUrl: '' },
+  { projectNumber: 'P-116', title: 'Mouda',                      teamName: '',                 category: 'Business Plan', description: '', members: [{ name: 'Abdellah Charif', role: 'Team Member' }, { name: 'Maram Kannan', role: 'Team Member' }, { name: 'Mira', role: 'Team Member' }, { name: 'Saeed Baaseeri', role: 'Team Member' }], tags: [], imageUrl: '/projects/mouda.jpeg', documentUrl: '' },
   { projectNumber: 'P-117', title: 'OnBoard',                    teamName: '', category: 'Business Plan', description: '', members: [], tags: [], imageUrl: '/projects/onboard.jpg',          documentUrl: '' },
   { projectNumber: 'P-118', title: 'PodLounge',                  teamName: '', category: 'Business Plan', description: '', members: [], tags: [], imageUrl: '/projects/podlounge.jpeg',       documentUrl: '' },
   { projectNumber: 'P-119', title: 'Sensifist',                  teamName: '', category: 'Business Plan', description: '', members: [], tags: [], imageUrl: '/projects/sensifist.jpeg',       documentUrl: '' },
   { projectNumber: 'P-120', title: 'Torquego Mobile Mechanics',  teamName: '', category: 'Business Plan', description: '', members: [], tags: [], imageUrl: '/projects/torquego.jpeg',        documentUrl: '' },
-  { projectNumber: 'P-121', title: 'Unitutor Lebanon',           teamName: '', category: 'Business Plan', description: '', members: [], tags: [], imageUrl: '/projects/unitutor-lebanon.jpg', documentUrl: '' },
-  { projectNumber: 'P-122', title: 'Your Gift Story',            teamName: '', category: 'Business Plan', description: '', members: [], tags: [], imageUrl: '/projects/your-gift-story.jpeg', documentUrl: '' },
+  { projectNumber: 'P-121', title: 'Unitutor Lebanon',           teamName: 'Adham Bakri',      category: 'Business Plan', description: '', members: [{ name: 'Adham Bakri', role: 'Presenter' }, { name: 'Mahdi Hmede', role: 'Team Member' }, { name: 'Jad Awada', role: 'Team Member' }, { name: 'Adam Mawla', role: 'Team Member' }], tags: [], imageUrl: '/projects/unitutor-lebanon.jpg', documentUrl: '' },
+  { projectNumber: 'P-122', title: 'Your Gift Story',            teamName: '',                 category: 'Business Plan', description: '', members: [], tags: [], imageUrl: '/projects/your-gift-story.jpeg', documentUrl: '' },
+  { projectNumber: 'P-123', title: 'Helperلي',                  teamName: 'Tatiana Lamaa',    category: 'Business Plan', description: '', members: [{ name: 'Tatiana Lamaa', role: 'Presenter' }, { name: 'Zeina Jomaa', role: 'Team Member' }, { name: 'Sirine Issa', role: 'Team Member' }, { name: 'Zeinab Nasreddine', role: 'Team Member' }, { name: 'Elissa Berro', role: 'Team Member' }], tags: [], imageUrl: '', documentUrl: '' },
+  { projectNumber: 'P-124', title: 'Second Skin',                teamName: 'Adam Sleem',       category: 'Business Plan', description: '', members: [{ name: 'Adam Sleem', role: 'Presenter' }, { name: 'Iyad Zeineddine', role: 'Team Member' }, { name: 'Mostafa Mroueh', role: 'Team Member' }, { name: 'Tamer Bitar', role: 'Team Member' }], tags: [], imageUrl: '', documentUrl: '' },
 ];
 
 const tedTalksData = [
@@ -153,7 +155,7 @@ const toProjectRow = (p, i, segmentType, imagePool) => ({
 // Spread ~150 simulated votes across the 12 pitches so the leaderboard has a
 // realistic ranking on first load. Deterministic — not random — so the seed
 // output is reproducible.
-const VOTE_DISTRIBUTION = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+const VOTE_DISTRIBUTION = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
 // Round-robin assignment: each judge gets ~5 consecutive pitches (with wraparound).
 // Every judge also grades every TED talk and every interview.
