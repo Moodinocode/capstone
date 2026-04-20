@@ -22,6 +22,48 @@ function getEmbedUrl(url) {
   return url;
 }
 
+function ModalTimer() {
+  const [elapsed, setElapsed] = useState(0);
+  const [running, setRunning] = useState(false);
+  const intervalRef = useRef(null);
+
+  useEffect(() => {
+    if (running) {
+      intervalRef.current = setInterval(() => setElapsed((e) => e + 1), 1000);
+    } else {
+      clearInterval(intervalRef.current);
+    }
+    return () => clearInterval(intervalRef.current);
+  }, [running]);
+
+  const mm = String(Math.floor(elapsed / 60)).padStart(2, '0');
+  const ss = String(elapsed % 60).padStart(2, '0');
+  const danger = elapsed >= 180;
+  const warn   = elapsed >= 120 && !danger;
+
+  return (
+    <div className="flex items-center gap-2">
+      <span className={`font-headline font-bold text-lg tabular-nums ${danger ? 'text-error' : warn ? 'text-amber-500' : 'text-on-surface'}`}>
+        {mm}:{ss}
+      </span>
+      <button
+        onClick={() => setRunning((r) => !r)}
+        className={`p-1 rounded-lg transition-colors ${running ? 'text-on-surface hover:bg-surface-container' : 'text-primary hover:bg-primary/10'}`}
+        title={running ? 'Pause' : 'Start'}
+      >
+        <span className="material-icon text-base">{running ? 'pause' : 'play_arrow'}</span>
+      </button>
+      <button
+        onClick={() => { setElapsed(0); setRunning(false); }}
+        className="p-1 rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors"
+        title="Reset"
+      >
+        <span className="material-icon text-base">restart_alt</span>
+      </button>
+    </div>
+  );
+}
+
 function VideoModal({ talk, onClose }) {
   const embedUrl = getEmbedUrl(talk.videoUrl);
 
@@ -39,17 +81,20 @@ function VideoModal({ talk, onClose }) {
         <div className="flex items-start justify-between p-4 border-b border-outline-variant">
           <div>
             <p className="text-[10px] font-label font-bold uppercase tracking-widest text-on-surface-variant mb-0.5">
-              TED-Style Talk
+              TED Talk
             </p>
             <h3 className="font-headline font-bold text-on-surface text-base leading-snug">{talk.title}</h3>
             <p className="text-xs text-on-surface-variant mt-0.5">{talk.teamName}</p>
           </div>
-          <button
-            onClick={onClose}
-            className="p-2 rounded-xl text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors"
-          >
-            <span className="material-icon">close</span>
-          </button>
+          <div className="flex items-center gap-3">
+            <ModalTimer />
+            <button
+              onClick={onClose}
+              className="p-2 rounded-xl text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors"
+            >
+              <span className="material-icon">close</span>
+            </button>
+          </div>
         </div>
 
         {/* Video */}
