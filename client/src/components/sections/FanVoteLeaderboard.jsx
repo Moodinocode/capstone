@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useVoteStatus } from '../../hooks/useVoteStatus';
+import { useLiveSession } from '../../context/LiveSessionContext';
 import api from '../../services/api';
 
 const RANK_STYLE = [
@@ -58,6 +59,7 @@ function AnimatedCount({ value }) {
 
 export default function FanVoteLeaderboard() {
   const { hasVoted, votedProjectId, castVote } = useVoteStatus();
+  const { voteCountVisible } = useLiveSession();
   const [projects, setProjects]       = useState([]);
   const [voting, setVoting]           = useState(null);
   const [loading, setLoading]         = useState(true);
@@ -163,9 +165,11 @@ export default function FanVoteLeaderboard() {
                     />
                   </div>
                 </div>
-                <span className="shrink-0 text-[11px] font-label font-semibold text-on-surface-variant">
-                  <AnimatedCount value={p.voteCount} />
-                </span>
+                {voteCountVisible && (
+                  <span className="shrink-0 text-[11px] font-label font-semibold text-on-surface-variant">
+                    <AnimatedCount value={p.voteCount} />
+                  </span>
+                )}
                 {isVotedForThis ? (
                   <span className="shrink-0 px-2 py-1 rounded-lg bg-primary/15 text-primary text-[10px] font-label font-bold">
                     Voted
@@ -200,9 +204,11 @@ export default function FanVoteLeaderboard() {
                   />
                 </div>
               </div>
-              <span className="shrink-0 text-[10px] font-label text-on-surface-variant">
-                <AnimatedCount value={p.voteCount} />
-              </span>
+              {voteCountVisible && (
+                <span className="shrink-0 text-[10px] font-label text-on-surface-variant">
+                  <AnimatedCount value={p.voteCount} />
+                </span>
+              )}
               {isVotedForThis ? (
                 <span className="shrink-0 px-2 py-0.5 rounded-full bg-primary/15 text-primary text-[10px] font-label font-bold">✓</span>
               ) : (

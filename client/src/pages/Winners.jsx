@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../services/api';
+import { useLiveSession } from '../context/LiveSessionContext';
 
 // ─────────────────────────────────────────────
 // Rank visual vocabulary (extends FanVoteLeaderboard's palette)
@@ -245,7 +246,7 @@ function CategorySection({ icon, label, title, subtitle, data, baseDelay = 0 }) 
 // ─────────────────────────────────────────────
 // People's Choice — violet-accented single winner
 // ─────────────────────────────────────────────
-function PeoplesChoice({ winner, baseDelay = 0 }) {
+function PeoplesChoice({ winner, baseDelay = 0, voteCountVisible = true }) {
   return (
     <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
       <div
@@ -284,14 +285,16 @@ function PeoplesChoice({ winner, baseDelay = 0 }) {
             <p className="text-sm font-label text-on-surface-variant mb-5">{winner.teamOrSpeaker}</p>
 
             <div className="flex items-center gap-5">
-              <div>
-                <p className="text-[10px] font-label font-bold uppercase tracking-widest text-on-surface-variant mb-0.5">
-                  Attendee votes
-                </p>
-                <p className="font-headline font-extrabold text-3xl md:text-4xl text-tertiary tabular-nums">
-                  {winner.voteCount}
-                </p>
-              </div>
+              {voteCountVisible && (
+                <div>
+                  <p className="text-[10px] font-label font-bold uppercase tracking-widest text-on-surface-variant mb-0.5">
+                    Attendee votes
+                  </p>
+                  <p className="font-headline font-extrabold text-3xl md:text-4xl text-tertiary tabular-nums">
+                    {winner.voteCount}
+                  </p>
+                </div>
+              )}
               <Link
                 to={`/projects/${winner.id}`}
                 className="flex items-center gap-1.5 px-5 py-3 rounded-xl bg-tertiary text-on-tertiary text-sm font-label font-semibold hover:bg-tertiary-dim transition-colors"
@@ -362,6 +365,7 @@ function WinnersHero() {
 export default function Winners() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const { voteCountVisible } = useLiveSession();
 
   useEffect(() => {
     api.get('/winners')
@@ -425,7 +429,7 @@ export default function Winners() {
           {data.peoplesChoice && (
             <>
               <div className="h-px max-w-6xl mx-auto bg-outline-variant" />
-              <PeoplesChoice winner={data.peoplesChoice} baseDelay={400} />
+              <PeoplesChoice winner={data.peoplesChoice} baseDelay={400} voteCountVisible={voteCountVisible} />
             </>
           )}
         </>

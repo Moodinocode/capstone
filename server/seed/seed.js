@@ -65,10 +65,14 @@ const projectsData = [
 ];
 
 const tedTalksData = [
-  { projectNumber: 'T-101', title: 'The Power of Vulnerability in Leadership', teamName: 'Lina Mansour',   category: 'Leadership',     description: 'A talk exploring how embracing vulnerability can transform leadership styles and build stronger teams.', members: [{ name: 'Lina Mansour', role: 'Speaker' }], tags: ['leadership','soft skills','vulnerability'], zoomLink: 'https://lau.zoom.us/j/demo-t101', videoUrl: 'https://www.youtube.com/watch?v=iCvmsMzlF7o' },
-  { projectNumber: 'T-102', title: 'Communicating Across Cultures',            teamName: 'Rami Aziz',       category: 'Communication', description: 'How cultural intelligence can help professionals navigate diverse work environments with empathy and clarity.',       members: [{ name: 'Rami Aziz',     role: 'Speaker' }], tags: ['culture','communication','diversity'],    zoomLink: 'https://lau.zoom.us/j/demo-t102', videoUrl: 'https://www.youtube.com/watch?v=LqoyylsP72c' },
-  { projectNumber: 'T-103', title: 'Resilience: Bouncing Forward',             teamName: 'Dana Khoury',     category: 'Personal Growth', description: 'A personal journey through adversity and the frameworks that helped rebuild momentum.',                              members: [{ name: 'Dana Khoury',   role: 'Speaker' }], tags: ['resilience','growth','mindset'],          zoomLink: 'https://lau.zoom.us/j/demo-t103', videoUrl: 'https://www.youtube.com/watch?v=NWH8N-BvhAw' },
-  { projectNumber: 'T-104', title: 'The Art of Active Listening',              teamName: 'Karim Nassar',    category: 'Communication', description: 'Why listening is the most underrated professional skill and how to develop it deliberately.',                         members: [{ name: 'Karim Nassar',  role: 'Speaker' }], tags: ['listening','communication','soft skills'],zoomLink: 'https://lau.zoom.us/j/demo-t104', videoUrl: 'https://www.youtube.com/watch?v=saXfavo1OQo' },
+  // ✅ REAL
+  { projectNumber: 'T-101', title: 'A Crisis of Authenticity', teamName: 'Khaled Ghalayini', category: 'TED Talk', description: '', members: [{ name: 'Khaled Ghalayini', role: 'Speaker' }], tags: [], zoomLink: '', videoUrl: 'https://drive.google.com/file/d/1aRncNW5DCgxHqaHLJHSSOgsOU8fMbzjo/view?usp=sharing' },
+  // ✅ REAL
+  { projectNumber: 'T-102', title: 'Believe in God', teamName: 'Jad Chedid', category: 'TED Talk', description: '', members: [{ name: 'Jad Chedid', role: 'Speaker' }], tags: [], zoomLink: '', videoUrl: 'https://www.youtube.com/watch?v=XPe03ZWh0UY' },
+  // ❌ DUMMY — replace with real speaker + video
+  { projectNumber: 'T-103', title: 'Resilience: Bouncing Forward', teamName: 'Dana Khoury', category: 'Personal Growth', description: '', members: [{ name: 'Dana Khoury', role: 'Speaker' }], tags: [], zoomLink: '', videoUrl: '' },
+  // ❌ DUMMY — replace with real speaker + video
+  { projectNumber: 'T-104', title: 'The Art of Active Listening', teamName: 'Karim Nassar', category: 'Communication', description: '', members: [{ name: 'Karim Nassar', role: 'Speaker' }], tags: [], zoomLink: '', videoUrl: '' },
 ];
 
 const interviewsData = [
@@ -146,7 +150,7 @@ const toProjectRow = (p, i, segmentType, imagePool) => ({
 // Spread ~150 simulated votes across the 12 pitches so the leaderboard has a
 // realistic ranking on first load. Deterministic — not random — so the seed
 // output is reproducible.
-const VOTE_DISTRIBUTION = [42, 31, 27, 19, 15, 12, 10, 8, 7, 6, 5, 4, 4, 3, 3, 2, 2, 2, 1, 1, 1, 1];
+const VOTE_DISTRIBUTION = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
 // Round-robin assignment: each judge gets ~5 consecutive pitches (with wraparound).
 // Every judge also grades every TED talk and every interview.
