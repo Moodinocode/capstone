@@ -42,7 +42,12 @@ export default function Home() {
   useEffect(() => {
     api.get('/projects?limit=50')
       .then((res) => {
-        const sorted = [...res.data.projects].sort((a, b) => b.voteCount - a.voteCount);
+        const sorted = [...res.data.projects].sort((a, b) => {
+          const aFeat = a.tags?.includes('featured') ? 1 : 0;
+          const bFeat = b.tags?.includes('featured') ? 1 : 0;
+          if (bFeat !== aFeat) return bFeat - aFeat;
+          return b.voteCount - a.voteCount;
+        });
         setProjects(sorted);
       })
       .catch(() => {})
