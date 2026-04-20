@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import api from '../../services/api';
 
 const CARD_COLORS = [
@@ -128,6 +128,11 @@ export default function MediaSection() {
   const [talks, setTalks]       = useState([]);
   const [loading, setLoading]   = useState(true);
   const [selected, setSelected] = useState(null);
+  const scrollRef = useRef(null);
+
+  const scroll = (dir) => {
+    scrollRef.current?.scrollBy({ left: dir * 220, behavior: 'smooth' });
+  };
 
   useEffect(() => {
     api.get('/projects?segmentType=ted_talk&limit=20')
@@ -185,15 +190,35 @@ export default function MediaSection() {
 
       {/* TED Talk cards */}
       <div>
-        <p className="text-xs font-label font-bold uppercase tracking-widest text-on-surface-variant mb-1">
-          Event Media
-        </p>
-        <h2 className="font-headline font-bold text-lg text-on-surface mb-4">
-          TED Talks
-        </h2>
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <p className="text-xs font-label font-bold uppercase tracking-widest text-on-surface-variant mb-1">
+              Event Media
+            </p>
+            <h2 className="font-headline font-bold text-lg text-on-surface">
+              TED Talks
+            </h2>
+          </div>
+          {!loading && talks.length > 0 && (
+            <div className="flex gap-2">
+              <button
+                onClick={() => scroll(-1)}
+                className="p-2 rounded-xl border border-outline-variant bg-white text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors"
+              >
+                <span className="material-icon text-base">arrow_back</span>
+              </button>
+              <button
+                onClick={() => scroll(1)}
+                className="p-2 rounded-xl border border-outline-variant bg-white text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors"
+              >
+                <span className="material-icon text-base">arrow_forward</span>
+              </button>
+            </div>
+          )}
+        </div>
 
         {loading ? (
-          <div className="flex gap-3">
+          <div className="flex gap-3 overflow-hidden">
             {[...Array(4)].map((_, i) => (
               <div key={i} className="flex-none w-52 h-44 rounded-2xl bg-surface-container animate-pulse" />
             ))}
@@ -201,7 +226,7 @@ export default function MediaSection() {
         ) : talks.length === 0 ? (
           <p className="text-sm text-on-surface-variant">No talks available yet.</p>
         ) : (
-          <div className="flex gap-3 overflow-x-auto pb-3 scrollbar-hide">
+          <div ref={scrollRef} className="flex gap-3 overflow-x-auto pb-3 scrollbar-hide">
             {talks.map((talk, i) => (
               <TalkCard
                 key={talk._id}
