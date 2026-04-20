@@ -33,12 +33,12 @@ export default function HubProjectCard({ project, totalVotes = 0, index = 0 }) {
     <>
       <div className="group relative bg-white rounded-2xl overflow-hidden hover:-translate-y-0.5 transition-all duration-300 shadow-card hover:shadow-card-hover border border-outline-variant flex flex-col">
         {/* Image */}
-        <div className="relative aspect-video overflow-hidden shrink-0">
+        <div className="relative aspect-[3/4] overflow-hidden shrink-0 bg-surface-container">
           {project.imageUrl ? (
             <img
               src={project.imageUrl}
               alt={title}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              className="w-full h-full object-contain"
             />
           ) : (
             <div className="w-full h-full bg-surface-container flex items-center justify-center">

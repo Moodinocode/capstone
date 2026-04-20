@@ -42,12 +42,12 @@ export default function ProjectCard({ project, showVoteCount = false }) {
     <>
       <div className="group relative bg-white rounded-3xl overflow-hidden hover:-translate-y-1 transition-all duration-300 shadow-card hover:shadow-card-hover border border-outline-variant">
         {/* Image */}
-        <div className="relative aspect-video overflow-hidden">
+        <div className="relative aspect-[3/4] overflow-hidden bg-surface-container">
           {project.imageUrl ? (
             <img
               src={project.imageUrl}
               alt={title}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              className="w-full h-full object-contain"
             />
           ) : (
             <div className="w-full h-full bg-surface-container flex items-center justify-center">

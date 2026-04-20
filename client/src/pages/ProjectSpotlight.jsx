@@ -68,9 +68,9 @@ export default function ProjectSpotlight() {
 
       {/* Hero image */}
       {project.imageUrl && (
-        <div className="relative rounded-3xl overflow-hidden aspect-video mb-8">
-          <img src={project.imageUrl} alt={title} className="w-full h-full object-cover" />
-          <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(26,39,68,0.72) 0%, transparent 60%)' }} />
+        <div className="relative rounded-3xl overflow-hidden aspect-[3/4] mb-8 bg-surface-container">
+          <img src={project.imageUrl} alt={title} className="w-full h-full object-contain" />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(26,39,68,0.35) 0%, transparent 40%)' }} />
           {project.isLive && (
             <div className="absolute top-4 start-4">
               <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-error/90 text-white text-xs font-label font-bold uppercase tracking-widest">
