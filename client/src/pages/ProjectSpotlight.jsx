@@ -33,33 +33,63 @@ function Stopwatch() {
   const danger = elapsed >= 90;
   const warn   = elapsed >= 60 && !danger;
 
+  const circumference = 2 * Math.PI * 54;
+  const maxSec = 120;
+  const progress = Math.min(elapsed / maxSec, 1);
+
   return (
-    <div className={`flex items-center gap-4 px-5 py-4 rounded-2xl border transition-colors duration-500 ${
-      danger ? 'bg-error/10 border-error/30' : warn ? 'bg-amber-50 border-amber-300' : 'bg-white border-outline-variant'
-    }`}>
-      <span className={`font-headline font-extrabold text-4xl tabular-nums tracking-tight ${
-        danger ? 'text-error' : warn ? 'text-amber-600' : 'text-on-surface'
-      }`}>
-        {mm}:{ss}
-      </span>
-      <button
-        onClick={() => setRunning((r) => !r)}
-        className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-label font-bold transition-all duration-200 ${
-          running
-            ? 'bg-on-surface text-on-primary hover:opacity-80'
-            : 'bg-primary text-on-primary hover:bg-primary-fixed'
-        }`}
-      >
-        <span className="material-icon text-base">{running ? 'pause' : 'play_arrow'}</span>
-        {running ? 'Pause' : 'Start'}
-      </button>
-      <button
-        onClick={() => { setElapsed(0); setRunning(false); }}
-        className="p-2 rounded-xl text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors"
-        title="Reset"
-      >
-        <span className="material-icon text-base">restart_alt</span>
-      </button>
+    <div className="flex flex-col items-center gap-2">
+      {/* Circle */}
+      <div className="relative w-32 h-32">
+        <svg className="absolute inset-0 -rotate-90" width="128" height="128" viewBox="0 0 128 128">
+          {/* Track */}
+          <circle cx="64" cy="64" r="54" fill="none"
+            stroke={danger ? 'rgba(239,68,68,0.15)' : warn ? 'rgba(251,191,36,0.2)' : 'rgba(0,0,0,0.08)'}
+            strokeWidth="8" />
+          {/* Progress */}
+          <circle cx="64" cy="64" r="54" fill="none"
+            stroke={danger ? '#ef4444' : warn ? '#f59e0b' : '#111827'}
+            strokeWidth="8"
+            strokeLinecap="round"
+            strokeDasharray={circumference}
+            strokeDashoffset={circumference * (1 - progress)}
+            style={{ transition: 'stroke-dashoffset 0.5s ease, stroke 0.5s ease' }}
+          />
+        </svg>
+        {/* Face */}
+        <div className={`absolute inset-2 rounded-full flex flex-col items-center justify-center shadow-inner ${
+          danger ? 'bg-red-50' : warn ? 'bg-amber-50' : 'bg-white'
+        }`}>
+          <span className={`font-headline font-extrabold text-2xl tabular-nums leading-none ${
+            danger ? 'text-error' : warn ? 'text-amber-600' : 'text-on-surface'
+          }`}>
+            {mm}:{ss}
+          </span>
+          <span className="text-[9px] font-label text-on-surface-variant uppercase tracking-widest mt-0.5">
+            {running ? 'running' : elapsed > 0 ? 'paused' : 'ready'}
+          </span>
+        </div>
+      </div>
+
+      {/* Controls */}
+      <div className="flex gap-2">
+        <button
+          onClick={() => setRunning((r) => !r)}
+          className={`flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-label font-bold shadow transition-all duration-200 ${
+            running ? 'bg-on-surface text-white' : 'bg-primary text-on-primary hover:bg-primary-fixed'
+          }`}
+        >
+          <span className="material-icon text-sm">{running ? 'pause' : 'play_arrow'}</span>
+          {running ? 'Pause' : 'Start'}
+        </button>
+        <button
+          onClick={() => { setElapsed(0); setRunning(false); }}
+          className="p-1.5 rounded-full bg-white border border-outline-variant text-on-surface-variant hover:text-on-surface shadow transition-colors"
+          title="Reset"
+        >
+          <span className="material-icon text-sm">restart_alt</span>
+        </button>
+      </div>
     </div>
   );
 }
