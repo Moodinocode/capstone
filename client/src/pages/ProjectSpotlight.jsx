@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useVoteStatus } from '../hooks/useVoteStatus';
 import GlassModal from '../components/ui/GlassModal';
@@ -12,6 +12,57 @@ const CATEGORY_COLORS = {
   'Creative Arts':     'bg-tertiary-fixed/20 text-tertiary-fixed',
   'Med-Tech':          'bg-error/20 text-error',
 };
+
+function Stopwatch() {
+  const [elapsed, setElapsed] = useState(0);
+  const [running, setRunning] = useState(false);
+  const intervalRef = useRef(null);
+
+  useEffect(() => {
+    if (running) {
+      intervalRef.current = setInterval(() => setElapsed((e) => e + 1), 1000);
+    } else {
+      clearInterval(intervalRef.current);
+    }
+    return () => clearInterval(intervalRef.current);
+  }, [running]);
+
+  const mm = String(Math.floor(elapsed / 60)).padStart(2, '0');
+  const ss = String(elapsed % 60).padStart(2, '0');
+
+  const danger = elapsed >= 90;
+  const warn   = elapsed >= 60 && !danger;
+
+  return (
+    <div className={`flex items-center gap-3 px-4 py-2.5 rounded-2xl border transition-colors duration-500 ${
+      danger ? 'bg-error/10 border-error/30' : warn ? 'bg-amber-50 border-amber-300' : 'bg-white border-outline-variant'
+    }`}>
+      <span className={`font-headline font-extrabold text-2xl tabular-nums tracking-tight ${
+        danger ? 'text-error' : warn ? 'text-amber-600' : 'text-on-surface'
+      }`}>
+        {mm}:{ss}
+      </span>
+      <button
+        onClick={() => setRunning((r) => !r)}
+        className={`flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-label font-bold transition-all duration-200 ${
+          running
+            ? 'bg-on-surface text-on-primary hover:opacity-80'
+            : 'bg-primary text-on-primary hover:bg-primary-fixed'
+        }`}
+      >
+        <span className="material-icon text-sm">{running ? 'pause' : 'play_arrow'}</span>
+        {running ? 'Pause' : 'Start'}
+      </button>
+      <button
+        onClick={() => { setElapsed(0); setRunning(false); }}
+        className="p-1.5 rounded-xl text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors"
+        title="Reset"
+      >
+        <span className="material-icon text-sm">restart_alt</span>
+      </button>
+    </div>
+  );
+}
 
 export default function ProjectSpotlight() {
   const { id } = useParams();
@@ -61,10 +112,13 @@ export default function ProjectSpotlight() {
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <button onClick={() => navigate(-1)} className="inline-flex items-center gap-1 text-sm text-on-surface-variant hover:text-on-surface mb-8 transition-colors">
-        <span className="material-icon text-base">arrow_back</span>
-        Back to Gallery
-      </button>
+      <div className="flex items-center justify-between mb-8">
+        <button onClick={() => navigate(-1)} className="inline-flex items-center gap-1 text-sm text-on-surface-variant hover:text-on-surface transition-colors">
+          <span className="material-icon text-base">arrow_back</span>
+          Back to Gallery
+        </button>
+        <Stopwatch />
+      </div>
 
       {/* Hero — image or PDF poster */}
       {project.imageUrl ? (
