@@ -34,31 +34,31 @@ function Stopwatch() {
   const warn   = elapsed >= 60 && !danger;
 
   return (
-    <div className={`flex items-center gap-3 px-4 py-2.5 rounded-2xl border transition-colors duration-500 ${
+    <div className={`flex items-center gap-4 px-5 py-4 rounded-2xl border transition-colors duration-500 ${
       danger ? 'bg-error/10 border-error/30' : warn ? 'bg-amber-50 border-amber-300' : 'bg-white border-outline-variant'
     }`}>
-      <span className={`font-headline font-extrabold text-2xl tabular-nums tracking-tight ${
+      <span className={`font-headline font-extrabold text-4xl tabular-nums tracking-tight ${
         danger ? 'text-error' : warn ? 'text-amber-600' : 'text-on-surface'
       }`}>
         {mm}:{ss}
       </span>
       <button
         onClick={() => setRunning((r) => !r)}
-        className={`flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-label font-bold transition-all duration-200 ${
+        className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-label font-bold transition-all duration-200 ${
           running
             ? 'bg-on-surface text-on-primary hover:opacity-80'
             : 'bg-primary text-on-primary hover:bg-primary-fixed'
         }`}
       >
-        <span className="material-icon text-sm">{running ? 'pause' : 'play_arrow'}</span>
+        <span className="material-icon text-base">{running ? 'pause' : 'play_arrow'}</span>
         {running ? 'Pause' : 'Start'}
       </button>
       <button
         onClick={() => { setElapsed(0); setRunning(false); }}
-        className="p-1.5 rounded-xl text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors"
+        className="p-2 rounded-xl text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors"
         title="Reset"
       >
-        <span className="material-icon text-sm">restart_alt</span>
+        <span className="material-icon text-base">restart_alt</span>
       </button>
     </div>
   );
