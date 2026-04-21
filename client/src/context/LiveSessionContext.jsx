@@ -28,9 +28,10 @@ export function LiveSessionProvider({ children }) {
   const upNext = session?.upNext ?? null;
   const isEventLive = session?.isEventLive ?? false;
   const voteCountVisible = session?.voteCountVisible ?? true;
+  const isPublic = session?.isPublic ?? true;
 
   return (
-    <LiveSessionContext.Provider value={{ nowPlaying, upNext, isEventLive, voteCountVisible, loading, refetch: fetchSession }}>
+    <LiveSessionContext.Provider value={{ nowPlaying, upNext, isEventLive, voteCountVisible, isPublic, loading, refetch: fetchSession }}>
       {children}
     </LiveSessionContext.Provider>
   );
