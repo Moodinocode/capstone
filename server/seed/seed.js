@@ -227,22 +227,14 @@ async function seed() {
   console.log('→ Seeding live session…');
   const liveTed     = tedTalks[0];
   const upNextPitch = pitches[2]; // Quantum Shielding Protocol (P-203)
-  await insertOrThrow('live_sessions', [{
+  const { error: lsError } = await supabase.from('live_sessions').upsert({
     key:           'main',
-    is_event_live: true,
-    now_playing: {
-      type:          'TED Talk',
-      title:         liveTed.title,
-      speakerOrTeam: liveTed.team_name,
-      zoomLink:      liveTed.zoom_link,
-      startedAt:     new Date(Date.now() - 15 * 60 * 1000).toISOString(),
-    },
-    up_next: {
-      title:         `${upNextPitch.title} — Project Pitch`,
-      speakerOrTeam: upNextPitch.team_name,
-      startsAt:      new Date(Date.now() + 12 * 60 * 1000).toISOString(),
-    },
-  }], 'Live session');
+    is_event_live: false,
+    now_playing:   { isPublic: false, voteCountVisible: true },
+    up_next:       {},
+    updated_at:    new Date().toISOString(),
+  }, { onConflict: 'key' });
+  if (lsError) throw new Error(`Live session — ${lsError.message}`);
 
   console.log('\n✅ Seed complete!');
   console.log(`   ${pitches.length} project pitches (with vote counts)`);
