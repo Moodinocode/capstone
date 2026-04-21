@@ -62,7 +62,7 @@ export default function HubProjectCard({ project, totalVotes = 0, index = 0 }) {
                 onClick={(e) => e.stopPropagation()}
               >
                 <span className="material-icon text-sm material-icon-filled">check_circle</span>
-                Voted{voteCountVisible ? ` · ${project.voteCount}` : ''}
+                Voted
               </div>
             ) : (
               <button
@@ -74,7 +74,7 @@ export default function HubProjectCard({ project, totalVotes = 0, index = 0 }) {
                 className="w-full py-2 rounded-xl bg-primary text-on-primary text-xs font-label font-semibold hover:bg-primary-fixed disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-1.5"
               >
                 <span className="material-icon text-sm">thumb_up</span>
-                Vote{voteCountVisible ? ` · ${project.voteCount}` : ''}
+                Vote
               </button>
             )}
             {error && <p className="text-[10px] text-red-300 mt-1.5 text-center">{error}</p>}
