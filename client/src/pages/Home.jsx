@@ -42,10 +42,13 @@ export default function Home() {
   useEffect(() => {
     api.get('/projects?limit=50')
       .then((res) => {
+        const FEATURED_ORDER = ['P-103','P-104','P-107','P-121','P-116','P-123','P-124','P-108','P-117'];
         const sorted = [...res.data.projects].sort((a, b) => {
-          const aFeat = a.tags?.includes('featured') ? 1 : 0;
-          const bFeat = b.tags?.includes('featured') ? 1 : 0;
-          if (bFeat !== aFeat) return bFeat - aFeat;
+          const aIdx = FEATURED_ORDER.indexOf(a.projectNumber);
+          const bIdx = FEATURED_ORDER.indexOf(b.projectNumber);
+          if (aIdx !== -1 && bIdx !== -1) return aIdx - bIdx;
+          if (aIdx !== -1) return -1;
+          if (bIdx !== -1) return 1;
           return b.voteCount - a.voteCount;
         });
         setProjects(sorted);
