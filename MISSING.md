@@ -12,8 +12,8 @@
 - [x] ~~P-103 GIFTR~~ — Anthony Estephan + team ✓
 - [x] ~~P-104 Sports Connect~~ — Joseph Makhoul ✓
 - [x] ~~P-107 Sofra~~ — Cezar Halabi + team ✓
-- [ ] **P-108 Etoile** — team pending confirmation
-- [ ] **P-116 Mouda** — presenter name unknown (members filled)
+- [x] ~~P-108 Etoile~~ — Mayass Ayoub + Mohammad El Mais + Dany Kaboul ✓
+- [x] ~~P-116 Mouda~~ — presenter: Saeed Baaseeri ✓
 - [x] ~~P-121 UniTutor~~ — Adham Bakri + team ✓
 - [x] ~~P-123 Helperلي~~ — image added (helperli-poster.png) ✓
 - [x] ~~P-124 Second Skin~~ — Adam Sleem + team ✓
