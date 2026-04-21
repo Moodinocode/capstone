@@ -45,7 +45,7 @@ const RANK_STYLES = {
 // ─────────────────────────────────────────────
 // Winner card — size variant drives layout
 // ─────────────────────────────────────────────
-function WinnerCard({ winner, size = 'md', delayMs = 0 }) {
+function WinnerCard({ winner, size = 'md', delayMs = 0, showImage = true }) {
   const style = RANK_STYLES[winner.rank];
   const isChampion = winner.rank === 1;
 
@@ -85,16 +85,17 @@ function WinnerCard({ winner, size = 'md', delayMs = 0 }) {
       </div>
 
       {/* Image */}
-      <div className={`relative rounded-2xl overflow-hidden mb-4 bg-surface-container ${imageClasses}`}>
-        <img
-          src={winner.imageUrl}
-          alt={winner.title}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 motion-reduce:transition-none"
-          loading="lazy"
-        />
-        {/* Soft overlay for text readability on hover */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-      </div>
+      {showImage && (
+        <div className={`relative rounded-2xl overflow-hidden mb-4 bg-surface-container ${imageClasses}`}>
+          <img
+            src={winner.imageUrl}
+            alt={winner.title}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 motion-reduce:transition-none"
+            loading="lazy"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        </div>
+      )}
 
       {/* Meta */}
       <div className="flex items-center gap-2 mb-2">
@@ -138,7 +139,7 @@ function WinnerCard({ winner, size = 'md', delayMs = 0 }) {
 // ─────────────────────────────────────────────
 // Honorable mention — smaller, compact
 // ─────────────────────────────────────────────
-function HonorableCard({ winner, delayMs = 0 }) {
+function HonorableCard({ winner, delayMs = 0, showImage = true }) {
   return (
     <Link
       to={`/projects/${winner.id}`}
@@ -146,9 +147,11 @@ function HonorableCard({ winner, delayMs = 0 }) {
         opacity-0 animate-fade-in"
       style={{ animationDelay: `${delayMs}ms`, animationFillMode: 'forwards' }}
     >
-      <div className="shrink-0 w-12 h-12 rounded-xl overflow-hidden bg-surface-container">
-        <img src={winner.imageUrl} alt={winner.title} className="w-full h-full object-cover" loading="lazy" />
-      </div>
+      {showImage && (
+        <div className="shrink-0 w-12 h-12 rounded-xl overflow-hidden bg-surface-container">
+          <img src={winner.imageUrl} alt={winner.title} className="w-full h-full object-cover" loading="lazy" />
+        </div>
+      )}
       <div className="flex-1 min-w-0">
         <p className="text-[10px] font-label font-bold uppercase tracking-widest text-on-surface-variant mb-0.5">
           {winner.projectNumber}
@@ -166,7 +169,7 @@ function HonorableCard({ winner, delayMs = 0 }) {
 // ─────────────────────────────────────────────
 // Category section — podium + honorable mentions
 // ─────────────────────────────────────────────
-function CategorySection({ icon, label, title, subtitle, data, baseDelay = 0 }) {
+function CategorySection({ icon, label, title, subtitle, data, baseDelay = 0, showImage = true }) {
   const [first, second, third] = data.champions ?? [];
   const hasHonorable = (data.honorableMentions ?? []).length > 0;
 
@@ -207,21 +210,21 @@ function CategorySection({ icon, label, title, subtitle, data, baseDelay = 0 }) 
         {/* 2nd — desktop left, mobile second */}
         {second && (
           <div className="md:col-span-4 md:order-1 order-2 md:pt-8">
-            <WinnerCard winner={second} size="md" delayMs={baseDelay + 200} />
+            <WinnerCard winner={second} size="md" delayMs={baseDelay + 200} showImage={showImage} />
           </div>
         )}
 
         {/* 1st — center, larger */}
         {first && (
           <div className="md:col-span-4 md:order-2 order-1">
-            <WinnerCard winner={first} size="lg" delayMs={baseDelay} />
+            <WinnerCard winner={first} size="lg" delayMs={baseDelay} showImage={showImage} />
           </div>
         )}
 
         {/* 3rd — desktop right, mobile third */}
         {third && (
           <div className="md:col-span-4 md:order-3 order-3 md:pt-16">
-            <WinnerCard winner={third} size="md" delayMs={baseDelay + 400} />
+            <WinnerCard winner={third} size="md" delayMs={baseDelay + 400} showImage={showImage} />
           </div>
         )}
       </div>
@@ -234,7 +237,7 @@ function CategorySection({ icon, label, title, subtitle, data, baseDelay = 0 }) 
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {(data.honorableMentions ?? []).map((hm, i) => (
-              <HonorableCard key={hm.id} winner={hm} delayMs={baseDelay + 600 + i * 80} />
+              <HonorableCard key={hm.id} winner={hm} delayMs={baseDelay + 600 + i * 80} showImage={showImage} />
             ))}
           </div>
         </div>
@@ -403,6 +406,7 @@ export default function Winners() {
             subtitle="The talks that moved, challenged, and inspired the room the most"
             data={data.tedTalks ?? empty}
             baseDelay={400}
+            showImage={false}
           />
 
           <div className="h-px max-w-6xl mx-auto bg-outline-variant" />
@@ -414,6 +418,7 @@ export default function Winners() {
             subtitle="Candidates who brought the clearest thinking and strongest presence"
             data={data.interviews ?? empty}
             baseDelay={400}
+            showImage={false}
           />
 
           {data.peoplesChoice && (
