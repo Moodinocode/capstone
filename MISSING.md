@@ -3,7 +3,7 @@
 ## TED Talks
 - [x] ~~T-101 Khaled Ghalayini~~ — video confirmed working
 - [x] ~~T-102 Jad Chedid~~ — video confirmed working
-- [ ] **T-103** Robert Kosseifi — no video yet
+- [x] ~~T-103 Robert Kosseifi~~ — removed (no video submitted)
 - [x] ~~T-104 Jad & AbdulRahman~~ — confirmed working
 - [x] ~~T-105 Diamony Diab~~ — new video link updated
 - [x] ~~T-106 Jean Claude El Ghoul~~ — video added

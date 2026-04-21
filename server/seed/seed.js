@@ -71,8 +71,6 @@ const tedTalksData = [
   { projectNumber: 'T-101', title: 'A Crisis of Authenticity', teamName: 'Khaled Ghalayini',       category: 'TED Talk', description: '', members: [{ name: 'Khaled Ghalayini', role: 'Speaker' }], tags: [], zoomLink: '', videoUrl: 'https://drive.google.com/file/d/1aRncNW5DCgxHqaHLJHSSOgsOU8fMbzjo/view?usp=sharing' },
   // ⚠️ REAL — video needs to be made public by Jad Chedid
   { projectNumber: 'T-102', title: 'Believe in God',           teamName: 'Jad Chedid',             category: 'TED Talk', description: '', members: [{ name: 'Jad Chedid', role: 'Speaker' }], tags: [], zoomLink: '', videoUrl: 'https://www.youtube.com/watch?v=XPe03ZWh0UY' },
-  // ⏳ REAL — no video yet
-  { projectNumber: 'T-103', title: 'TED Talk',                 teamName: 'Robert Kosseifi',        category: 'TED Talk', description: '', members: [{ name: 'Robert Kosseifi', role: 'Speaker' }], tags: [], zoomLink: '', videoUrl: '' },
   // ✅ REAL — name was wrong (was Adam), same video
   { projectNumber: 'T-104', title: 'Readyness',                teamName: 'Jad & AbdulRahman',      category: 'TED Talk', description: '', members: [{ name: 'Jad', role: 'Speaker' }, { name: 'AbdulRahman', role: 'Speaker' }], tags: [], zoomLink: '', videoUrl: 'https://drive.google.com/file/d/1c3pIOYEdhtiulv_9roiy7JsjWJ_g77gy/view?usp=sharing' },
   // ✅ REAL
