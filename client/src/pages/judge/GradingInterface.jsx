@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useAutoSave } from '../../hooks/useAutoSave';
 import ScoreInput from '../../components/ui/ScoreInput';
@@ -31,6 +31,91 @@ const CRITERIA_BY_SEGMENT = {
 };
 
 const QUICK_TAGS = ['Strong Research', 'Innovative Approach', 'Excellent Delivery', 'Good Flow', 'Technical Depth', 'Clear Vision', 'Strong Teamwork'];
+
+function getEmbedUrl(url) {
+  if (!url) return null;
+  const yt = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&?/]+)/);
+  if (yt) return `https://www.youtube.com/embed/${yt[1]}?autoplay=1`;
+  const drive = url.match(/drive\.google\.com\/file\/d\/([^/]+)/);
+  if (drive) return `https://drive.google.com/file/d/${drive[1]}/preview`;
+  return url;
+}
+
+function ProjectPosterPreview({ imageUrl, title, documentUrl }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="rounded-2xl bg-white border border-outline-variant shadow-card overflow-hidden">
+      <button
+        onClick={() => setOpen((o) => !o)}
+        className="w-full flex items-center justify-between px-4 py-3 hover:bg-surface-container transition-colors"
+      >
+        <div className="flex items-center gap-2">
+          <span className="material-icon text-base text-on-surface-variant">image</span>
+          <span className="text-xs font-label font-bold text-on-surface-variant uppercase tracking-widest">Project Poster</span>
+        </div>
+        <span className="material-icon text-base text-on-surface-variant">{open ? 'expand_less' : 'expand_more'}</span>
+      </button>
+      {open && (
+        <div className="border-t border-outline-variant">
+          <img src={imageUrl} alt={title} className="w-full object-contain max-h-72 bg-surface-container" />
+          {documentUrl && (
+            <a href={documentUrl} target="_blank" rel="noopener noreferrer"
+              className="flex items-center gap-1.5 px-4 py-2 text-xs font-label text-on-surface-variant hover:text-on-surface border-t border-outline-variant transition-colors">
+              <span className="material-icon text-sm">picture_as_pdf</span>
+              View full PDF
+            </a>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function VideoPreview({ videoUrl, title, speaker }) {
+  const [open, setOpen] = useState(false);
+  const embedUrl = getEmbedUrl(videoUrl);
+  return (
+    <>
+      <div className="rounded-2xl bg-white border border-outline-variant shadow-card overflow-hidden">
+        <button
+          onClick={() => setOpen(true)}
+          className="w-full flex items-center justify-between px-4 py-3 hover:bg-surface-container transition-colors"
+        >
+          <div className="flex items-center gap-2">
+            <span className="material-icon text-base text-on-surface-variant">play_circle</span>
+            <span className="text-xs font-label font-bold text-on-surface-variant uppercase tracking-widest">Watch TED Talk</span>
+          </div>
+          <span className="material-icon text-base text-on-surface-variant">open_in_new</span>
+        </button>
+      </div>
+
+      {open && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          style={{ background: 'rgba(0,0,0,0.72)' }}
+          onClick={() => setOpen(false)}>
+          <div className="relative w-full max-w-3xl bg-white rounded-2xl overflow-hidden shadow-2xl"
+            onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-start justify-between p-4 border-b border-outline-variant">
+              <div>
+                <p className="text-[10px] font-label font-bold uppercase tracking-widest text-on-surface-variant mb-0.5">TED Talk</p>
+                <h3 className="font-headline font-bold text-on-surface text-base">{title}</h3>
+                <p className="text-xs text-on-surface-variant mt-0.5">{speaker}</p>
+              </div>
+              <button onClick={() => setOpen(false)}
+                className="p-2 rounded-xl text-on-surface-variant hover:bg-surface-container transition-colors">
+                <span className="material-icon">close</span>
+              </button>
+            </div>
+            <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
+              <iframe src={embedUrl} title={title} allow="autoplay; fullscreen" allowFullScreen
+                className="absolute inset-0 w-full h-full border-0" />
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
 
 export default function GradingInterface() {
   const { projectId } = useParams();
@@ -162,6 +247,15 @@ export default function GradingInterface() {
 
         {/* Sidebar */}
         <div className="lg:col-span-5 space-y-4">
+
+          {/* Project preview */}
+          {segmentType === 'project' && project.imageUrl && (
+            <ProjectPosterPreview imageUrl={project.imageUrl} title={project.title} documentUrl={project.documentUrl} />
+          )}
+          {segmentType === 'ted_talk' && project.videoUrl && (
+            <VideoPreview videoUrl={project.videoUrl} title={project.title} speaker={project.teamName} />
+          )}
+
           {/* Running total */}
           <div className="p-6 rounded-3xl bg-primary border border-primary shadow-card">
             <p className="text-xs font-label font-bold uppercase tracking-widest text-on-primary/60 mb-3">Total Score</p>
