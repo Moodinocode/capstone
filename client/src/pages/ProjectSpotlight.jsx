@@ -60,7 +60,7 @@ function Stopwatch() {
         <div className={`absolute inset-3 rounded-full flex flex-col items-center justify-center shadow-inner ${
           danger ? 'bg-red-50' : warn ? 'bg-amber-50' : 'bg-white'
         }`}>
-          <span className={`font-headline font-extrabold text-6xl tabular-nums leading-none ${
+          <span className={`font-headline font-extrabold text-8xl tabular-nums leading-none ${
             danger ? 'text-error' : warn ? 'text-amber-600' : 'text-on-surface'
           }`}>
             {mm}:{ss}
@@ -148,7 +148,7 @@ export default function ProjectSpotlight() {
       </button>
 
       {/* Stopwatch — fixed bottom left */}
-      <div className="fixed bottom-6 left-6 z-50 shadow-xl">
+      <div className="fixed bottom-10 left-10 z-50 shadow-xl">
         <Stopwatch />
       </div>
 
