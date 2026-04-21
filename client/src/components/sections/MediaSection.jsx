@@ -235,31 +235,13 @@ export default function MediaSection() {
 
       {/* TED Talk cards */}
       <div>
-        <div className="flex items-center justify-between mb-4">
-          <div>
-            <p className="text-xs font-label font-bold uppercase tracking-widest text-on-surface-variant mb-1">
-              Event Media
-            </p>
-            <h2 className="font-headline font-bold text-lg text-on-surface">
-              TED Talks
-            </h2>
-          </div>
-          {!loading && talks.length > 0 && (
-            <div className="flex gap-2">
-              <button
-                onClick={() => scroll(-1)}
-                className="p-2 rounded-xl border border-outline-variant bg-white text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors"
-              >
-                <span className="material-icon text-base">arrow_back</span>
-              </button>
-              <button
-                onClick={() => scroll(1)}
-                className="p-2 rounded-xl border border-outline-variant bg-white text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors"
-              >
-                <span className="material-icon text-base">arrow_forward</span>
-              </button>
-            </div>
-          )}
+        <div className="mb-4">
+          <p className="text-xs font-label font-bold uppercase tracking-widest text-on-surface-variant mb-1">
+            Event Media
+          </p>
+          <h2 className="font-headline font-bold text-lg text-on-surface">
+            TED Talks
+          </h2>
         </div>
 
         {loading ? (
