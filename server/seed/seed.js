@@ -56,7 +56,7 @@ const projectsData = [
   { projectNumber: 'P-114', title: 'LebXplore',                  teamName: '', category: 'Business Plan', description: '', members: [], tags: [], imageUrl: '/projects/lebxplore.jpeg',       documentUrl: '' },
   { projectNumber: 'P-115', title: 'Levant Coast Lines',          teamName: '', category: 'Business Plan', description: '', members: [], tags: [], imageUrl: '/projects/levant-coast-lines.jpeg', documentUrl: '' },
   { projectNumber: 'P-116', title: 'Mouda',                      teamName: 'Saeed Baaseeri',   category: 'Business Plan', description: '', members: [{ name: 'Saeed Baaseeri', role: 'Presenter' }, { name: 'Abdellah Charif', role: 'Team Member' }, { name: 'Maram Kannan', role: 'Team Member' }, { name: 'Mira', role: 'Team Member' }], tags: ['featured'], imageUrl: '/projects/mouda.jpeg', documentUrl: '' },
-  { projectNumber: 'P-117', title: 'OnBoard',                    teamName: '', category: 'Business Plan', description: '', members: [], tags: [], imageUrl: '/projects/onboard.jpg',          documentUrl: '' },
+  { projectNumber: 'P-117', title: 'OnBoard',                    teamName: '', category: 'Business Plan', description: '', members: [], tags: ['featured'], imageUrl: '/projects/onboard.jpg', documentUrl: '' },
   { projectNumber: 'P-118', title: 'PodLounge',                  teamName: '', category: 'Business Plan', description: '', members: [], tags: [], imageUrl: '/projects/podlounge.jpeg',       documentUrl: '' },
   { projectNumber: 'P-119', title: 'Sensifist',                  teamName: '', category: 'Business Plan', description: '', members: [], tags: [], imageUrl: '/projects/sensifist.jpeg',       documentUrl: '' },
   { projectNumber: 'P-120', title: 'Torquego Mobile Mechanics',  teamName: '', category: 'Business Plan', description: '', members: [], tags: [], imageUrl: '/projects/torquego.jpeg',        documentUrl: '' },
@@ -210,7 +210,7 @@ async function seed() {
   const judges = await insertOrThrow('judges', judgeRows, 'Judges');
 
   console.log('→ Assigning segments to judges…');
-  const featuredNumbers = ['P-103','P-104','P-107','P-108','P-116','P-121','P-123','P-124'];
+  const featuredNumbers = ['P-103','P-104','P-107','P-108','P-116','P-117','P-121','P-123','P-124'];
   const featuredPitches = pitches.filter((p) => featuredNumbers.includes(p.project_number));
   const assignmentRows = [];
   judges.forEach((judge) => {
