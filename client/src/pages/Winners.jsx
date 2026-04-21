@@ -285,16 +285,6 @@ function PeoplesChoice({ winner, baseDelay = 0, voteCountVisible = true }) {
             <p className="text-sm font-label text-on-surface-variant mb-5">{winner.teamOrSpeaker}</p>
 
             <div className="flex items-center gap-5">
-              {voteCountVisible && (
-                <div>
-                  <p className="text-[10px] font-label font-bold uppercase tracking-widest text-on-surface-variant mb-0.5">
-                    Attendee votes
-                  </p>
-                  <p className="font-headline font-extrabold text-3xl md:text-4xl text-tertiary tabular-nums">
-                    {winner.voteCount}
-                  </p>
-                </div>
-              )}
               <Link
                 to={`/projects/${winner.id}`}
                 className="flex items-center gap-1.5 px-5 py-3 rounded-xl bg-tertiary text-on-tertiary text-sm font-label font-semibold hover:bg-tertiary-dim transition-colors"

@@ -165,11 +165,6 @@ export default function FanVoteLeaderboard() {
                     />
                   </div>
                 </div>
-                {voteCountVisible && (
-                  <span className="shrink-0 text-[11px] font-label font-semibold text-on-surface-variant">
-                    <AnimatedCount value={p.voteCount} />
-                  </span>
-                )}
                 {isVotedForThis ? (
                   <span className="shrink-0 px-2 py-1 rounded-lg bg-primary/15 text-primary text-[10px] font-label font-bold">
                     Voted
@@ -204,11 +199,6 @@ export default function FanVoteLeaderboard() {
                   />
                 </div>
               </div>
-              {voteCountVisible && (
-                <span className="shrink-0 text-[10px] font-label text-on-surface-variant">
-                  <AnimatedCount value={p.voteCount} />
-                </span>
-              )}
               {isVotedForThis ? (
                 <span className="shrink-0 px-2 py-0.5 rounded-full bg-primary/15 text-primary text-[10px] font-label font-bold">✓</span>
               ) : (
