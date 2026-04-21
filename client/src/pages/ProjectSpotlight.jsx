@@ -33,61 +33,102 @@ function Stopwatch() {
   const danger = elapsed >= 90;
   const warn   = elapsed >= 60 && !danger;
 
-  const circumference = 2 * Math.PI * 110;
-  const maxSec = 120;
+  const size = 280;
+  const cx = size / 2;
+  const r  = 118;
+  const circumference = 2 * Math.PI * r;
+  const maxSec  = 120;
   const progress = Math.min(elapsed / maxSec, 1);
+
+  const ringColor  = danger ? '#ef4444' : warn ? '#f59e0b' : '#111827';
+  const faceColor  = danger ? '#fff5f5' : warn ? '#fffbeb' : '#ffffff';
+  const textColor  = danger ? '#ef4444' : warn ? '#d97706' : '#111827';
+
+  // 12 tick marks like a clock
+  const ticks = Array.from({ length: 12 }, (_, i) => {
+    const angle = (i / 12) * 2 * Math.PI - Math.PI / 2;
+    const isMajor = i % 3 === 0;
+    const inner = isMajor ? r - 14 : r - 9;
+    const outer = r - 2;
+    return {
+      x1: cx + inner * Math.cos(angle),
+      y1: cx + inner * Math.sin(angle),
+      x2: cx + outer * Math.cos(angle),
+      y2: cx + outer * Math.sin(angle),
+      isMajor,
+    };
+  });
 
   return (
     <div className="flex flex-col items-center gap-3">
-      {/* Circle */}
-      <div className="relative w-64 h-64">
-        <svg className="absolute inset-0 -rotate-90" width="256" height="256" viewBox="0 0 256 256">
-          {/* Track */}
-          <circle cx="128" cy="128" r="110" fill="none"
-            stroke={danger ? 'rgba(239,68,68,0.15)' : warn ? 'rgba(251,191,36,0.2)' : 'rgba(0,0,0,0.08)'}
-            strokeWidth="12" />
-          {/* Progress */}
-          <circle cx="128" cy="128" r="110" fill="none"
-            stroke={danger ? '#ef4444' : warn ? '#f59e0b' : '#111827'}
-            strokeWidth="12"
+      <div className="relative" style={{ width: size, height: size }}>
+        <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
+          {/* Outer border ring */}
+          <circle cx={cx} cy={cx} r={cx - 4} fill="none"
+            stroke={ringColor} strokeWidth="4"
+            style={{ transition: 'stroke 0.5s ease' }}
+          />
+
+          {/* Clock face background */}
+          <circle cx={cx} cy={cx} r={r - 2} fill={faceColor}
+            style={{ transition: 'fill 0.5s ease' }}
+          />
+
+          {/* Tick marks */}
+          {ticks.map((t, i) => (
+            <line key={i} x1={t.x1} y1={t.y1} x2={t.x2} y2={t.y2}
+              stroke={danger ? '#fca5a5' : warn ? '#fcd34d' : '#d1d5db'}
+              strokeWidth={t.isMajor ? 3 : 1.5}
+              strokeLinecap="round"
+            />
+          ))}
+
+          {/* Progress arc (behind face, on the ring) */}
+          <circle cx={cx} cy={cx} r={r} fill="none"
+            stroke={ringColor} strokeWidth="10"
             strokeLinecap="round"
             strokeDasharray={circumference}
             strokeDashoffset={circumference * (1 - progress)}
-            style={{ transition: 'stroke-dashoffset 0.5s ease, stroke 0.5s ease' }}
+            transform={`rotate(-90 ${cx} ${cx})`}
+            style={{ transition: 'stroke-dashoffset 0.5s ease, stroke 0.5s ease', opacity: 0.25 }}
+          />
+
+          {/* Center dot */}
+          <circle cx={cx} cy={cx} r="5" fill={ringColor}
+            style={{ transition: 'fill 0.5s ease' }}
           />
         </svg>
-        {/* Face */}
-        <div className={`absolute inset-3 rounded-full flex flex-col items-center justify-center shadow-inner ${
-          danger ? 'bg-red-50' : warn ? 'bg-amber-50' : 'bg-white'
-        }`}>
-          <span className={`font-headline font-extrabold text-8xl tabular-nums leading-none ${
-            danger ? 'text-error' : warn ? 'text-amber-600' : 'text-on-surface'
-          }`}>
+
+        {/* Time display overlay */}
+        <div className="absolute inset-0 flex flex-col items-center justify-center">
+          <span className="font-headline font-extrabold tabular-nums leading-none"
+            style={{ fontSize: '72px', color: textColor, transition: 'color 0.5s ease' }}>
             {mm}:{ss}
           </span>
-          <span className="text-[9px] font-label text-on-surface-variant uppercase tracking-widest mt-0.5">
+          <span className="text-xs font-label uppercase tracking-widest mt-1"
+            style={{ color: danger ? '#ef4444' : warn ? '#d97706' : '#9ca3af' }}>
             {running ? 'running' : elapsed > 0 ? 'paused' : 'ready'}
           </span>
         </div>
       </div>
 
       {/* Controls */}
-      <div className="flex gap-2">
+      <div className="flex gap-3">
         <button
           onClick={() => setRunning((r) => !r)}
-          className={`flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-label font-bold shadow transition-all duration-200 ${
-            running ? 'bg-on-surface text-white' : 'bg-primary text-on-primary hover:bg-primary-fixed'
+          className={`flex items-center gap-1.5 px-5 py-2 rounded-full text-sm font-label font-bold shadow-md transition-all duration-200 ${
+            running ? 'bg-gray-900 text-white' : 'bg-primary text-on-primary hover:bg-primary-fixed'
           }`}
         >
-          <span className="material-icon text-sm">{running ? 'pause' : 'play_arrow'}</span>
+          <span className="material-icon text-base">{running ? 'pause' : 'play_arrow'}</span>
           {running ? 'Pause' : 'Start'}
         </button>
         <button
           onClick={() => { setElapsed(0); setRunning(false); }}
-          className="p-1.5 rounded-full bg-white border border-outline-variant text-on-surface-variant hover:text-on-surface shadow transition-colors"
-          title="Reset"
+          className="flex items-center gap-1 px-4 py-2 rounded-full text-sm font-label font-bold bg-white border border-gray-200 text-gray-500 hover:text-gray-800 shadow-md transition-colors"
         >
-          <span className="material-icon text-sm">restart_alt</span>
+          <span className="material-icon text-base">restart_alt</span>
+          Reset
         </button>
       </div>
     </div>
@@ -147,8 +188,8 @@ export default function ProjectSpotlight() {
         Back to Gallery
       </button>
 
-      {/* Stopwatch — fixed bottom left */}
-      <div className="fixed bottom-10 left-10 z-50 shadow-xl">
+      {/* Stopwatch — fixed right side, vertically centered */}
+      <div className="fixed right-8 top-1/2 -translate-y-1/2 z-50">
         <Stopwatch />
       </div>
 
