@@ -9,7 +9,10 @@ export default function TopNavBar() {
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const navLinks = [];
+  const navLinks = [
+    { to: '/winners', label: 'Winners' },
+    ...(judge?.isAdmin ? [{ to: '/admin/analytics', label: 'Analytics' }] : []),
+  ];
 
   const handleLogout = () => { logout(); navigate('/'); };
 
