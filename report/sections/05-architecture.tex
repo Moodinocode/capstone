@@ -1,0 +1,159 @@
+\section{System Architecture}
+\label{sec:architecture}
+
+\subsection{Component view}
+
+The platform is a small set of cooperating processes (Figure~\ref{fig:arch-component}).
+The browser hosts the React SPA, which talks HTTPS to the Vercel CDN for
+static content and to the Express API on Render for everything dynamic. The
+API is the only process that holds Supabase service-role credentials; the
+client never sees Supabase directly. A second outbound HTTP path connects
+the API to the Anthropic API for LLM calls.
+
+\fig{arch-component}{0.92}{Component view of the Spotlight platform.}
+
+The choice of \emph{which} dynamic state lives where is deliberate:
+
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Durable, multi-tenant state} (projects, votes, grades,
+        audit log, AI insights cache, vote flags) lives in Supabase
+        Postgres. It survives process restarts and is the single point of
+        truth.
+  \item \textbf{Hot, derivable state} (cached query results) lives in an
+        in-process LRU. Wrong answers from this cache are bounded by the
+        TTL: 60\,s for the project list, 30\,s for winners, 5\,s for vote
+        counts.
+  \item \textbf{Ephemeral fan-out state} (the set of connected SSE clients)
+        lives in a process-local \texttt{Set}. A multi-instance deployment
+        would need Redis pub/sub here, but a single Render dyno is enough
+        for the event-day load.
+  \item \textbf{Anomaly-detector ring} (last 5 minutes of votes) is also
+        process-local. Persistence is intentionally absent: a flagged vote
+        is durable in \texttt{vote\_flags}; the ring only feeds the scoring
+        function.
+\end{itemize}
+
+\subsection{Deployment view}
+
+Figure~\ref{fig:arch-deployment} shows the deployment target. The
+frontend bundle is uploaded to Vercel on every push to \texttt{master}; the
+Render service rebuilds on the same trigger. Supabase is provisioned
+manually once.
+
+\fig{arch-deployment}{0.78}{Deployment view.}
+
+\subsection{Tech stack rationale; decision records}
+
+Each major technology choice is captured below in the form of a lightweight
+architecture decision record (ADR). The format is: \emph{decision}, \emph{context},
+\emph{consequences}.
+
+\begin{ncbox}{ADR-1: React 19 SPA + HashRouter}
+\textbf{Context.} Vercel's free tier is happiest with a single static
+\texttt{index.html}; we have no SEO requirement; deep linking inside
+admin/judge surfaces is needed.\\
+\textbf{Decision.} Ship the frontend as a Vite-built SPA and route with
+\texttt{HashRouter}. Avoid SSR.\\
+\textbf{Consequences.} Cold-load is the price of one bundle, but every
+subsequent navigation is local. We avoid the operational complexity of
+Next.js / SSR for a system whose first paint is rarely the bottleneck.
+\end{ncbox}
+
+\begin{ncbox}{ADR-2: Express 4 + Supabase, no ORM}
+\textbf{Context.} An ORM (Prisma, Drizzle) would give us migrations and
+typed queries, but it adds a build step, a generation step, and at the
+scale of $\approx10$ tables it is overkill.\\
+\textbf{Decision.} Use the Supabase JS client directly for parameterised
+queries; keep migrations as plain \texttt{.sql} files in
+\texttt{server/migrations/}.\\
+\textbf{Consequences.} Loss of compile-time query checking, mitigated by
+zod runtime validation at the controller boundary. Migrations remain
+auditable as plain SQL.
+\end{ncbox}
+
+\begin{ncbox}{ADR-3: SSE over WebSocket}
+\textbf{Context.} Real-time push from server to client is one-way and
+infrequent (a few events per minute, peaking at $\sim$1 per second during
+busy stretches). WebSockets need their own protocol upgrade and are
+sometimes blocked by corporate proxies.\\
+\textbf{Decision.} Use Server-Sent Events with a watchdog reconnect on the
+client and a polling fallback if the env flag \texttt{VITE\_USE\_SSE} is
+false.\\
+\textbf{Consequences.} Native browser auto-reconnect, simpler server (just
+\texttt{Content-Type: text/event-stream}), HTTP/1.1-only on Render which
+costs us no concurrency at our scale.
+\end{ncbox}
+
+\begin{ncbox}{ADR-4: In-process LRU instead of Redis}
+\textbf{Context.} The traditional answer is Redis for any shared cache.
+But we run a single backend instance; an external cache adds a network
+hop and another deployment artefact for negligible gain.\\
+\textbf{Decision.} \texttt{lru-cache} in the Express process. Wrap reads in
+\texttt{cache.getOrSet(key, ttl, loader)}. Invalidate on the writes that
+matter.\\
+\textbf{Consequences.} Cache is per-process, so a second Render instance
+would have its own. Fine for the current footprint; if we scale out, swap
+the implementation behind \texttt{cache.getOrSet} for a Redis-backed one.
+\end{ncbox}
+
+\begin{ncbox}{ADR-5: HMAC vote token, not a CAPTCHA}
+\textbf{Context.} Anonymous voting needs some \emph{proof of presence} to
+defend against curl loops, but we do not want CAPTCHA UX in a 90-minute
+live show.\\
+\textbf{Decision.} Two-step vote: \texttt{POST /votes/init} returns a
+short-lived HMAC token bound to the browser token; \texttt{POST /votes}
+requires the token. Combined with rate limits and the anomaly detector.\\
+\textbf{Consequences.} A naive script that only POSTs to \texttt{/votes}
+fails. A determined attacker who scripts both calls is still subject to
+rate limits and detector exclusion. Acknowledged residual risk: a real
+botnet with rotating IPs and headless browsers; mitigated by exclusion
+from People's Choice rather than refusal of the vote.
+\end{ncbox}
+
+\begin{ncbox}{ADR-6: Anthropic Claude Haiku 4.5 with prompt caching}
+\textbf{Context.} The advisory insight panel needs an LLM. Latency
+matters (judges look at it during the show); cost should not balloon if
+the panel is regenerated.\\
+\textbf{Decision.} Use \texttt{claude-haiku-4-5-20251001} for speed; declare
+the rubric system prompt with \texttt{cache\_control: \{type: 'ephemeral'\}};
+cache the parsed JSON in \texttt{ai\_insights} keyed on \texttt{project\_id}.\\
+\textbf{Consequences.} Per-call cost approaches the prompt-caching read
+rate after the first call. A failed call (rate limit, network) falls back
+to a deterministic stub so the UI never blanks.
+\end{ncbox}
+
+\begin{ncbox}{ADR-7: Pino structured logs, no APM}
+\textbf{Context.} Datadog / New Relic / Sentry are overkill for a single
+event. We still need to debug in production.\\
+\textbf{Decision.} Use \texttt{pino} with \texttt{pino-http}; every request
+gets a UUID via \texttt{X-Request-ID} or generated on the server, attached to
+every log line and returned in error responses.\\
+\textbf{Consequences.} Cheap, durable, greppable. We can pipe to a hosted
+log collector later by adding a transport line.
+\end{ncbox}
+
+\subsection{Cross-cutting concerns}
+
+\paragraph{Authentication and authorization.} A judge logs in, receives a
+JWT signed with \texttt{JWT\_SECRET}, and stores it in localStorage. Every
+protected request sends \texttt{Authorization: Bearer <jwt>}; the
+\texttt{protect} middleware verifies the token, fetches the judge row,
+and attaches \texttt{req.judge} including \texttt{isAdmin}. The
+\texttt{adminOnly} middleware short-circuits non-admin requests with 403.
+
+\paragraph{Validation.} Every controller route declares a zod schema in
+\texttt{server/middleware/validate.js}. Invalid payloads are rejected with
+400 before any DB call.
+
+\paragraph{Error handling.} \texttt{asyncHandler} wraps every async
+controller. Errors propagate to a global \texttt{errorHandler} that logs
+with the request id and emits a clean JSON response.
+
+\paragraph{Caching.} The \texttt{cache.getOrSet} helper is the only entry
+point. Writes that change a cached view (\texttt{castVote},
+\texttt{submitGrade}, \texttt{updateProject}) explicitly invalidate the
+relevant key prefixes.
+
+\paragraph{Real-time fan-out.} \texttt{eventBus.broadcast(event, payload)}
+is the only emitter. Subscribers connect via \texttt{GET /api/session/stream}
+and the bus heartbeats every 25 s to keep proxies from idling the socket.

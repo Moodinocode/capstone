@@ -1,0 +1,11 @@
+\contentsline {figure}{\numberline {1}{\ignorespaces Component view of the Spotlight platform.}}{7}{figure.caption.1}%
+\contentsline {figure}{\numberline {2}{\ignorespaces Deployment view.}}{8}{figure.caption.2}%
+\contentsline {figure}{\numberline {3}{\ignorespaces Entity-relationship diagram.}}{10}{figure.caption.8}%
+\contentsline {figure}{\numberline {4}{\ignorespaces Sequence diagram for the two-step vote flow.}}{12}{figure.caption.9}%
+\contentsline {figure}{\numberline {5}{\ignorespaces Vote anomaly scoring rules.}}{13}{figure.caption.13}%
+\contentsline {figure}{\numberline {6}{\ignorespaces Sequence diagram for grading.}}{14}{figure.caption.15}%
+\contentsline {figure}{\numberline {7}{\ignorespaces Grade status machine.}}{15}{figure.caption.16}%
+\contentsline {figure}{\numberline {8}{\ignorespaces Server-Sent Events session push.}}{16}{figure.caption.17}%
+\contentsline {figure}{\numberline {9}{\ignorespaces AI insight retrieval and generation.}}{17}{figure.caption.19}%
+\contentsline {figure}{\numberline {10}{\ignorespaces Authentication and protected-request flow.}}{18}{figure.caption.22}%
+\contentsline {figure}{\numberline {11}{\ignorespaces Top-level frontend component hierarchy.}}{25}{figure.caption.23}%

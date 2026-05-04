@@ -1,0 +1,131 @@
+\section{Data Model}
+\label{sec:datamodel}
+
+The schema is small (ten tables) and intentionally normalised only as far as
+the access patterns require. Figure~\ref{fig:db-erd} shows the full ERD;
+this section walks each table and the rationale.
+
+\fig{db-erd}{0.99}{Entity-relationship diagram.}
+
+\subsection{\texttt{projects}}
+
+The flagship table. One row per pitch / TED talk / interview. The
+\texttt{segment\_type} discriminator (\texttt{'project'},
+\texttt{'ted\_talk'}, \texttt{'interview'}) drives the rubric chosen on the
+judge UI and the slot a project is shown in on the public gallery. We
+denormalise \texttt{vote\_count} onto the row so the public homepage and
+leaderboard can be served from a single \texttt{SELECT} ordered by
+\texttt{vote\_count}; the count is updated atomically from a Postgres RPC
+(see Section~\ref{sub:rpc}).
+
+The \texttt{members} and \texttt{tags} columns are JSONB; they are
+displayed but never queried by inner fields. Storing them as JSONB rather
+than satellite tables is a deliberate complexity reduction.
+
+\subsection{\texttt{judges} and \texttt{judge\_projects}}
+
+Judges authenticate by email + bcrypt-hashed password. \texttt{is\_admin}
+is the role flag; admin judges also see the analytics and integrity
+dashboards. The \texttt{judge\_projects} join table is a simple
+many-to-many edge between judges and projects; it materialises the
+``which projects am I assigned to grade'' query as a single
+\texttt{WHERE judge\_id = ?}.
+
+\subsection{\texttt{grades}}
+
+One row per (judge, project) pair, with a unique constraint on that
+composite key. The five rubric scores live as separate
+\texttt{int} columns rather than JSONB so we can compute aggregates in
+SQL (and so the inter-rater reliability calculation can run cleanly in
+the controller). The \texttt{status} discriminator
+(\texttt{not\_started} / \texttt{in\_progress} / \texttt{submitted}) is
+respected in code: once the row's status is \texttt{submitted}, the
+controller refuses any further write.
+
+\subsection{\texttt{votes}}
+
+One row per cast vote. The natural identity is the
+\texttt{browser\_token} (a UUID generated client-side and persisted in
+localStorage); we also record \texttt{ip\_address} for the anomaly
+detector. Duplicate prevention is enforced at the application layer
+(checking for an existing row with the same browser token); we
+deliberately do \emph{not} put a \texttt{UNIQUE} constraint on
+\texttt{browser\_token} because a same-browser revote attempt should
+return a clean 409 from the controller, not a constraint violation.
+
+\subsection{\texttt{vote\_flags}}
+
+The anomaly detector inserts here when a vote scores at or above the
+\texttt{low} threshold. The \texttt{severity} enum is
+\texttt{'low' | 'medium' | 'high'}; only \texttt{high} severity
+contributes to the People's Choice exclusion. \texttt{reasons} is JSONB
+of human-readable strings (e.g.\ \texttt{"burst:5 from same IP within
+60s"}) so the integrity dashboard can render them verbatim.
+
+\subsection{\texttt{ai\_insights}}
+
+A per-project cache of the LLM advisory output. Keyed on
+\texttt{project\_id} (one-to-one with \texttt{projects}). The
+\texttt{model} column captures which model produced this row, so a future
+upgrade can selectively re-render older cached entries. The
+\texttt{payload} JSONB is the parsed JSON returned by the controller.
+
+\subsection{\texttt{audit\_logs}}
+
+Append-only. Every \texttt{grade.submit}, \texttt{session.set\_public},
+\texttt{session.set\_votes\_visible}, and \texttt{session.update} writes a
+row here. Indexed on \texttt{action}, \texttt{actor\_id}, and
+\texttt{created\_at} for fast forensic replay.
+
+\subsection{\texttt{live\_sessions}}
+
+A single row keyed by \texttt{key = 'main'} that holds the live event's
+ephemeral state: \texttt{is\_event\_live} (the master switch),
+\texttt{now\_playing} (a JSONB blob with sub-fields
+\texttt{voteCountVisible} and \texttt{isPublic} alongside the actual
+playing-now segment metadata), and \texttt{up\_next}. We store these as a
+single row rather than a key-value store so an admin update is one
+\texttt{UPSERT}.
+
+\subsection{\texttt{schedule\_items}}
+
+The fixed event timeline (Welcome, TED Talks, Interviews, Pitches,
+Closing). Read at app load to render the timeline strip on the home page;
+no writes during the event.
+
+\subsection{Atomic vote increment RPC}
+\label{sub:rpc}
+
+The naive way to count votes; read \texttt{vote\_count}, add one,
+write back; has a race window. Postgres can do better: a function
+defined as
+
+\begin{lstlisting}[language=SQL]
+create or replace function increment_vote_count(p_id uuid)
+returns void language sql as $$
+  update projects set vote_count = vote_count + 1 where id = p_id;
+$$;
+\end{lstlisting}
+
+is invoked from the controller as
+\texttt{await supabase.rpc('increment\_vote\_count', \{ p\_id: projectId \})}.
+The atomicity is provided by the database engine; concurrent voters do
+not lose updates.
+
+\subsection{Indexes}
+
+Beyond the primary keys and the unique on \texttt{(judge\_id,
+project\_id)} in \texttt{grades}, we declare:
+
+\begin{itemize}[leftmargin=*]
+  \item \texttt{audit\_logs(action)}, \texttt{audit\_logs(actor\_id)},
+        \texttt{audit\_logs(created\_at desc)}; the integrity dashboard
+        sorts by recency and filters by action.
+  \item \texttt{vote\_flags(project\_id)},
+        \texttt{vote\_flags(severity)},
+        \texttt{vote\_flags(created\_at desc)}; supports the anomaly
+        list and the per-project tainted check.
+\end{itemize}
+
+The other read patterns are point-lookups by primary key, which Postgres
+indexes automatically.

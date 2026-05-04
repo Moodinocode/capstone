@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useVoteStatus } from '../hooks/useVoteStatus';
 import GlassModal from '../components/ui/GlassModal';
+import AiInsightsPanel from '../components/ui/AiInsightsPanel';
 import api from '../services/api';
 
 const CATEGORY_COLORS = {
@@ -231,7 +232,11 @@ export default function ProjectSpotlight() {
           </h1>
           <p className="text-on-surface-variant text-lg mb-8 font-headline">{team}</p>
 
-          <p className="text-on-surface-variant leading-relaxed mb-8">{description}</p>
+          <p className="text-on-surface-variant leading-relaxed mb-6">{description}</p>
+
+          <div className="mb-8">
+            <AiInsightsPanel projectId={project._id} compact />
+          </div>
 
           {/* Tags */}
           {project.tags?.length > 0 && (

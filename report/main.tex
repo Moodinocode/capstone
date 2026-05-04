@@ -1,0 +1,192 @@
+% =====================================================================
+% Spotlight — Capstone Report
+% Build:  make            (calls pdflatex twice for refs)
+% Figures: see ./figures/render-figures.ps1
+% =====================================================================
+\documentclass[11pt,a4paper]{article}
+
+% --- packages ---------------------------------------------------------
+\usepackage[margin=1in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{listings}
+\usepackage{caption}
+\usepackage{hyperref}
+\usepackage{tikz}
+\usepackage{tcolorbox}
+\usepackage{fancyhdr}
+\usepackage{parskip}
+\usepackage{soul}
+
+\tcbuselibrary{skins,breakable}
+
+% Force roman as the body family. Belt-and-suspenders defence against
+% \ttfamily leaking out of listings or tcolorbox environments.
+\renewcommand{\familydefault}{\rmdefault}
+
+% --- colours ----------------------------------------------------------
+\definecolor{primary}{HTML}{1F2937}
+\definecolor{accent}{HTML}{0EA5E9}
+\definecolor{rule}{HTML}{D1D5DB}
+\definecolor{codebg}{HTML}{F8FAFC}
+\definecolor{codeline}{HTML}{94A3B8}
+\definecolor{codekw}{HTML}{1D4ED8}
+\definecolor{codestr}{HTML}{047857}
+\definecolor{codecom}{HTML}{6B7280}
+
+% --- hyperref ---------------------------------------------------------
+\hypersetup{
+  colorlinks=true,
+  linkcolor=accent,
+  urlcolor=accent,
+  citecolor=accent,
+  pdftitle={Spotlight: A Real-Time Judging \& Voting Platform},
+  pdfauthor={Mohamad Mehdi},
+  pdfsubject={Capstone Report},
+}
+
+% --- listings (code) --------------------------------------------------
+\lstset{
+  basicstyle=\ttfamily\footnotesize,
+  backgroundcolor=\color{codebg},
+  numberstyle=\tiny\color{codeline},
+  numbers=left,
+  numbersep=8pt,
+  keywordstyle=\color{codekw}\bfseries,
+  commentstyle=\color{codecom}\itshape,
+  stringstyle=\color{codestr},
+  showstringspaces=false,
+  breaklines=true,
+  breakatwhitespace=true,
+  frame=single,
+  rulecolor=\color{rule},
+  framesep=4pt,
+  xleftmargin=14pt,
+  xrightmargin=4pt,
+  belowskip=0.4em,
+  aboveskip=0.6em,
+  language=Java,
+}
+
+% --- titles -----------------------------------------------------------
+\titleformat{\section}{\Large\bfseries\color{primary}}{\thesection}{0.6em}{}
+\titleformat{\subsection}{\large\bfseries\color{primary}}{\thesubsection}{0.5em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries\color{primary}}{\thesubsubsection}{0.4em}{}
+\titlespacing*{\section}{0pt}{1.6em}{0.6em}
+\titlespacing*{\subsection}{0pt}{1.0em}{0.4em}
+
+% --- callout boxes ----------------------------------------------------
+\newtcolorbox{adr}[1]{
+  enhanced,
+  colback=codebg,
+  colframe=accent,
+  boxrule=0.4pt,
+  arc=2pt,
+  fonttitle=\bfseries,
+  title=#1,
+  breakable,
+}
+
+\newtcolorbox{ncbox}[1]{
+  enhanced,
+  colback=white,
+  colframe=primary,
+  boxrule=0.4pt,
+  arc=2pt,
+  fonttitle=\bfseries\color{primary},
+  title=#1,
+  breakable,
+}
+
+% --- header / footer --------------------------------------------------
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\small Spotlight Capstone Report}
+\lhead{\small\leftmark}
+\rfoot{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+% Make \leftmark emit just the section title (no doubled number).
+\renewcommand{\sectionmark}[1]{\markboth{\thesection.\ #1}{}}
+
+% --- helpers ----------------------------------------------------------
+% \fig{basename}{width-fraction}{caption}
+% Looks up figures/<basename>.png; label is fig:<basename>.
+\newcommand{\fig}[3]{
+  \begin{figure}[ht]
+    \centering
+    \includegraphics[width=#2\linewidth]{figures/#1.png}
+    \caption{#3}
+    \label{fig:#1}
+  \end{figure}
+}
+
+% =====================================================================
+\begin{document}
+
+\begin{titlepage}
+  \centering
+  \vspace*{2cm}
+  {\LARGE\bfseries Spotlight\par}
+  \vspace{0.6cm}
+  {\Large A Real-Time Judging, Voting, and Integrity Platform\\[0.2cm]
+  for the LAU Soft Skills 2026 Event\par}
+  \vspace{2.2cm}
+  {\large Capstone Project Report\par}
+  \vspace{1.0cm}
+  {\large\textit{Mohamad Mehdi}\par}
+  \vspace{0.3cm}
+  {\normalsize Department of Computer Science and Mathematics \\
+  Lebanese American University \par}
+  \vspace{2.5cm}
+  {\normalsize Supervisor: \textit{Dr. Faisal Abu Khzam}\par}
+  \vspace{0.4cm}
+  {\normalsize Course: \textit{CSC 599 (Capstone)}\par}
+  \vfill
+  {\normalsize \today\par}
+\end{titlepage}
+
+% Roman pages for front matter
+\pagenumbering{roman}
+
+\input{sections/01-abstract.tex}
+\clearpage
+
+\tableofcontents
+\clearpage
+\listoffigures
+\listoftables
+\clearpage
+
+% Arabic from intro
+\pagenumbering{arabic}
+
+\input{sections/02-introduction.tex}
+\input{sections/03-background.tex}
+\input{sections/04-requirements.tex}
+\input{sections/05-architecture.tex}
+\input{sections/06-data-model.tex}
+\input{sections/07-detailed-design.tex}
+\input{sections/08-implementation.tex}
+\input{sections/09-non-functional.tex}
+\input{sections/10-testing.tex}
+\input{sections/11-deployment.tex}
+\input{sections/12-future-work.tex}
+\input{sections/13-conclusion.tex}
+\input{sections/14-references.tex}
+
+\appendix
+\input{sections/15-appendix-schema.tex}
+\input{sections/16-appendix-api.tex}
+
+\end{document}

@@ -15,10 +15,21 @@ import JudgeLogin       from './pages/judge/JudgeLogin';
 import JudgeDashboard   from './pages/judge/JudgeDashboard';
 import GradingInterface from './pages/judge/GradingInterface';
 
+import AnalyticsDashboard from './pages/admin/AnalyticsDashboard';
+import IntegrityDashboard from './pages/admin/IntegrityDashboard';
+
 function ProtectedRoute({ children }) {
   const { judge, loading } = useAuth();
   if (loading) return null;
   if (!judge) return <Navigate to="/judge/login" replace />;
+  return children;
+}
+
+function AdminRoute({ children }) {
+  const { judge, loading } = useAuth();
+  if (loading) return null;
+  if (!judge) return <Navigate to="/judge/login" replace />;
+  if (!judge.isAdmin) return <Navigate to="/judge/dashboard" replace />;
   return children;
 }
 
@@ -58,6 +69,9 @@ function AppRoutes() {
         <Route path="/judge/login"     element={<JudgeLogin />} />
         <Route path="/judge/dashboard" element={<ProtectedRoute><JudgeDashboard /></ProtectedRoute>} />
         <Route path="/judge/grade/:projectId" element={<ProtectedRoute><GradingInterface /></ProtectedRoute>} />
+
+        <Route path="/admin/analytics" element={<AdminRoute><AnalyticsDashboard /></AdminRoute>} />
+        <Route path="/admin/integrity" element={<AdminRoute><IntegrityDashboard /></AdminRoute>} />
 
         <Route path="*" element={<NotFound />} />
       </Routes>

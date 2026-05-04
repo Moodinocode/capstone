@@ -1,0 +1,33 @@
+graph LR
+  subgraph Browser["User browser"]
+    UI["React 19 SPA<br/>(Vite build)"]
+    SW["EventSource<br/>(SSE)"]
+  end
+
+  subgraph Vercel["Vercel CDN"]
+    Static["Static bundle<br/>HTML + JS + CSS"]
+    Rewrite["/api/* rewrite"]
+  end
+
+  subgraph Render["Render container"]
+    API["Express API<br/>+ pino + helmet<br/>+ rate-limit + LRU"]
+    Bus["In-process<br/>event bus"]
+    Anom["Anomaly<br/>detector"]
+  end
+
+  subgraph Supabase["Supabase project"]
+    PG[("Postgres<br/>+ PgBouncer")]
+    Func["RPC<br/>increment_vote_count"]
+  end
+
+  Anthropic["Anthropic API<br/>Claude Haiku 4.5<br/>(prompt caching)"]
+
+  UI -- HTTPS --> Static
+  UI -- /api/... --> Rewrite
+  Rewrite -- HTTPS --> API
+  SW -. SSE keep-alive .-> API
+  API --> PG
+  API --> Func
+  API -- "system prompt cached" --> Anthropic
+  Anom -. flags .-> PG
+  Bus -. broadcast .-> SW

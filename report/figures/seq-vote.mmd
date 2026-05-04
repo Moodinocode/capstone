@@ -1,0 +1,31 @@
+sequenceDiagram
+  autonumber
+  participant B as Browser
+  participant API as Express API
+  participant V as voteController
+  participant A as anomalyDetector
+  participant DB as Supabase
+  participant E as eventBus
+
+  B->>API: POST /api/votes/init { browserToken }
+  API->>API: zod validate · IP rate-limit
+  API->>API: HMAC sign(browserToken, ts, nonce)
+  API-->>B: 200 { voteToken, ttlSec: 300 }
+
+  B->>API: POST /api/votes { projectId, browserToken, voteToken }
+  API->>API: zod validate · IP rate-limit
+  API->>V: castVote
+  V->>V: verifyVoteToken (HMAC, expiry, browser-token match)
+  V->>DB: SELECT projects WHERE id=?
+  V->>DB: SELECT votes WHERE browser_token=?
+  alt already voted
+    V-->>B: 409 already voted
+  else fresh
+    V->>A: scoreVote(ip, ua, browserToken)
+    A-->>V: { score, severity, reasons }
+    V->>DB: INSERT INTO votes(...)
+    V->>DB: rpc increment_vote_count(projectId)
+    V-)A: recordFlag (best-effort, async)
+    V-)E: broadcast 'vote.cast'
+    V-->>B: 201 { projectId, flagged }
+  end

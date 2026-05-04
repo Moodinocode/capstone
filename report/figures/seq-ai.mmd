@@ -1,0 +1,26 @@
+sequenceDiagram
+  autonumber
+  participant U as Browser
+  participant API as Express API
+  participant C as aiController
+  participant DB as Supabase
+  participant CL as Claude API
+
+  U->>API: GET /api/ai/insights/:id
+  API->>C: getInsights
+  C->>DB: SELECT ai_insights WHERE project_id
+  alt cache hit
+    DB-->>C: row
+    C-->>U: cached payload
+  else cache miss
+    C->>DB: SELECT projects WHERE id
+    C->>CL: messages.create with cached system prompt
+    CL-->>C: content and usage tokens
+    C->>C: extract JSON
+    C->>DB: UPSERT ai_insights
+    C-->>U: fresh payload
+  end
+
+  alt API key absent or call fails
+    C->>C: stubInsights deterministic fallback
+  end

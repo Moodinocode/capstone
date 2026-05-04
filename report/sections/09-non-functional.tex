@@ -1,0 +1,222 @@
+\section{Non-Functional Properties}
+\label{sec:nonfunc}
+
+This section ties each non-functional requirement (Section~\ref{sec:requirements})
+to the specific artefact in the codebase that delivers it, and discusses
+the residual risk.
+
+\subsection{Security}
+
+\paragraph{Defence in depth.} Spotlight stacks five independent defences
+on the most-exposed endpoint (anonymous voting). No single defence is
+load-bearing; an attacker has to defeat all five.
+
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{HTTP-level hardening.} Helmet sets a strict CSP,
+        \texttt{Strict-Transport-Security}, \texttt{X-Content-Type-Options:
+        nosniff}, \texttt{X-Frame-Options: DENY}, and friends.
+  \item \textbf{Schema validation.} Zod rejects malformed payloads at the
+        controller boundary. Numbers must be numbers; UUIDs must parse;
+        scores must be in $[0, 5]$.
+  \item \textbf{Rate limiting.} Per-IP limits on \texttt{/auth/login} and
+        \texttt{/votes}; per-judge limit on \texttt{/grades}; coarse
+        overall limit on \texttt{/api/}.
+  \item \textbf{HMAC proof-of-presence.} \texttt{/votes/init} issues a
+        signed token bound to the browser token; \texttt{/votes} requires
+        it.
+  \item \textbf{Anomaly scoring.} Bursts and reuse patterns surface
+        themselves into \texttt{vote\_flags}; high-severity rows are
+        excluded from People's Choice.
+\end{enumerate}
+
+\paragraph{Identity \& secrets.} JWTs are signed with
+\texttt{JWT\_SECRET} and expire in 7\,days. Passwords are bcrypt-hashed
+with cost 10. \texttt{.env} files are git-ignored; \texttt{.env.example}
+ships with names but no values. The Supabase service-role key never
+leaves the backend.
+
+\paragraph{SQL injection.} Every database call goes through the Supabase
+JS client, which uses parameterised queries; no string concatenation
+into a SQL fragment occurs anywhere in the codebase.
+
+\paragraph{XSS.} React escapes interpolated values by default; we never
+use \texttt{dangerouslySetInnerHTML}. The CSP is a defence-in-depth
+measure for the unlikely case of a future regression.
+
+\paragraph{Audit trail.} Every privileged write appends to
+\texttt{audit\_logs}. The integrity dashboard renders the last 50 entries.
+Together with the bcrypt hash, the JWT, and the role check, this gives
+us a forensic chain that answers ``who changed which grade when''.
+
+\paragraph{Residual risk and mitigations.}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Botnet with rotating IPs and headless browsers.} Could
+        defeat rate limiting and IP-based anomaly heuristics.
+        Mitigation: People's Choice exclusion still triggers if the same
+        UA pattern reuses across sessions; CAPTCHA on
+        \texttt{/votes/init} is a future-work item.
+  \item \textbf{Local storage XSS exfiltration of JWT.} A successful XSS
+        could read the token. Mitigation: short JWT lifetime,
+        \texttt{JWT\_SECRET} rotatable to invalidate all tokens. Future
+        work: move to httpOnly cookies.
+  \item \textbf{Compromised admin account.} Same answer: rotate
+        \texttt{JWT\_SECRET}, then issue new admin credentials.
+\end{itemize}
+
+\subsection{Scalability}
+
+\paragraph{Stateless backend.} The Express process holds no per-user
+session. Every request is independently authenticatable. Render's
+autoscaler can multiply the number of instances without coordination.
+
+\paragraph{Cache.} The LRU sits in front of every read endpoint with TTLs
+chosen to balance freshness against load:
+
+\begin{table}[ht]
+  \centering
+  \caption{Cache TTLs by key prefix.}
+  \begin{tabular}{lll}
+    \toprule
+    Prefix & TTL & Invalidation events \\
+    \midrule
+    \texttt{projects:} & 60 s & vote, project create/update \\
+    \texttt{winners:}  & 30 s & vote, grade submit \\
+    \texttt{vote-counts} & 5 s & vote \\
+    \texttt{admin:stats} & 10 s & none (TTL only) \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+In a 10\,000-user load profile, the bulk of requests are gallery and
+homepage reads. With a 60-second TTL the database sees one query per
+filter combination per minute; the rest is L1 cache.
+
+\paragraph{Atomic vote increment.} \texttt{rpc('increment\_vote\_count', \dots)}
+runs an SQL \texttt{UPDATE projects SET vote\_count = vote\_count + 1
+WHERE id = \$1}. Concurrent voters do not lose updates; we never
+read-modify-write from Node.
+
+\paragraph{Why we are not Redis-bound.} Process-local LRU is the right
+tool for this scale. A second backend instance would have a separate
+cache and slightly higher DB load; this is a $2\times$ degradation, not
+a correctness bug. The cache module's API is small enough that swapping
+in a Redis-backed implementation is a single-file change.
+
+\paragraph{Frontend.} A 740\,kB JS bundle (217\,kB gzipped) is one HTTP
+request to Vercel's edge. After the first paint, the SPA does not
+reload; navigation is a route change. The bundle is large enough to
+warrant code-splitting in a future iteration; we did not.
+
+\subsection{Reliability}
+
+\paragraph{Async error path.} \texttt{asyncHandler} wraps every async
+controller; thrown errors and rejected promises both flow to the global
+\texttt{errorHandler}, which logs with the request id and emits a JSON
+response carrying the request id back to the client. The user can quote
+that id when reporting a bug.
+
+\paragraph{Logging.} Pino emits structured JSON logs in production and
+pretty-prints in development. Every line carries a request id. The redact
+list scrubs \texttt{authorization} headers, password fields, and tokens.
+
+\paragraph{Submitted-grade immutability.} The \texttt{submitGrade}
+controller refuses any write to a row whose status is
+\texttt{submitted}. The audit log captures \emph{both} the new and the
+previous total scores in metadata, so a later forensic pass can detect
+out-of-band changes.
+
+\paragraph{Failure isolation.}
+\begin{itemize}[leftmargin=*]
+  \item Anomaly persistence failure $\to$ logged at WARN, vote still counts.
+  \item Audit insert failure $\to$ logged at WARN, the user-facing
+        operation succeeds.
+  \item AI API failure $\to$ deterministic stub returns same shape.
+  \item SSE disconnect $\to$ watchdog reconnect plus polling fallback.
+\end{itemize}
+
+\subsection{Maintainability}
+
+\paragraph{Clean separation.} The server is organised as
+\texttt{routes / controllers / middleware / services / utils / config}.
+The client mirrors this with \texttt{pages / components / context /
+hooks / services / utils}. A new endpoint touches the smallest possible
+set of files.
+
+\paragraph{Linting.} The client uses ESLint with the React Hooks plugin;
+the server uses a dedicated flat config (Listing~\ref{lst:eslint-server}).
+
+\begin{lstlisting}[caption={\texttt{server/eslint.config.js}},label={lst:eslint-server}]
+import js from '@eslint/js';
+import globals from 'globals';
+
+export default [
+  js.configs.recommended,
+  {
+    languageOptions: {
+      ecmaVersion: 2023, sourceType: 'module',
+      globals: { ...globals.node },
+    },
+    rules: {
+      'no-unused-vars': ['warn', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
+      'no-console': 'off',
+      'prefer-const': 'warn',
+      eqeqeq: ['warn', 'smart'],
+    },
+    ignores: ['node_modules/**', 'seed/**'],
+  },
+];
+\end{lstlisting}
+
+\paragraph{Feature flags.} \texttt{REQUIRE\_VOTE\_TOKEN},
+\texttt{ENABLE\_AI\_INSIGHTS}, and \texttt{VITE\_USE\_SSE} let us
+disable the riskiest behaviour without a redeploy. This is the
+maintenance equivalent of a circuit breaker.
+
+\paragraph{Type-safety substitute.} We do not use TypeScript. We do use
+zod, which gives runtime validation guaranteed at the boundary, plus
+JSDoc-style types on the most-shared utilities. The trade-off is a
+faster iteration loop at the cost of in-IDE autocomplete on internal
+function calls.
+
+\subsection{Availability}
+
+\paragraph{Health probe.} \texttt{/api/health} pings Supabase and returns
+DB latency, uptime, memory, cache stats, and the SSE client count. On
+DB failure it returns \texttt{status: 'degraded'} with HTTP 200 so that
+Render's health check does not flap; we still have a separate signal
+(\texttt{db.ok}) for monitoring.
+
+\paragraph{Graceful degradation.} The user-facing surface is
+intentionally tolerant of failure modes:
+
+\begin{itemize}[leftmargin=*]
+  \item AI panel down $\to$ stub fills the same panel.
+  \item SSE down $\to$ polling fallback fetches every 30\,s.
+  \item Supabase down $\to$ cache serves the last successful read; new
+        writes return clean 500 rather than partial state.
+\end{itemize}
+
+\paragraph{Recovery time.} Render's free-tier dyno restart is 5--15
+seconds. The frontend continues to render whatever it has; on
+reconnect, the SSE channel re-syncs the session state.
+
+\subsection{Efficiency}
+
+\paragraph{Read-path budget.} Cached reads are O(1) memory lookups.
+On a cache miss, the project list is one query with one count and one
+range. Winners is six queries, batched in two \texttt{Promise.all}
+groups, totalling $\leq 50$\,ms in normal conditions.
+
+\paragraph{Write-path budget.} A vote: 1 SELECT (project), 1 SELECT
+(duplicate), 1 INSERT (vote), 1 RPC (counter), 1 in-memory broadcast,
+3 cache invalidations, 1 best-effort flag insert. All synchronous I/O
+in the hot path is to a single Supabase region.
+
+\paragraph{Measured cache hit rate.} The
+\texttt{/admin/analytics} page surfaces the live hit rate. After the
+first 30\,seconds of an event with $\sim$150 simulated visitors the
+hit rate stabilises in the 70--80\% band.
+
+\paragraph{Bundle size.} 740\,kB minified, 217\,kB gzipped. We acknowledge
+this is large for a primarily-mobile audience and treat it as
+future-work (Section~\ref{sec:future}).

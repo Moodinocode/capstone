@@ -1,0 +1,110 @@
+\section{Appendix B; HTTP API Reference}
+\label{app:api}
+
+All routes mount under \texttt{/api}. Bracketed annotations indicate
+middleware applied: [\textsc{auth}] requires JWT, [\textsc{admin}]
+requires \texttt{is\_admin}, [\textsc{lim}-\(N\)] indicates the rate
+limit (\(N\) requests per minute), [\textsc{val}] indicates a zod schema.
+
+\subsection{Authentication}
+
+\begin{longtable}{p{0.32\textwidth}p{0.62\textwidth}}
+  \toprule
+  \textbf{Route}                       & \textbf{Description} \\ \midrule
+  \texttt{POST /auth/login}            & [\textsc{lim}-5][\textsc{val}] Verify credentials, return JWT and judge profile. \\
+  \texttt{GET  /auth/me}               & [\textsc{auth}] Return the JWT-identified judge with assigned projects. \\
+  \bottomrule
+\end{longtable}
+
+\subsection{Projects (public)}
+
+\begin{longtable}{p{0.32\textwidth}p{0.62\textwidth}}
+  \toprule
+  \textbf{Route} & \textbf{Description} \\ \midrule
+  \texttt{GET  /projects}        & List with filters \texttt{category}, \texttt{search}, \texttt{segmentType}, \texttt{page}, \texttt{limit}. Cached 60\,s. \\
+  \texttt{GET  /projects/:id}    & Single project by id. \\
+  \texttt{POST /projects}        & [\textsc{auth}] Create a project (admin tooling). \\
+  \texttt{PUT  /projects/:id}    & [\textsc{auth}] Update a project. \\
+  \bottomrule
+\end{longtable}
+
+\subsection{Voting (public)}
+
+\begin{longtable}{p{0.32\textwidth}p{0.62\textwidth}}
+  \toprule
+  \textbf{Route} & \textbf{Description} \\ \midrule
+  \texttt{POST /votes/init}      & [\textsc{lim}-5][\textsc{val}] Issue an HMAC vote token bound to the supplied browser token. \\
+  \texttt{POST /votes}           & [\textsc{lim}-5][\textsc{val}] Cast a vote. Optionally enforces the HMAC token. \\
+  \texttt{GET  /votes/check/:t}  & [\textsc{val}] Has the holder of browser token \texttt{:t} already voted? \\
+  \texttt{GET  /votes/counts}    & Per-project vote count. Cached 5\,s. \\
+  \bottomrule
+\end{longtable}
+
+\subsection{Grading (judge)}
+
+\begin{longtable}{p{0.32\textwidth}p{0.62\textwidth}}
+  \toprule
+  \textbf{Route} & \textbf{Description} \\ \midrule
+  \texttt{GET  /grades/my}                & [\textsc{auth}][\textsc{lim}-60] Assigned + graded projects for current judge. \\
+  \texttt{GET  /grades/:projectId}        & [\textsc{auth}][\textsc{lim}-60] Get the judge's grade row for one project (or null). \\
+  \texttt{PUT  /grades/:projectId/draft}  & [\textsc{auth}][\textsc{lim}-60][\textsc{val}] Upsert as in\_progress. \\
+  \texttt{POST /grades/:projectId/submit} & [\textsc{auth}][\textsc{lim}-60][\textsc{val}] Upsert as submitted. Audit-logged. \\
+  \bottomrule
+\end{longtable}
+
+\subsection{Live session}
+
+\begin{longtable}{p{0.32\textwidth}p{0.62\textwidth}}
+  \toprule
+  \textbf{Route} & \textbf{Description} \\ \midrule
+  \texttt{GET  /session}              & Current snapshot. \\
+  \texttt{GET  /session/stream}       & SSE stream. Emits \texttt{session.snapshot}, \texttt{session.update}, \texttt{vote.cast}, \texttt{grade.submit}. \\
+  \texttt{PUT  /session}              & [\textsc{auth}][\textsc{admin}][\textsc{val}] Update now-playing / up-next / event-live. \\
+  \texttt{POST /session/votes-visible}& [\textsc{auth}][\textsc{admin}][\textsc{val}] Toggle voteCountVisible. \\
+  \texttt{POST /session/set-public}   & [\textsc{auth}][\textsc{admin}][\textsc{val}] Toggle isPublic. \\
+  \bottomrule
+\end{longtable}
+
+\subsection{Schedule, winners}
+
+\begin{longtable}{p{0.32\textwidth}p{0.62\textwidth}}
+  \toprule
+  \textbf{Route} & \textbf{Description} \\ \midrule
+  \texttt{GET /schedule} & Static event timeline. \\
+  \texttt{GET /winners}  & Champions, honorable mentions, peoples choice. Cached 30\,s. \\
+  \bottomrule
+\end{longtable}
+
+\subsection{AI insights}
+
+\begin{longtable}{p{0.32\textwidth}p{0.62\textwidth}}
+  \toprule
+  \textbf{Route} & \textbf{Description} \\ \midrule
+  \texttt{GET  /ai/health}            & Indicates if real Claude calls are enabled. \\
+  \texttt{GET  /ai/insights/:id}      & Cached or fresh insights for a project. \\
+  \texttt{POST /ai/insights/:id}      & [\textsc{auth}] Force regeneration (admin via \texttt{?refresh=1}). \\
+  \bottomrule
+\end{longtable}
+
+\subsection{Admin}
+
+\begin{longtable}{p{0.32\textwidth}p{0.62\textwidth}}
+  \toprule
+  \textbf{Route} & \textbf{Description} \\ \midrule
+  \texttt{GET /admin/stats}            & [\textsc{auth}][\textsc{admin}] Counts and cache hit rate. \\
+  \texttt{GET /admin/votes-timeseries} & [\textsc{auth}][\textsc{admin}] Votes/min for the last \texttt{windowMin} minutes. \\
+  \texttt{GET /admin/inter-rater}      & [\textsc{auth}][\textsc{admin}] Std-dev of judge total scores per project. \\
+  \texttt{GET /admin/anomalies}        & [\textsc{auth}][\textsc{admin}] Flagged-vote rows in reverse chronological order. \\
+  \texttt{GET /admin/audit-log}        & [\textsc{auth}][\textsc{admin}] Last \(\leq\)50 audit-log rows. \\
+  \texttt{GET /admin/judge-progress}   & [\textsc{auth}][\textsc{admin}] Per-judge counts (assigned, in-progress, submitted). \\
+  \bottomrule
+\end{longtable}
+
+\subsection{Health}
+
+\begin{longtable}{p{0.32\textwidth}p{0.62\textwidth}}
+  \toprule
+  \textbf{Route} & \textbf{Description} \\ \midrule
+  \texttt{GET /health} & Liveness + readiness. Returns DB latency, uptime, memory, cache stats, SSE client count. \\
+  \bottomrule
+\end{longtable}

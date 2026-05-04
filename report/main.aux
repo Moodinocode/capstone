@@ -1,0 +1,286 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\@writefile{toc}{\contentsline {section}{Abstract}{i}{Doc-Start}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{Acknowledgements}{i}{Doc-Start}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}{section.1}\protected@file@percent }
+\newlabel{sec:introduction}{{1}{1}{Introduction}{section.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.1}Problem and Motivation}{1}{subsection.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.2}Goals}{1}{subsection.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.3}Non-goals}{1}{subsection.1.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.4}Approach in one paragraph}{1}{subsection.1.4}\protected@file@percent }
+\citation{w3c-sse}
+\citation{leiba-spam}
+\citation{burstein-llm}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.5}Structure of this report}{2}{subsection.1.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2}Background and Related Work}{2}{section.2}\protected@file@percent }
+\newlabel{sec:background}{{2}{2}{Background and Related Work}{section.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Existing judging platforms}{2}{subsection.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Real-time web stacks}{2}{subsection.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Voting integrity literature}{2}{subsection.2.3}\protected@file@percent }
+\citation{anthropic-cache}
+\citation{helmet}
+\citation{erl}
+\citation{lru-cache}
+\citation{pino}
+\citation{zod}
+\citation{recharts}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4}LLM-assisted evaluation}{3}{subsection.2.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.5}Libraries we lean on}{3}{subsection.2.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.6}What is novel}{3}{subsection.2.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3}Requirements}{3}{section.3}\protected@file@percent }
+\newlabel{sec:requirements}{{3}{3}{Requirements}{section.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Stakeholders}{3}{subsection.3.1}\protected@file@percent }
+\gdef \LT@i {\LT@entry 
+    {1}{39.17696pt}\LT@entry 
+    {1}{166.00742pt}\LT@entry 
+    {1}{48.23825pt}\LT@entry 
+    {1}{202.24568pt}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Functional Requirements}{4}{subsection.3.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Functional requirements (MoSCoW prioritised).}}{4}{table.1}\protected@file@percent }
+\newlabel{tab:func-req}{{1}{4}{Functional requirements (MoSCoW prioritised)}{table.1}{}}
+\gdef \LT@ii {\LT@entry 
+    {1}{39.17696pt}\LT@entry 
+    {1}{84.47652pt}\LT@entry 
+    {1}{292.83788pt}\LT@entry 
+    {1}{57.29955pt}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Non-Functional Requirements}{5}{subsection.3.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Non-functional requirements.}}{5}{table.2}\protected@file@percent }
+\newlabel{tab:nonfunc-req}{{2}{5}{Non-functional requirements}{table.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Out of scope}{6}{subsection.3.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5}Constraints}{6}{subsection.3.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4}System Architecture}{6}{section.4}\protected@file@percent }
+\newlabel{sec:architecture}{{4}{6}{System Architecture}{section.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Component view}{6}{subsection.4.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Component view of the Spotlight platform.}}{7}{figure.caption.1}\protected@file@percent }
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{fig:arch-component}{{1}{7}{Component view of the Spotlight platform}{figure.caption.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Deployment view}{7}{subsection.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Tech stack rationale; decision records}{7}{subsection.4.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Deployment view.}}{8}{figure.caption.2}\protected@file@percent }
+\newlabel{fig:arch-deployment}{{2}{8}{Deployment view}{figure.caption.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Cross-cutting concerns}{9}{subsection.4.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Authentication and authorization.}{9}{paragraph*.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Validation.}{9}{paragraph*.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Error handling.}{9}{paragraph*.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Caching.}{9}{paragraph*.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Real-time fan-out.}{9}{paragraph*.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5}Data Model}{10}{section.5}\protected@file@percent }
+\newlabel{sec:datamodel}{{5}{10}{Data Model}{section.5}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Entity-relationship diagram.}}{10}{figure.caption.8}\protected@file@percent }
+\newlabel{fig:db-erd}{{3}{10}{Entity-relationship diagram}{figure.caption.8}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}\texttt  {projects}}{10}{subsection.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}\texttt  {judges} and \texttt  {judge\_projects}}{10}{subsection.5.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}\texttt  {grades}}{10}{subsection.5.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}\texttt  {votes}}{10}{subsection.5.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.5}\texttt  {vote\_flags}}{11}{subsection.5.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.6}\texttt  {ai\_insights}}{11}{subsection.5.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.7}\texttt  {audit\_logs}}{11}{subsection.5.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.8}\texttt  {live\_sessions}}{11}{subsection.5.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.9}\texttt  {schedule\_items}}{11}{subsection.5.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.10}Atomic vote increment RPC}{11}{subsection.5.10}\protected@file@percent }
+\newlabel{sub:rpc}{{5.10}{11}{Atomic vote increment RPC}{subsection.5.10}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.11}Indexes}{11}{subsection.5.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6}Detailed Design}{12}{section.6}\protected@file@percent }
+\newlabel{sec:design}{{6}{12}{Detailed Design}{section.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}Voting flow}{12}{subsection.6.1}\protected@file@percent }
+\newlabel{sub:vote-flow}{{6.1}{12}{Voting flow}{subsection.6.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Sequence diagram for the two-step vote flow.}}{12}{figure.caption.9}\protected@file@percent }
+\newlabel{fig:seq-vote}{{4}{12}{Sequence diagram for the two-step vote flow}{figure.caption.9}{}}
+\@writefile{toc}{\contentsline {paragraph}{Why two steps?}{12}{paragraph*.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{What the HMAC binds.}{12}{paragraph*.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Anomaly scoring.}{13}{paragraph*.12}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Vote anomaly scoring rules.}}{13}{figure.caption.13}\protected@file@percent }
+\newlabel{fig:flow-anomaly}{{5}{13}{Vote anomaly scoring rules}{figure.caption.13}{}}
+\@writefile{toc}{\contentsline {paragraph}{Failure modes.}{13}{paragraph*.14}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Grading flow}{13}{subsection.6.2}\protected@file@percent }
+\newlabel{sub:grade-flow}{{6.2}{13}{Grading flow}{subsection.6.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}Real-time session sync}{13}{subsection.6.3}\protected@file@percent }
+\newlabel{sub:sse-flow}{{6.3}{13}{Real-time session sync}{subsection.6.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Sequence diagram for grading.}}{14}{figure.caption.15}\protected@file@percent }
+\newlabel{fig:seq-grade}{{6}{14}{Sequence diagram for grading}{figure.caption.15}{}}
+\@writefile{toc}{\contentsline {paragraph}{Why a watchdog and a polling fallback?}{14}{paragraph*.18}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.4}AI insight generation}{14}{subsection.6.4}\protected@file@percent }
+\newlabel{sub:ai-flow}{{6.4}{14}{AI insight generation}{subsection.6.4}{}}
+\@writefile{toc}{\contentsline {paragraph}{Prompt caching.}{14}{paragraph*.20}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Grade status machine.}}{15}{figure.caption.16}\protected@file@percent }
+\newlabel{fig:state-grade}{{7}{15}{Grade status machine}{figure.caption.16}{}}
+\@writefile{toc}{\contentsline {paragraph}{The deterministic stub.}{15}{paragraph*.21}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.5}Auth flow}{15}{subsection.6.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.6}Caching strategy}{15}{subsection.6.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.7}Anomaly detector internals}{15}{subsection.6.7}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Server-Sent Events session push.}}{16}{figure.caption.17}\protected@file@percent }
+\newlabel{fig:seq-sse}{{8}{16}{Server-Sent Events session push}{figure.caption.17}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {7}Implementation Walkthrough}{16}{section.7}\protected@file@percent }
+\newlabel{sec:impl}{{7}{16}{Implementation Walkthrough}{section.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}Express bootstrap}{16}{subsection.7.1}\protected@file@percent }
+\newlabel{lst:server}{{1}{16}{\texttt {server/server.js} (key fragment)}{lstlisting.1}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {1}{\ignorespaces \texttt  {server/server.js} (key fragment)}}{16}{lstlisting.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces AI insight retrieval and generation.}}{17}{figure.caption.19}\protected@file@percent }
+\newlabel{fig:seq-ai}{{9}{17}{AI insight retrieval and generation}{figure.caption.19}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.2}Validation middleware}{17}{subsection.7.2}\protected@file@percent }
+\newlabel{lst:validate}{{2}{17}{\texttt {server/middleware/validate.js}; the generic validator}{lstlisting.2}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {2}{\ignorespaces \texttt  {server/middleware/validate.js}; the generic validator}}{17}{lstlisting.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Authentication and protected-request flow.}}{18}{figure.caption.22}\protected@file@percent }
+\newlabel{fig:flow-auth}{{10}{18}{Authentication and protected-request flow}{figure.caption.22}{}}
+\newlabel{lst:schemas}{{3}{18}{Schemas (excerpt)}{lstlisting.3}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {3}{\ignorespaces Schemas (excerpt)}}{18}{lstlisting.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.3}Per-route rate limits}{19}{subsection.7.3}\protected@file@percent }
+\newlabel{lst:limits}{{4}{19}{\texttt {server/middleware/limits.js}}{lstlisting.4}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {4}{\ignorespaces \texttt  {server/middleware/limits.js}}}{19}{lstlisting.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.4}Cache helper}{19}{subsection.7.4}\protected@file@percent }
+\newlabel{lst:cache}{{5}{19}{\texttt {server/utils/cache.js}}{lstlisting.5}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5}{\ignorespaces \texttt  {server/utils/cache.js}}}{19}{lstlisting.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.5}HMAC vote token}{20}{subsection.7.5}\protected@file@percent }
+\newlabel{lst:vote-token}{{6}{20}{\texttt {server/utils/voteToken.js} (issue + verify)}{lstlisting.6}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6}{\ignorespaces \texttt  {server/utils/voteToken.js} (issue + verify)}}{20}{lstlisting.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.6}Anomaly scoring}{20}{subsection.7.6}\protected@file@percent }
+\newlabel{lst:anom}{{7}{20}{\texttt {server/services/anomalyDetector.js} (scoring)}{lstlisting.7}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {7}{\ignorespaces \texttt  {server/services/anomalyDetector.js} (scoring)}}{20}{lstlisting.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.7}Vote controller (the cold path)}{21}{subsection.7.7}\protected@file@percent }
+\newlabel{lst:cast}{{8}{21}{\texttt {server/controllers/voteController.js} (castVote, abridged)}{lstlisting.8}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {8}{\ignorespaces \texttt  {server/controllers/voteController.js} (castVote, abridged)}}{21}{lstlisting.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.8}SSE event bus}{22}{subsection.7.8}\protected@file@percent }
+\newlabel{lst:bus}{{9}{22}{\texttt {server/services/eventBus.js}}{lstlisting.9}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {9}{\ignorespaces \texttt  {server/services/eventBus.js}}}{22}{lstlisting.9}\protected@file@percent }
+\newlabel{lst:sse}{{10}{22}{SSE handler in \texttt {sessionController.js}}{lstlisting.10}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {10}{\ignorespaces SSE handler in \texttt  {sessionController.js}}}{22}{lstlisting.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.9}Claude API call with prompt caching}{23}{subsection.7.9}\protected@file@percent }
+\newlabel{lst:claude}{{11}{23}{\texttt {server/services/claude.js} (the message create)}{lstlisting.11}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {11}{\ignorespaces \texttt  {server/services/claude.js} (the message create)}}{23}{lstlisting.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.10}Audit helper}{23}{subsection.7.10}\protected@file@percent }
+\newlabel{lst:audit}{{12}{23}{\texttt {server/utils/audit.js}}{lstlisting.12}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {12}{\ignorespaces \texttt  {server/utils/audit.js}}}{23}{lstlisting.12}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.11}Client SSE hook}{24}{subsection.7.11}\protected@file@percent }
+\newlabel{lst:hook}{{13}{24}{\texttt {client/src/hooks/useEventStream.js} (key fragment)}{lstlisting.13}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {13}{\ignorespaces \texttt  {client/src/hooks/useEventStream.js} (key fragment)}}{24}{lstlisting.13}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.12}Frontend component map}{24}{subsection.7.12}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces Top-level frontend component hierarchy.}}{25}{figure.caption.23}\protected@file@percent }
+\newlabel{fig:class-frontend}{{11}{25}{Top-level frontend component hierarchy}{figure.caption.23}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {8}Non-Functional Properties}{25}{section.8}\protected@file@percent }
+\newlabel{sec:nonfunc}{{8}{25}{Non-Functional Properties}{section.8}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.1}Security}{25}{subsection.8.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Defence in depth.}{25}{paragraph*.24}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Identity \& secrets.}{25}{paragraph*.25}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{SQL injection.}{25}{paragraph*.26}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{XSS.}{25}{paragraph*.27}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Audit trail.}{25}{paragraph*.28}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Residual risk and mitigations.}{25}{paragraph*.29}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.2}Scalability}{26}{subsection.8.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Stateless backend.}{26}{paragraph*.30}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Cache.}{26}{paragraph*.31}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Cache TTLs by key prefix.}}{26}{table.caption.32}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Atomic vote increment.}{26}{paragraph*.33}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Why we are not Redis-bound.}{26}{paragraph*.34}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Frontend.}{26}{paragraph*.35}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.3}Reliability}{26}{subsection.8.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Async error path.}{26}{paragraph*.36}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Logging.}{26}{paragraph*.37}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Submitted-grade immutability.}{27}{paragraph*.38}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Failure isolation.}{27}{paragraph*.39}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.4}Maintainability}{27}{subsection.8.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Clean separation.}{27}{paragraph*.40}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Linting.}{27}{paragraph*.41}\protected@file@percent }
+\newlabel{lst:eslint-server}{{14}{27}{\texttt {server/eslint.config.js}}{lstlisting.14}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {14}{\ignorespaces \texttt  {server/eslint.config.js}}}{27}{lstlisting.14}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Feature flags.}{27}{paragraph*.42}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Type-safety substitute.}{27}{paragraph*.43}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.5}Availability}{28}{subsection.8.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Health probe.}{28}{paragraph*.44}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Graceful degradation.}{28}{paragraph*.45}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Recovery time.}{28}{paragraph*.46}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.6}Efficiency}{28}{subsection.8.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Read-path budget.}{28}{paragraph*.47}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Write-path budget.}{28}{paragraph*.48}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Measured cache hit rate.}{28}{paragraph*.49}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Bundle size.}{28}{paragraph*.50}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {9}Testing and Verification}{28}{section.9}\protected@file@percent }
+\newlabel{sec:test}{{9}{28}{Testing and Verification}{section.9}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {9.1}Verification strategy}{28}{subsection.9.1}\protected@file@percent }
+\gdef \LT@iii {\LT@entry 
+    {1}{39.17696pt}\LT@entry 
+    {1}{147.89174pt}\LT@entry 
+    {1}{175.06871pt}\LT@entry 
+    {1}{102.5922pt}}
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Manual verification matrix.}}{29}{table.4}\protected@file@percent }
+\newlabel{tab:verify}{{4}{29}{Manual verification matrix}{table.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {9.2}Synthetic load test (manual)}{30}{subsection.9.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {9.3}What automated tests would look like}{30}{subsection.9.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {9.4}Defensive non-test: chaos verification}{31}{subsection.9.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {10}Deployment and Operations}{31}{section.10}\protected@file@percent }
+\newlabel{sec:deploy}{{10}{31}{Deployment and Operations}{section.10}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {10.1}Topology}{31}{subsection.10.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {10.2}Environment variables}{31}{subsection.10.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Backend environment variables.}}{31}{table.caption.51}\protected@file@percent }
+\newlabel{tab:env}{{5}{31}{Backend environment variables}{table.caption.51}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {10.3}Migrations}{32}{subsection.10.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {10.4}Seeding}{32}{subsection.10.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {10.5}Show-day runbook}{32}{subsection.10.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {10.6}Observability}{32}{subsection.10.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {10.7}Disaster recovery}{32}{subsection.10.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {11}Limitations and Future Work}{33}{section.11}\protected@file@percent }
+\newlabel{sec:future}{{11}{33}{Limitations and Future Work}{section.11}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {11.1}Honest limitations}{33}{subsection.11.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {11.2}Future work, prioritised}{33}{subsection.11.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {11.3}Lessons learned}{34}{subsection.11.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {12}Conclusion}{34}{section.12}\protected@file@percent }
+\newlabel{sec:conclusion}{{12}{34}{Conclusion}{section.12}{}}
+\bibcite{w3c-sse}{1}
+\bibcite{leiba-spam}{2}
+\bibcite{burstein-llm}{3}
+\bibcite{anthropic-cache}{4}
+\bibcite{helmet}{5}
+\bibcite{erl}{6}
+\bibcite{lru-cache}{7}
+\bibcite{pino}{8}
+\bibcite{zod}{9}
+\bibcite{recharts}{10}
+\bibcite{owasp-top10}{11}
+\bibcite{nielsen-ux}{12}
+\bibcite{fielding-rest}{13}
+\@writefile{toc}{\contentsline {section}{References}{35}{section.12}\protected@file@percent }
+\newlabel{sec:refs}{{12}{35}{}{section.12}{}}
+\bibcite{nist-csf}{14}
+\@writefile{toc}{\contentsline {section}{\numberline {A}Appendix A; Database Schema (DDL)}{36}{appendix.A}\protected@file@percent }
+\newlabel{app:schema}{{A}{36}{Appendix A; Database Schema (DDL)}{appendix.A}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {15}{\ignorespaces Consolidated DDL.}}{36}{lstlisting.15}\protected@file@percent }
+\gdef \LT@iv {\LT@entry 
+    {1}{156.95303pt}\LT@entry 
+    {1}{292.83788pt}}
+\gdef \LT@v {\LT@entry 
+    {1}{156.95303pt}\LT@entry 
+    {1}{292.83788pt}}
+\@writefile{toc}{\contentsline {section}{\numberline {B}Appendix B; HTTP API Reference}{38}{appendix.B}\protected@file@percent }
+\newlabel{app:api}{{B}{38}{Appendix B; HTTP API Reference}{appendix.B}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.1}Authentication}{38}{subsection.B.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.2}Projects (public)}{38}{subsection.B.2}\protected@file@percent }
+\gdef \LT@vi {\LT@entry 
+    {1}{156.95303pt}\LT@entry 
+    {1}{292.83788pt}}
+\gdef \LT@vii {\LT@entry 
+    {1}{156.95303pt}\LT@entry 
+    {1}{292.83788pt}}
+\gdef \LT@viii {\LT@entry 
+    {1}{156.95303pt}\LT@entry 
+    {1}{292.83788pt}}
+\gdef \LT@ix {\LT@entry 
+    {1}{156.95303pt}\LT@entry 
+    {1}{292.83788pt}}
+\gdef \LT@x {\LT@entry 
+    {1}{156.95303pt}\LT@entry 
+    {1}{292.83788pt}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.3}Voting (public)}{39}{subsection.B.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.4}Grading (judge)}{39}{subsection.B.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.5}Live session}{39}{subsection.B.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.6}Schedule, winners}{39}{subsection.B.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.7}AI insights}{39}{subsection.B.7}\protected@file@percent }
+\gdef \LT@xi {\LT@entry 
+    {1}{156.95303pt}\LT@entry 
+    {1}{292.83788pt}}
+\gdef \LT@xii {\LT@entry 
+    {1}{156.95303pt}\LT@entry 
+    {1}{292.83788pt}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.8}Admin}{40}{subsection.B.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.9}Health}{40}{subsection.B.9}\protected@file@percent }
+\gdef \@abspage@last{46}

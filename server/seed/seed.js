@@ -88,13 +88,24 @@ const interviewsData = [
   { projectNumber: 'I-306', title: 'Mock Interview', teamName: 'Clarissa Fares',     category: 'Mock Interview', description: '', members: [{ name: 'Clarissa Fares',     role: 'Interviewee' }], tags: [], zoomLink: '' },
 ];
 
+// Five regular judges — they grade their assigned projects.
+// The event admin (below) is a separate account with no grading assignments.
 const judgesData = [
-  { name: 'Emilie Wahab Harb',    email: 'emilie@softskills',     password: 'Emilie@SS25',    isAdmin: true  },
+  { name: 'Emilie Wahab Harb',    email: 'emilie@softskills',     password: 'Emilie@SS25',    isAdmin: false },
   { name: 'Ghassan Hammoud',      email: 'ghassan@softskills',    password: 'Ghassan@SS25',   isAdmin: false },
   { name: 'Marie Josee Daibes',   email: 'mariejosee@softskills', password: 'MJosee@SS25',    isAdmin: false },
   { name: 'Lilian Abou Hamdan',   email: 'lilian@softskills',     password: 'Lilian@SS25',    isAdmin: false },
   { name: 'Rita Nachar',          email: 'rita@softskills',       password: 'Rita@SS25',      isAdmin: false },
 ];
+
+// Dedicated event admin — controls the live session, sees analytics
+// and integrity dashboards, but is NOT assigned any projects to grade.
+const adminData = {
+  name:     'Event Admin',
+  email:    'admin@softskills',
+  password: 'AdminSS25!',
+  isAdmin:  true,
+};
 
 // Schedule labels reference the actual seeded TED talks (T-101, T-103) so the
 // homepage timeline and the Event Media section stay in sync.
@@ -198,27 +209,30 @@ async function seed() {
     'Interviews',
   );
 
-  console.log('→ Seeding judges…');
-  const judgeRows = await Promise.all(
-    judgesData.map(async (j) => ({
+  console.log('→ Seeding judges (5 graders + 1 admin)…');
+  const allJudgeRows = await Promise.all(
+    [...judgesData, adminData].map(async (j) => ({
       name:     j.name,
       email:    j.email,
       password: await bcrypt.hash(j.password, 10),
       is_admin: j.isAdmin,
     })),
   );
-  const judges = await insertOrThrow('judges', judgeRows, 'Judges');
+  const allJudges = await insertOrThrow('judges', allJudgeRows, 'Judges');
 
-  console.log('→ Assigning segments to judges…');
+  // Assign every judge AND the admin the same project list, so the
+  // admin can also grade during a single-account demo run.
+  console.log(`→ Assigning segments to ${allJudges.length} accounts (judges + admin)…`);
   const featuredNumbers = ['P-103','P-104','P-107','P-108','P-116','P-117','P-121','P-123','P-124'];
   const featuredPitches = pitches.filter((p) => featuredNumbers.includes(p.project_number));
   const assignmentRows = [];
-  judges.forEach((judge) => {
+  allJudges.forEach((judge) => {
     for (const p  of featuredPitches) assignmentRows.push({ judge_id: judge.id, project_id: p.id });
     for (const t  of tedTalks)        assignmentRows.push({ judge_id: judge.id, project_id: t.id });
     for (const iv of interviews)      assignmentRows.push({ judge_id: judge.id, project_id: iv.id });
   });
   await insertOrThrow('judge_projects', assignmentRows, 'Judge assignments');
+  const judges = allJudges.filter((j) => !j.is_admin); // for log line below
 
 
   console.log('→ Seeding schedule…');
@@ -240,9 +254,10 @@ async function seed() {
   console.log(`   ${pitches.length} project pitches (with vote counts)`);
   console.log(`   ${tedTalks.length} TED talks (with video URLs)`);
   console.log(`   ${interviews.length} interviews`);
-  console.log(`   ${judges.length} judges seeded:`);
-  judgesData.forEach((j) => console.log(`     ${j.email}  /  ${j.password}`));
+  console.log(`   ${judges.length} judges + 1 admin seeded`);
   console.log(`   ${scheduleData.length} schedule items`);
+  console.log('\n   Admin login (event control + dashboards):');
+  console.log(`     ${adminData.email}  /  ${adminData.password}`);
 }
 
 seed().catch((err) => {

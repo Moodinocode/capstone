@@ -1,0 +1,2826 @@
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.4.26)  2 MAY 2026 14:32
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**main.tex
+(./main.tex
+LaTeX2e <2023-11-01> patch level 1
+L3 programming layer <2024-01-22>
+(/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2023/05/17 v1.4n Standard LaTeX document class
+(/usr/share/texlive/texmf-dist/tex/latex/base/size11.clo
+File: size11.clo 2023/05/17 v1.4n Standard LaTeX file (size option)
+)
+\c@part=\count187
+\c@section=\count188
+\c@subsection=\count189
+\c@subsubsection=\count190
+\c@paragraph=\count191
+\c@subparagraph=\count192
+\c@figure=\count193
+\c@table=\count194
+\abovecaptionskip=\skip48
+\belowcaptionskip=\skip49
+\bibindent=\dimen140
+)
+(/usr/share/texlive/texmf-dist/tex/latex/geometry/geometry.sty
+Package: geometry 2020/01/02 v5.9 Page Geometry
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
+\KV@toks@=\toks17
+)
+(/usr/share/texlive/texmf-dist/tex/generic/iftex/ifvtex.sty
+Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
+
+(/usr/share/texlive/texmf-dist/tex/generic/iftex/iftex.sty
+Package: iftex 2022/02/03 v1.0f TeX engine tests
+))
+\Gm@cnth=\count195
+\Gm@cntv=\count196
+\c@Gm@tempcnt=\count197
+\Gm@bindingoffset=\dimen141
+\Gm@wd@mp=\dimen142
+\Gm@odd@mp=\dimen143
+\Gm@even@mp=\dimen144
+\Gm@layoutwidth=\dimen145
+\Gm@layoutheight=\dimen146
+\Gm@layouthoffset=\dimen147
+\Gm@layoutvoffset=\dimen148
+\Gm@dimlist=\toks18
+)
+(/usr/share/texlive/texmf-dist/tex/latex/base/inputenc.sty
+Package: inputenc 2021/02/14 v1.3d Input encoding file
+\inpenc@prehook=\toks19
+\inpenc@posthook=\toks20
+)
+(/usr/share/texlive/texmf-dist/tex/latex/base/fontenc.sty
+Package: fontenc 2021/04/29 v2.0v Standard LaTeX package
+)
+(/usr/share/texmf/tex/latex/lm/lmodern.sty
+Package: lmodern 2015/05/01 v1.6.1 Latin Modern Fonts
+LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
+(Font)                  OT1/cmr/m/n --> OT1/lmr/m/n on input line 22.
+LaTeX Font Info:    Overwriting symbol font `letters' in version `normal'
+(Font)                  OML/cmm/m/it --> OML/lmm/m/it on input line 23.
+LaTeX Font Info:    Overwriting symbol font `symbols' in version `normal'
+(Font)                  OMS/cmsy/m/n --> OMS/lmsy/m/n on input line 24.
+LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `normal'
+(Font)                  OMX/cmex/m/n --> OMX/lmex/m/n on input line 25.
+LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
+(Font)                  OT1/cmr/bx/n --> OT1/lmr/bx/n on input line 26.
+LaTeX Font Info:    Overwriting symbol font `letters' in version `bold'
+(Font)                  OML/cmm/b/it --> OML/lmm/b/it on input line 27.
+LaTeX Font Info:    Overwriting symbol font `symbols' in version `bold'
+(Font)                  OMS/cmsy/b/n --> OMS/lmsy/b/n on input line 28.
+LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `bold'
+(Font)                  OMX/cmex/m/n --> OMX/lmex/m/n on input line 29.
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
+(Font)                  OT1/cmr/bx/n --> OT1/lmr/bx/n on input line 31.
+LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
+(Font)                  OT1/cmss/m/n --> OT1/lmss/m/n on input line 32.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
+(Font)                  OT1/cmr/m/it --> OT1/lmr/m/it on input line 33.
+LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
+(Font)                  OT1/cmtt/m/n --> OT1/lmtt/m/n on input line 34.
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
+(Font)                  OT1/cmr/bx/n --> OT1/lmr/bx/n on input line 35.
+LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
+(Font)                  OT1/cmss/bx/n --> OT1/lmss/bx/n on input line 36.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
+(Font)                  OT1/cmr/bx/it --> OT1/lmr/bx/it on input line 37.
+LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
+(Font)                  OT1/cmtt/m/n --> OT1/lmtt/m/n on input line 38.
+)
+(/usr/share/texlive/texmf-dist/tex/latex/microtype/microtype.sty
+Package: microtype 2023/03/13 v3.1a Micro-typographical refinements (RS)
+
+(/usr/share/texlive/texmf-dist/tex/latex/etoolbox/etoolbox.sty
+Package: etoolbox 2020/10/05 v2.5k e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count198
+)
+\MT@toks=\toks21
+\MT@tempbox=\box51
+\MT@count=\count199
+LaTeX Info: Redefining \noprotrusionifhmode on input line 1059.
+LaTeX Info: Redefining \leftprotrusion on input line 1060.
+\MT@prot@toks=\toks22
+LaTeX Info: Redefining \rightprotrusion on input line 1078.
+LaTeX Info: Redefining \textls on input line 1368.
+\MT@outer@kern=\dimen149
+LaTeX Info: Redefining \textmicrotypecontext on input line 1988.
+\MT@listname@count=\count266
+
+(/usr/share/texlive/texmf-dist/tex/latex/microtype/microtype-pdftex.def
+File: microtype-pdftex.def 2023/03/13 v3.1a Definitions specific to pdftex (RS)
+
+LaTeX Info: Redefining \lsstyle on input line 902.
+LaTeX Info: Redefining \lslig on input line 902.
+\MT@outer@space=\skip50
+)
+Package microtype Info: Loading configuration file microtype.cfg.
+
+(/usr/share/texlive/texmf-dist/tex/latex/microtype/microtype.cfg
+File: microtype.cfg 2023/03/13 v3.1a microtype main configuration file (RS)
+))
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2022/03/10 v1.4e Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 2021/08/11 v1.11 sin cos tan (DPC)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 107.
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-def/pdftex.def
+File: pdftex.def 2022/09/22 v1.2b Graphics/color driver for pdftex
+))
+\Gin@req@height=\dimen150
+\Gin@req@width=\dimen151
+)
+(/usr/share/texlive/texmf-dist/tex/latex/xcolor/xcolor.sty
+Package: xcolor 2023/11/15 v3.01 LaTeX color extensions (UK)
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/color.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package xcolor Info: Driver file: pdftex.def on input line 274.
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/mathcolor.ltx)
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1350.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1354.
+Package xcolor Info: Model `RGB' extended on input line 1366.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1368.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1369.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1370.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1371.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1372.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1373.
+)
+(/usr/share/texlive/texmf-dist/tex/latex/titlesec/titlesec.sty
+Package: titlesec 2023/10/27 v2.16 Sectioning titles
+\ttl@box=\box52
+\beforetitleunit=\skip51
+\aftertitleunit=\skip52
+\ttl@plus=\dimen152
+\ttl@minus=\dimen153
+\ttl@toksa=\toks23
+\titlewidth=\dimen154
+\titlewidthlast=\dimen155
+\titlewidthfirst=\dimen156
+)
+(/usr/share/texlive/texmf-dist/tex/latex/enumitem/enumitem.sty
+Package: enumitem 2019/06/20 v3.9 Customized lists
+\labelindent=\skip53
+\enit@outerparindent=\dimen157
+\enit@toks=\toks24
+\enit@inbox=\box53
+\enit@count@id=\count267
+\enitdp@description=\count268
+)
+(/usr/share/texlive/texmf-dist/tex/latex/booktabs/booktabs.sty
+Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
+\heavyrulewidth=\dimen158
+\lightrulewidth=\dimen159
+\cmidrulewidth=\dimen160
+\belowrulesep=\dimen161
+\belowbottomsep=\dimen162
+\aboverulesep=\dimen163
+\abovetopsep=\dimen164
+\cmidrulesep=\dimen165
+\cmidrulekern=\dimen166
+\defaultaddspace=\dimen167
+\@cmidla=\count269
+\@cmidlb=\count270
+\@aboverulesep=\dimen168
+\@belowrulesep=\dimen169
+\@thisruleclass=\count271
+\@lastruleclass=\count272
+\@thisrulewidth=\dimen170
+)
+(/usr/share/texlive/texmf-dist/tex/latex/tools/longtable.sty
+Package: longtable 2023-11-01 v4.19 Multi-page Table package (DPC)
+\LTleft=\skip54
+\LTright=\skip55
+\LTpre=\skip56
+\LTpost=\skip57
+\LTchunksize=\count273
+\LTcapwidth=\dimen171
+\LT@head=\box54
+\LT@firsthead=\box55
+\LT@foot=\box56
+\LT@lastfoot=\box57
+\LT@gbox=\box58
+\LT@cols=\count274
+\LT@rows=\count275
+\c@LT@tables=\count276
+\c@LT@chunks=\count277
+\LT@p@ftn=\toks25
+)
+(/usr/share/texlive/texmf-dist/tex/latex/tools/array.sty
+Package: array 2023/10/16 v2.5g Tabular extension package (FMi)
+\col@sep=\dimen172
+\ar@mcellbox=\box59
+\extrarowheight=\dimen173
+\NC@list=\toks26
+\extratabsurround=\skip58
+\backup@length=\skip59
+\ar@cellbox=\box60
+)
+(/usr/share/texlive/texmf-dist/tex/latex/tools/tabularx.sty
+Package: tabularx 2023/07/08 v2.11c `tabularx' package (DPC)
+\TX@col@width=\dimen174
+\TX@old@table=\dimen175
+\TX@old@col=\dimen176
+\TX@target=\dimen177
+\TX@delta=\dimen178
+\TX@cols=\count278
+\TX@ftn=\toks27
+)
+(/usr/share/texlive/texmf-dist/tex/latex/listings/listings.sty
+\lst@mode=\count279
+\lst@gtempboxa=\box61
+\lst@token=\toks28
+\lst@length=\count280
+\lst@currlwidth=\dimen179
+\lst@column=\count281
+\lst@pos=\count282
+\lst@lostspace=\dimen180
+\lst@width=\dimen181
+\lst@newlines=\count283
+\lst@lineno=\count284
+\lst@maxwidth=\dimen182
+
+(/usr/share/texlive/texmf-dist/tex/latex/listings/lstmisc.sty
+File: lstmisc.sty 2023/02/27 1.9 (Carsten Heinz)
+\c@lstnumber=\count285
+\lst@skipnumbers=\count286
+\lst@framebox=\box62
+)
+(/usr/share/texlive/texmf-dist/tex/latex/listings/listings.cfg
+File: listings.cfg 2023/02/27 1.9 listings configuration
+))
+Package: listings 2023/02/27 1.9 (Carsten Heinz)
+
+(/usr/share/texlive/texmf-dist/tex/latex/caption/caption.sty
+Package: caption 2023/08/05 v3.6o Customizing captions (AR)
+
+(/usr/share/texlive/texmf-dist/tex/latex/caption/caption3.sty
+Package: caption3 2023/07/31 v2.4d caption3 kernel (AR)
+\caption@tempdima=\dimen183
+\captionmargin=\dimen184
+\caption@leftmargin=\dimen185
+\caption@rightmargin=\dimen186
+\caption@width=\dimen187
+\caption@indent=\dimen188
+\caption@parindent=\dimen189
+\caption@hangindent=\dimen190
+Package caption Info: Standard document class detected.
+)
+\c@caption@flags=\count287
+\c@continuedfloat=\count288
+Package caption Info: listings package is loaded.
+Package caption Info: longtable package is loaded.
+
+(/usr/share/texlive/texmf-dist/tex/latex/caption/ltcaption.sty
+Package: ltcaption 2021/01/08 v1.4c longtable captions (AR)
+))
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/hyperref.sty
+Package: hyperref 2024-01-20 v7.01h Hypertext links for LaTeX
+
+(/usr/share/texlive/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty
+Package: kvsetkeys 2022-10-05 v1.19 Key value parser (HO)
+)
+(/usr/share/texlive/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty
+Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
+)
+(/usr/share/texlive/texmf-dist/tex/generic/pdfescape/pdfescape.sty
+Package: pdfescape 2019/12/09 v1.15 Implements pdfTeX's escape features (HO)
+
+(/usr/share/texlive/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
+Package: ltxcmds 2023-12-04 v1.26 LaTeX kernel commands for general use (HO)
+)
+(/usr/share/texlive/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
+Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO
+)
+
+(/usr/share/texlive/texmf-dist/tex/generic/infwarerr/infwarerr.sty
+Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
+)
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+))
+(/usr/share/texlive/texmf-dist/tex/latex/hycolor/hycolor.sty
+Package: hycolor 2020-01-27 v1.10 Color options for hyperref/bookmark (HO)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/auxhook/auxhook.sty
+Package: auxhook 2019-12-17 v1.6 Hooks for auxiliary files (HO)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
+Package: nameref 2023-11-26 v2.56 Cross-referencing by name of section
+
+(/usr/share/texlive/texmf-dist/tex/latex/refcount/refcount.sty
+Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
+)
+(/usr/share/texlive/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
+Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
+
+(/usr/share/texlive/texmf-dist/tex/latex/kvoptions/kvoptions.sty
+Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
+))
+\c@section@level=\count289
+)
+\@linkdim=\dimen191
+\Hy@linkcounter=\count290
+\Hy@pagecounter=\count291
+
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/pd1enc.def
+File: pd1enc.def 2024-01-20 v7.01h Hyperref: PDFDocEncoding definition (HO)
+Now handling font encoding PD1 ...
+... no UTF-8 mapping file for font encoding PD1
+)
+(/usr/share/texlive/texmf-dist/tex/generic/intcalc/intcalc.sty
+Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
+)
+\Hy@SavedSpaceFactor=\count292
+
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/puenc.def
+File: puenc.def 2024-01-20 v7.01h Hyperref: PDF Unicode definition (HO)
+Now handling font encoding PU ...
+... no UTF-8 mapping file for font encoding PU
+)
+Package hyperref Info: Hyper figures OFF on input line 4179.
+Package hyperref Info: Link nesting OFF on input line 4184.
+Package hyperref Info: Hyper index ON on input line 4187.
+Package hyperref Info: Plain pages OFF on input line 4194.
+Package hyperref Info: Backreferencing OFF on input line 4199.
+Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
+Package hyperref Info: Bookmarks ON on input line 4446.
+\c@Hy@tempcnt=\count293
+
+(/usr/share/texlive/texmf-dist/tex/latex/url/url.sty
+\Urlmuskip=\muskip16
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+)
+LaTeX Info: Redefining \url on input line 4784.
+\XeTeXLinkMargin=\dimen192
+
+(/usr/share/texlive/texmf-dist/tex/generic/bitset/bitset.sty
+Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
+
+(/usr/share/texlive/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty
+Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO
+)
+))
+\Fld@menulength=\count294
+\Field@Width=\dimen193
+\Fld@charsize=\dimen194
+Package hyperref Info: Hyper figures OFF on input line 6063.
+Package hyperref Info: Link nesting OFF on input line 6068.
+Package hyperref Info: Hyper index ON on input line 6071.
+Package hyperref Info: backreferencing OFF on input line 6078.
+Package hyperref Info: Link coloring OFF on input line 6083.
+Package hyperref Info: Link coloring with OCG OFF on input line 6088.
+Package hyperref Info: PDF/A mode OFF on input line 6093.
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/atbegshi-ltx.sty
+Package: atbegshi-ltx 2021/01/10 v1.0c Emulation of the original atbegshi
+package with kernel methods
+)
+\Hy@abspage=\count295
+\c@Item=\count296
+\c@Hfootnote=\count297
+)
+Package hyperref Info: Driver (autodetected): hpdftex.
+
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/hpdftex.def
+File: hpdftex.def 2024-01-20 v7.01h Hyperref driver for pdfTeX
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/atveryend-ltx.sty
+Package: atveryend-ltx 2020/08/19 v1.0a Emulation of the original atveryend pac
+kage
+with kernel methods
+)
+\Fld@listcount=\count298
+\c@bookmark@seq@number=\count299
+
+(/usr/share/texlive/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
+Package: rerunfilecheck 2022-07-10 v1.10 Rerun checks for auxiliary files (HO)
+
+(/usr/share/texlive/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty
+Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
+)
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
+85.
+)
+\Hy@SectionHShift=\skip60
+)
+(/usr/share/texlive/texmf-dist/tex/latex/pgf/frontendlayer/tikz.sty
+(/usr/share/texlive/texmf-dist/tex/latex/pgf/basiclayer/pgf.sty
+(/usr/share/texlive/texmf-dist/tex/latex/pgf/utilities/pgfrcs.sty
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/utilities/pgfutil-common.tex
+\pgfutil@everybye=\toks29
+\pgfutil@tempdima=\dimen195
+\pgfutil@tempdimb=\dimen196
+)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/utilities/pgfutil-latex.def
+\pgfutil@abb=\box63
+)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/utilities/pgfrcs.code.tex
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/pgf.revision.tex)
+Package: pgfrcs 2023-01-15 v3.1.10 (3.1.10)
+))
+Package: pgf 2023-01-15 v3.1.10 (3.1.10)
+
+(/usr/share/texlive/texmf-dist/tex/latex/pgf/basiclayer/pgfcore.sty
+(/usr/share/texlive/texmf-dist/tex/latex/pgf/systemlayer/pgfsys.sty
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/systemlayer/pgfsys.code.tex
+Package: pgfsys 2023-01-15 v3.1.10 (3.1.10)
+
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex
+\pgfkeys@pathtoks=\toks30
+\pgfkeys@temptoks=\toks31
+
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/utilities/pgfkeyslibraryfiltered
+.code.tex
+\pgfkeys@tmptoks=\toks32
+))
+\pgf@x=\dimen197
+\pgf@y=\dimen198
+\pgf@xa=\dimen199
+\pgf@ya=\dimen256
+\pgf@xb=\dimen257
+\pgf@yb=\dimen258
+\pgf@xc=\dimen259
+\pgf@yc=\dimen260
+\pgf@xd=\dimen261
+\pgf@yd=\dimen262
+\w@pgf@writea=\write3
+\r@pgf@reada=\read2
+\c@pgf@counta=\count300
+\c@pgf@countb=\count301
+\c@pgf@countc=\count302
+\c@pgf@countd=\count303
+\t@pgf@toka=\toks33
+\t@pgf@tokb=\toks34
+\t@pgf@tokc=\toks35
+\pgf@sys@id@count=\count304
+ (/usr/share/texlive/texmf-dist/tex/generic/pgf/systemlayer/pgf.cfg
+File: pgf.cfg 2023-01-15 v3.1.10 (3.1.10)
+)
+Driver file for pgf: pgfsys-pdftex.def
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-pdftex.def
+File: pgfsys-pdftex.def 2023-01-15 v3.1.10 (3.1.10)
+
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-common-pdf.de
+f
+File: pgfsys-common-pdf.def 2023-01-15 v3.1.10 (3.1.10)
+)))
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/systemlayer/pgfsyssoftpath.code.
+tex
+File: pgfsyssoftpath.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgfsyssoftpath@smallbuffer@items=\count305
+\pgfsyssoftpath@bigbuffer@items=\count306
+)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/systemlayer/pgfsysprotocol.code.
+tex
+File: pgfsysprotocol.code.tex 2023-01-15 v3.1.10 (3.1.10)
+))
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcore.code.tex
+Package: pgfcore 2023-01-15 v3.1.10 (3.1.10)
+
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathutil.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathparser.code.tex
+\pgfmath@dimen=\dimen263
+\pgfmath@count=\count307
+\pgfmath@box=\box64
+\pgfmath@toks=\toks36
+\pgfmath@stack@operand=\toks37
+\pgfmath@stack@operation=\toks38
+)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.basic.code
+.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.trigonomet
+ric.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.random.cod
+e.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.comparison
+.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.base.code.
+tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.round.code
+.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.misc.code.
+tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.integerari
+thmetics.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathcalc.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfloat.code.tex
+\c@pgfmathroundto@lastzeros=\count308
+))
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfint.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepoints.code.te
+x
+File: pgfcorepoints.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgf@picminx=\dimen264
+\pgf@picmaxx=\dimen265
+\pgf@picminy=\dimen266
+\pgf@picmaxy=\dimen267
+\pgf@pathminx=\dimen268
+\pgf@pathmaxx=\dimen269
+\pgf@pathminy=\dimen270
+\pgf@pathmaxy=\dimen271
+\pgf@xx=\dimen272
+\pgf@xy=\dimen273
+\pgf@yx=\dimen274
+\pgf@yy=\dimen275
+\pgf@zx=\dimen276
+\pgf@zy=\dimen277
+)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathconstruct.
+code.tex
+File: pgfcorepathconstruct.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgf@path@lastx=\dimen278
+\pgf@path@lasty=\dimen279
+)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathusage.code
+.tex
+File: pgfcorepathusage.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgf@shorten@end@additional=\dimen280
+\pgf@shorten@start@additional=\dimen281
+)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorescopes.code.te
+x
+File: pgfcorescopes.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgfpic=\box65
+\pgf@hbox=\box66
+\pgf@layerbox@main=\box67
+\pgf@picture@serial@count=\count309
+)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcoregraphicstate.c
+ode.tex
+File: pgfcoregraphicstate.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgflinewidth=\dimen282
+)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransformation
+s.code.tex
+File: pgfcoretransformations.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgf@pt@x=\dimen283
+\pgf@pt@y=\dimen284
+\pgf@pt@temp=\dimen285
+)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorequick.code.tex
+File: pgfcorequick.code.tex 2023-01-15 v3.1.10 (3.1.10)
+)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreobjects.code.t
+ex
+File: pgfcoreobjects.code.tex 2023-01-15 v3.1.10 (3.1.10)
+)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathprocessing
+.code.tex
+File: pgfcorepathprocessing.code.tex 2023-01-15 v3.1.10 (3.1.10)
+)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorearrows.code.te
+x
+File: pgfcorearrows.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgfarrowsep=\dimen286
+)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreshade.code.tex
+File: pgfcoreshade.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgf@max=\dimen287
+\pgf@sys@shading@range@num=\count310
+\pgf@shadingcount=\count311
+)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreimage.code.tex
+File: pgfcoreimage.code.tex 2023-01-15 v3.1.10 (3.1.10)
+)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreexternal.code.
+tex
+File: pgfcoreexternal.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgfexternal@startupbox=\box68
+)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorelayers.code.te
+x
+File: pgfcorelayers.code.tex 2023-01-15 v3.1.10 (3.1.10)
+)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransparency.c
+ode.tex
+File: pgfcoretransparency.code.tex 2023-01-15 v3.1.10 (3.1.10)
+)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepatterns.code.
+tex
+File: pgfcorepatterns.code.tex 2023-01-15 v3.1.10 (3.1.10)
+)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorerdf.code.tex
+File: pgfcorerdf.code.tex 2023-01-15 v3.1.10 (3.1.10)
+)))
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/modules/pgfmoduleshapes.code.tex
+File: pgfmoduleshapes.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgfnodeparttextbox=\box69
+) (/usr/share/texlive/texmf-dist/tex/generic/pgf/modules/pgfmoduleplot.code.tex
+File: pgfmoduleplot.code.tex 2023-01-15 v3.1.10 (3.1.10)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-0-65
+.sty
+Package: pgfcomp-version-0-65 2023-01-15 v3.1.10 (3.1.10)
+\pgf@nodesepstart=\dimen288
+\pgf@nodesepend=\dimen289
+)
+(/usr/share/texlive/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-1-18
+.sty
+Package: pgfcomp-version-1-18 2023-01-15 v3.1.10 (3.1.10)
+)) (/usr/share/texlive/texmf-dist/tex/latex/pgf/utilities/pgffor.sty
+(/usr/share/texlive/texmf-dist/tex/latex/pgf/utilities/pgfkeys.sty
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex))
+(/usr/share/texlive/texmf-dist/tex/latex/pgf/math/pgfmath.sty
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex))
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/utilities/pgffor.code.tex
+Package: pgffor 2023-01-15 v3.1.10 (3.1.10)
+\pgffor@iter=\dimen290
+\pgffor@skip=\dimen291
+\pgffor@stack=\toks39
+\pgffor@toks=\toks40
+))
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/tikz.code.tex
+Package: tikz 2023-01-15 v3.1.10 (3.1.10)
+
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/libraries/pgflibraryplothandlers
+.code.tex
+File: pgflibraryplothandlers.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgf@plot@mark@count=\count312
+\pgfplotmarksize=\dimen292
+)
+\tikz@lastx=\dimen293
+\tikz@lasty=\dimen294
+\tikz@lastxsaved=\dimen295
+\tikz@lastysaved=\dimen296
+\tikz@lastmovetox=\dimen297
+\tikz@lastmovetoy=\dimen298
+\tikzleveldistance=\dimen299
+\tikzsiblingdistance=\dimen300
+\tikz@figbox=\box70
+\tikz@figbox@bg=\box71
+\tikz@tempbox=\box72
+\tikz@tempbox@bg=\box73
+\tikztreelevel=\count313
+\tikznumberofchildren=\count314
+\tikznumberofcurrentchild=\count315
+\tikz@fig@count=\count316
+
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/modules/pgfmodulematrix.code.tex
+File: pgfmodulematrix.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgfmatrixcurrentrow=\count317
+\pgfmatrixcurrentcolumn=\count318
+\pgf@matrix@numberofcolumns=\count319
+)
+\tikz@expandcount=\count320
+
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
+zlibrarytopaths.code.tex
+File: tikzlibrarytopaths.code.tex 2023-01-15 v3.1.10 (3.1.10)
+)))
+(/usr/share/texlive/texmf-dist/tex/latex/tcolorbox/tcolorbox.sty
+Package: tcolorbox 2024/01/10 version 6.2.0 text color boxes
+
+(/usr/share/texlive/texmf-dist/tex/latex/tools/verbatim.sty
+Package: verbatim 2023-11-06 v1.5v LaTeX2e package for verbatim enhancements
+\every@verbatim=\toks41
+\verbatim@line=\toks42
+\verbatim@in@stream=\read3
+)
+(/usr/share/texlive/texmf-dist/tex/latex/environ/environ.sty
+Package: environ 2014/05/04 v0.3 A new way to define environments
+
+(/usr/share/texlive/texmf-dist/tex/latex/trimspaces/trimspaces.sty
+Package: trimspaces 2009/09/17 v1.1 Trim spaces around a token list
+)
+\@envbody=\toks43
+)
+\tcb@titlebox=\box74
+\tcb@upperbox=\box75
+\tcb@lowerbox=\box76
+\tcb@phantombox=\box77
+\c@tcbbreakpart=\count321
+\c@tcblayer=\count322
+\c@tcolorbox@number=\count323
+\l__tcobox_tmpa_box=\box78
+\l__tcobox_tmpa_dim=\dimen301
+\tcb@temp=\box79
+\tcb@temp=\box80
+\tcb@temp=\box81
+\tcb@temp=\box82
+)
+(/usr/share/texlive/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty
+Package: fancyhdr 2022/11/09 v4.1 Extensive control of page headers and footers
+
+\f@nch@headwidth=\skip61
+\f@nch@O@elh=\skip62
+\f@nch@O@erh=\skip63
+\f@nch@O@olh=\skip64
+\f@nch@O@orh=\skip65
+\f@nch@O@elf=\skip66
+\f@nch@O@erf=\skip67
+\f@nch@O@olf=\skip68
+\f@nch@O@orf=\skip69
+)
+(/usr/share/texlive/texmf-dist/tex/latex/parskip/parskip.sty
+Package: parskip 2021-03-14 v2.0h non-zero parskip adjustments
+)
+(/usr/share/texlive/texmf-dist/tex/generic/soul/soul.sty
+Package: soul 2023-06-14 v3.1 Permit use of UTF-8 characters in soul (HO)
+
+(/usr/share/texlive/texmf-dist/tex/generic/soul/soul-ori.sty
+Package: soul-ori 2023-06-14 v3.1 letterspacing/underlining (mf)
+\SOUL@word=\toks44
+\SOUL@lasttoken=\toks45
+\SOUL@syllable=\toks46
+\SOUL@cmds=\toks47
+\SOUL@buffer=\toks48
+\SOUL@token=\toks49
+\SOUL@syllgoal=\dimen302
+\SOUL@syllwidth=\dimen303
+\SOUL@charkern=\dimen304
+\SOUL@hyphkern=\dimen305
+\SOUL@dimen=\dimen306
+\SOUL@dimeni=\dimen307
+\SOUL@minus=\count324
+\SOUL@comma=\count325
+\SOUL@apo=\count326
+\SOUL@grave=\count327
+\SOUL@spaceskip=\skip70
+\SOUL@ttwidth=\dimen308
+\SOUL@uldp=\dimen309
+\SOUL@ulht=\dimen310
+)
+(/usr/share/texlive/texmf-dist/tex/generic/etexcmds/etexcmds.sty
+Package: etexcmds 2019/12/15 v1.7 Avoid name clashes with e-TeX commands (HO)
+))
+(/usr/share/texlive/texmf-dist/tex/latex/tcolorbox/tcbskins.code.tex
+Library (tcolorbox): 'tcbskins.code.tex' version '6.2.0'
+(/usr/share/texlive/texmf-dist/tex/latex/tikzfill/tikzfill.image.sty
+Package: tikzfill.image 2023/08/08 v1.0.1 Image filling library for TikZ
+
+(/usr/share/texlive/texmf-dist/tex/latex/tikzfill/tikzfill-common.sty
+Package: tikzfill-common 2023/08/08 v1.0.1 Auxiliary code for tikzfill
+)
+(/usr/share/texlive/texmf-dist/tex/latex/tikzfill/tikzlibraryfill.image.code.te
+x
+File: tikzlibraryfill.image.code.tex 2023/08/08 v1.0.1 Image filling library
+\l__tikzfill_img_box=\box83
+)) (/usr/share/texlive/texmf-dist/tex/latex/tcolorbox/tcbskinsjigsaw.code.tex
+Library (tcolorbox): 'tcbskinsjigsaw.code.tex' version '6.2.0'
+)) (/usr/share/texlive/texmf-dist/tex/latex/tcolorbox/tcbbreakable.code.tex
+Library (tcolorbox): 'tcbbreakable.code.tex' version '6.2.0'
+(/usr/share/texlive/texmf-dist/tex/latex/pdfcol/pdfcol.sty
+Package: pdfcol 2022-09-21 v1.7 Handle new color stacks for pdfTeX (HO)
+)
+Package pdfcol Info: New color stack `tcb@breakable' = 1 on input line 23.
+\tcb@testbox=\box84
+\tcb@totalupperbox=\box85
+\tcb@totallowerbox=\box86
+)
+Package hyperref Info: Option `colorlinks' set `true' on input line 56.
+
+(/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2023/02/27 1.9 listings language file
+)
+LaTeX Font Info:    Trying to load font information for T1+lmr on input line 13
+5.
+
+(/usr/share/texmf/tex/latex/lm/t1lmr.fd
+File: t1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
+(/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+File: l3backend-pdftex.def 2024-01-04 L3 backend support: PDF output (pdfTeX)
+\l__color_backend_stack_int=\count328
+\l__pdf_internal_box=\box87
+)
+(./main.aux)
+\openout1 = `main.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 135.
+LaTeX Font Info:    ... okay on input line 135.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 135.
+LaTeX Font Info:    ... okay on input line 135.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 135.
+LaTeX Font Info:    ... okay on input line 135.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 135.
+LaTeX Font Info:    ... okay on input line 135.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 135.
+LaTeX Font Info:    ... okay on input line 135.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 135.
+LaTeX Font Info:    ... okay on input line 135.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 135.
+LaTeX Font Info:    ... okay on input line 135.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 135.
+LaTeX Font Info:    ... okay on input line 135.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 135.
+LaTeX Font Info:    ... okay on input line 135.
+
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+*geometry* verbose mode - [ preamble ] result:
+* driver: pdftex
+* paper: a4paper
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: 
+* h-part:(L,W,R)=(72.26999pt, 452.9679pt, 72.26999pt)
+* v-part:(T,H,B)=(72.26999pt, 700.50687pt, 72.26999pt)
+* \paperwidth=597.50787pt
+* \paperheight=845.04684pt
+* \textwidth=452.9679pt
+* \textheight=700.50687pt
+* \oddsidemargin=0.0pt
+* \evensidemargin=0.0pt
+* \topmargin=-37.0pt
+* \headheight=12.0pt
+* \headsep=25.0pt
+* \topskip=11.0pt
+* \footskip=30.0pt
+* \marginparwidth=50.0pt
+* \marginparsep=10.0pt
+* \columnsep=10.0pt
+* \skip\footins=10.0pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidefalse
+* \@mparswitchfalse
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+LaTeX Info: Redefining \microtypecontext on input line 135.
+Package microtype Info: Applying patch `item' on input line 135.
+Package microtype Info: Applying patch `toc' on input line 135.
+Package microtype Info: Applying patch `eqnum' on input line 135.
+Package microtype Info: Applying patch `footnote' on input line 135.
+Package microtype Info: Applying patch `verbatim' on input line 135.
+Package microtype Info: Generating PDF output.
+Package microtype Info: Character protrusion enabled (level 2).
+Package microtype Info: Using default protrusion set `alltext'.
+Package microtype Info: Automatic font expansion enabled (level 2),
+(microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
+Package microtype Info: Using default expansion set `alltext-nott'.
+LaTeX Info: Redefining \showhyphens on input line 135.
+Package microtype Info: No adjustment of tracking.
+Package microtype Info: No adjustment of interword spacing.
+Package microtype Info: No adjustment of character kerning.
+(/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-cmr.cfg
+File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman 
+(RS)
+)
+(/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count329
+\scratchdimen=\dimen311
+\scratchbox=\box88
+\nofMPsegments=\count330
+\nofMParguments=\count331
+\everyMPshowfont=\toks50
+\MPscratchCnt=\count332
+\MPscratchDim=\dimen312
+\MPnumerator=\count333
+\makeMPintoPDFobject=\count334
+\everyMPtoPDFconversion=\toks51
+) (/usr/share/texlive/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+85.
+
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
+))
+\c@lstlisting=\count335
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: hyperref package is loaded.
+Package caption Info: End \AtBeginDocument code.
+Package hyperref Info: Link coloring ON on input line 135.
+
+(./main.out) (./main.out)
+\@outlinefile=\write4
+\openout4 = `main.out'.
+
+ [1
+
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texmf/fonts/enc/
+dvips/lm/lm-ec.enc}] (./sections/01-abstract.tex)
+[1] (./main.toc
+LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 4
+.
+ (/usr/share/texmf/tex/latex/lm/ot1lmr.fd
+File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
+LaTeX Font Info:    Trying to load font information for OML+lmm on input line 4
+.
+
+(/usr/share/texmf/tex/latex/lm/omllmm.fd
+File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
+LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 
+4.
+
+(/usr/share/texmf/tex/latex/lm/omslmsy.fd
+File: omslmsy.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
+LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 
+4.
+
+(/usr/share/texmf/tex/latex/lm/omxlmex.fd
+File: omxlmex.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <10.95> on input line 4.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <8> on input line 4.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <6> on input line 4.
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 3
+3.
+
+(/usr/share/texmf/tex/latex/lm/t1lmtt.fd
+File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
+Package microtype Info: Loading generic protrusion settings for font family
+(microtype)             `lmtt' (encoding: T1).
+(microtype)             For optimal results, create family-specific settings.
+(microtype)             See the microtype manual for details.
+ [2
+
+] [3])
+\tf@toc=\write5
+\openout5 = `main.toc'.
+
+ [4] (./main.lof)
+\tf@lof=\write6
+\openout6 = `main.lof'.
+
+ (./main.lot)
+\tf@lot=\write7
+\openout7 = `main.lot'.
+
+ [5
+
+] (./sections/02-introduction.tex
+LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 3
+4.
+ (/usr/share/texmf/tex/latex/lm/ts1lmr.fd
+File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
+pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
+been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.79 
+      [1
+
+{/usr/share/texmf/fonts/enc/dvips/lm/lm-ts1.enc}])
+(./sections/03-background.tex [2]) (./sections/04-requirements.tex [3{/usr/shar
+e/texmf/fonts/enc/dvips/lm/lm-mathsy.enc}]
+Overfull \hbox (2.70041pt too wide) in alignment at lines 21--26
+ [] [] [] [] 
+ []
+
+
+Overfull \hbox (2.70041pt too wide) in alignment at lines 26--30
+ [] [] [] [] 
+ []
+
+
+Underfull \hbox (badness 1655) in paragraph at lines 36--37
+[]|\T1/lmtt/m/n/10.95 POST /auth/login \T1/lmr/m/n/10.95 (+20) re-turns 200 wit
+h
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 40--41
+[]|\T1/lmtt/m/n/10.95 POST /grades/:id/submit \T1/lmr/m/n/10.95 (+20) sets sta-
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 40--41
+\T1/lmr/m/n/10.95 (+20) tus=submitted; sub-se-quent ed-its
+ []
+
+
+Underfull \hbox (badness 8132) in paragraph at lines 41--42
+[]|\T1/lmr/m/n/10.95 (+20) Database \T1/lmtt/m/n/10.95 audit_logs \T1/lmr/m/n/1
+0.95 (+20) cap-tures at-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 44--44
+[]|\T1/lmr/m/n/10.95 (+20) Admins can up-date now-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 53--54
+[]|\T1/lmtt/m/n/10.95 /api/health \T1/lmr/m/n/10.95 (+20) re-turns 200 with
+ []
+
+
+Overfull \hbox (2.70041pt too wide) in alignment at lines 30--56
+ [] [] [] [] 
+ []
+
+[4{/usr/share/texmf/fonts/enc/dvips/lm/lm-rm.enc}]
+Overfull \hbox (20.823pt too wide) in alignment at lines 64--69
+ [] [] [] [] 
+ []
+
+
+Overfull \hbox (20.823pt too wide) in alignment at lines 69--73
+ [] [] [] [] 
+ []
+
+! Undefined control sequence.
+l.94 ...  & Anomaly scoring is in-memory, $O(\text
+                                                  {recent})$ where \texttt{r...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+Overfull \hbox (20.823pt too wide) in alignment at lines 73--97
+ [] [] [] [] 
+ []
+
+[5]) (./sections/05-architecture.tex
+<figures/arch-component.png, id=611, 1415.2875pt x 890.32625pt>
+File: figures/arch-component.png Graphic file (type png)
+<use figures/arch-component.png>
+Package pdftex.def Info: figures/arch-component.png  used on input line 13.
+(pdftex.def)             Requested size: 416.72963pt x 262.15489pt.
+ [6{/usr/share/texmf/fonts/enc/dvips/lm/lm-mathit.enc}]
+<figures/arch-deployment.png, id=619, 713.66624pt x 728.7225pt>
+File: figures/arch-deployment.png Graphic file (type png)
+<use figures/arch-deployment.png>
+Package pdftex.def Info: figures/arch-deployment.png  used on input line 43.
+(pdftex.def)             Requested size: 353.31439pt x 360.76878pt.
+
+
+! Package pgfkeys Error: I do not know the key '/tcb/no ORM' and I am going to 
+ignore it. Perhaps you misspelled it.
+
+See the pgfkeys package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.62 ...cbox}{ADR-2: Express 4 + Supabase, no ORM}
+                                                  
+This error message was generated by an \errmessage
+command, so I can't give any explicit help.
+Pretend that you're Hercule Poirot: Examine all clues,
+and deduce the truth by order and method.
+
+[7 <./figures/arch-component.png>] [8 <./figures/arch-deployment.png>]
+
+! Package pgfkeys Error: I do not know the key '/tcb/not a CAPTCHA' and I am go
+ing to ignore it. Perhaps you misspelled it.
+
+See the pgfkeys package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.99 ...ox}{ADR-5: HMAC vote token, not a CAPTCHA}
+                                                  
+(That was another \errmessage.)
+
+
+! Package pgfkeys Error: I do not know the key '/tcb/no APM' and I am going to 
+ignore it. Perhaps you misspelled it.
+
+See the pgfkeys package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.125 ...box}{ADR-7: Pino structured logs, no APM}
+                                                  
+(That was another \errmessage.)
+
+
+Overfull \hbox (1.44283pt too wide) in paragraph at lines 144--147
+[] []\T1/lmr/bx/n/10.95 (-20) Val-i-da-tion.[] \T1/lmr/m/n/10.95 (-20) Ev-ery c
+on-troller route de-clares a zod schema in \T1/lmtt/m/n/10.95 server/middleware
+/validate.js\T1/lmr/m/n/10.95 (-20) .
+ []
+
+) (./sections/06-data-model.tex [9]
+<figures/db-erd.png, id=642, 1589.94pt x 719.68875pt>
+File: figures/db-erd.png Graphic file (type png)
+<use figures/db-erd.png>
+Package pdftex.def Info: figures/db-erd.png  used on input line 8.
+(pdftex.def)             Requested size: 448.4407pt x 202.983pt.
+LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <12> not available
+(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 10.
+ [10 <./figures/db-erd.png>]
+(/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2023/02/27 1.9 listings language file
+)
+LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <9> not available
+(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 104.
+
+Overfull \hbox (8.42184pt too wide) in paragraph at lines 121--124
+[]\T1/lmtt/m/n/10.95 audit_logs(action)\T1/lmr/m/n/10.95 (-20) , \T1/lmtt/m/n/1
+0.95 audit_logs(actor_id)\T1/lmr/m/n/10.95 (-20) , \T1/lmtt/m/n/10.95 audit_log
+s(created_at desc)\T1/lmr/m/n/10.95 (-20) ; the in-tegrity
+ []
+
+[11]) (./sections/07-detailed-design.tex
+<figures/seq-vote.png, id=662, 1568.86125pt x 1213.53375pt>
+File: figures/seq-vote.png Graphic file (type png)
+<use figures/seq-vote.png>
+Package pdftex.def Info: figures/seq-vote.png  used on input line 18.
+(pdftex.def)             Requested size: 434.85222pt x 336.3615pt.
+ [12 <./figures/seq-vote.png>]
+<figures/flow-anomaly.png, id=671, 1589.94pt x 734.745pt>
+File: figures/flow-anomaly.png Graphic file (type png)
+<use figures/flow-anomaly.png>
+Package pdftex.def Info: figures/flow-anomaly.png  used on input line 39.
+(pdftex.def)             Requested size: 385.02547pt x 177.92319pt.
+<figures/seq-grade.png, id=673, 1589.94pt x 966.61125pt>
+File: figures/seq-grade.png Graphic file (type png)
+<use figures/seq-grade.png>
+Package pdftex.def Info: figures/seq-grade.png  used on input line 60.
+(pdftex.def)             Requested size: 430.31812pt x 261.608pt.
+
+Overfull \hbox (20.87538pt too wide) in paragraph at lines 62--70
+[]\T1/lmr/m/n/10.95 (-20) The grad-ing in-ter-face de-bounces the user's keystr
+okes at 800ms and posts to \T1/lmtt/m/n/10.95 PUT /grades/:id/draft\T1/lmr/m/n/
+10.95 (-20) ;
+ []
+
+<figures/state-grade.png, id=675, 540.0175pt x 672.5125pt>
+File: figures/state-grade.png Graphic file (type png)
+<use figures/state-grade.png>
+Package pdftex.def Info: figures/state-grade.png  used on input line 79.
+(pdftex.def)             Requested size: 294.42636pt x 366.6711pt.
+<figures/seq-sse.png, id=677, 1382.16376pt x 794.97pt>
+File: figures/seq-sse.png Graphic file (type png)
+<use figures/seq-sse.png>
+Package pdftex.def Info: figures/seq-sse.png  used on input line 88.
+(pdftex.def)             Requested size: 434.85222pt x 250.10149pt.
+[13 <./figures/flow-anomaly.png>]
+<figures/seq-ai.png, id=687, 1205.50375pt x 982.67125pt>
+File: figures/seq-ai.png Graphic file (type png)
+<use figures/seq-ai.png>
+Package pdftex.def Info: figures/seq-ai.png  used on input line 115.
+(pdftex.def)             Requested size: 434.85222pt x 354.46611pt.
+ [14 <./figures/seq-grade.png>]
+<figures/flow-auth.png, id=696, 968.61874pt x 1019.81pt>
+File: figures/flow-auth.png Graphic file (type png)
+<use figures/flow-auth.png>
+Package pdftex.def Info: figures/flow-auth.png  used on input line 143.
+(pdftex.def)             Requested size: 416.72963pt x 438.75873pt.
+
+Overfull \hbox (78.13678pt too wide) in paragraph at lines 153--156
+[]\T1/lmr/m/n/10.95 (-20) The cache key is a struc-tured string with a colon-de
+limited prefix-key form (e.g. \T1/lmtt/m/n/10.95 projects:project:All::p1:l50\T
+1/lmr/m/n/10.95 (-20) );
+ []
+
+) (./sections/08-implementation.tex [15 <./figures/state-grade.png>]
+Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
+nput line 15.
+ [16 <./figures/seq-sse.png>] [17 <./figures/seq-ai.png>] [18 <./figures/flow-a
+uth.png>]
+! Missing $ inserted.
+<inserted text> 
+                $
+l.117 ...de limiter keys on \texttt{req.judge._id}
+                                                   rather than \texttt{req.ip}
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+! Extra }, or forgotten $.
+<recently read> \egroup 
+                        
+l.117 ...de limiter keys on \texttt{req.judge._id}
+                                                   rather than \texttt{req.ip}
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.119 
+      
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+Overfull \hbox (131.42368pt too wide) in paragraph at lines 117--119
+[]\T1/lmr/m/n/10.95 (-20) The grade lim-iter keys on \T1/lmtt/m/n/10.95 req.jud
+ge.$[]\OML/lmm/m/it/10.95 dratherthan[]sothattwojudgesbehindonecampusNATdonotpe
+naliseeachother:$ 
+ []
+
+[19]
+Overfull \hbox (40.8483pt too wide) in paragraph at lines 179--182
+[]\T1/lmtt/m/n/10.95 The use of timingSafeEqual closes the timing-attack vector
+; without it, a sufficiently
+ []
+
+
+Overfull \hbox (12.67952pt too wide) in paragraph at lines 179--182
+\T1/lmtt/m/n/10.95 determined attacker could iteratively guess signature bytes 
+by measuring response
+ []
+
+[20] [21]
+Overfull \hbox (0.8946pt too wide) in paragraph at lines 261--266
+[]\T1/lmtt/m/n/10.95 The hot path is exactly what the architecture promised: on
+e SELECT for project
+ []
+
+
+Overfull \hbox (1.18205pt too wide) in paragraph at lines 261--266
+\T1/lmtt/m/n/10.95 existence, one SELECT for duplicate detection, one in-memory
+ anomaly score, one
+ []
+
+
+Overfull \hbox (29.92572pt too wide) in paragraph at lines 261--266
+\T1/lmtt/m/n/10.95 INSERT, one RPC, one cache invalidation, one broadcast. No N
++1, no joins, no hidden
+ []
+
+[22]
+Overfull \hbox (6.64334pt too wide) in paragraph at lines 351--354
+[]\T1/lmtt/m/n/10.95 The two log fields cacheRead and cacheWrite let us verify 
+on every call that the
+ []
+
+
+Overfull \hbox (12.67952pt too wide) in paragraph at lines 351--354
+\T1/lmtt/m/n/10.95 prompt cache is doing its job; in steady state, cacheRead is
+ large and cacheWrite
+ []
+
+[23]
+Overfull \hbox (0.8946pt too wide) in paragraph at lines 376--379
+[]\T1/lmtt/m/n/10.95 The audit insert is best-effort: a failure to persist the 
+audit row should not
+ []
+
+
+Overfull \hbox (12.67952pt too wide) in paragraph at lines 376--379
+\T1/lmtt/m/n/10.95 block the user-facing operation. We log at WARN so an operat
+or scanning logs can
+ []
+
+
+Overfull \hbox (32.51263pt too wide) in paragraph at lines 419--423
+\T1/lmtt/m/n/10.95 The page-level component graph is shown in Figure [][]11[][]
+. Two providers wrap the router:
+ []
+
+
+Overfull \hbox (64.13068pt too wide) in paragraph at lines 419--423
+\T1/lmtt/m/n/10.95 AuthProvider owns the JWT and judge profile; LiveSessionProv
+ider owns the SSE subscription
+ []
+
+<figures/class-frontend.png, id=1031, 1589.94pt x 328.22626pt>
+File: figures/class-frontend.png Graphic file (type png)
+<use figures/class-frontend.png>
+Package pdftex.def Info: figures/class-frontend.png  used on input line 424.
+(pdftex.def)             Requested size: 430.31812pt x 88.83261pt.
+) (./sections/09-non-functional.tex
+LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <14.4> not available
+(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 1.
+ [24]
+Overfull \hbox (41.13574pt too wide) in paragraph at lines 4--7
+\T1/lmtt/m/n/10.95 This section ties each non-functional requirement (Section [
+][]3[][]) to the specific artefact
+ []
+
+
+Overfull \hbox (7.21756pt too wide) in paragraph at lines 10--13
+[] []\T1/lmr/bx/n/10.95 (-20) De-fence in depth.[] \T1/lmtt/m/n/10.95 Spotlight
+ stacks five independent defences on the most-exposed
+ []
+
+
+Overfull \hbox (6.93079pt too wide) in paragraph at lines 10--13
+\T1/lmtt/m/n/10.95 endpoint (anonymous voting). No single defence is load-beari
+ng; an attacker has
+ []
+
+LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <10.95> not available
+(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 15.
+
+Overfull \hbox (130.25482pt too wide) in paragraph at lines 15--18
+[]\T1/lmtt/b/n/10.95 HTTP-level hardening. \T1/lmtt/m/n/10.95 Helmet sets a str
+ict CSP, Strict-Transport-Security, X-Content-Type-Options:
+ []
+
+
+Overfull \hbox (8.38167pt too wide) in paragraph at lines 18--21
+[]\T1/lmtt/b/n/10.95 Schema validation. \T1/lmtt/m/n/10.95 Zod rejects malforme
+d payloads at the controller boundary.
+ []
+
+
+Overfull \hbox (45.17357pt too wide) in paragraph at lines 21--24
+[]\T1/lmtt/b/n/10.95 Rate limiting. \T1/lmtt/m/n/10.95 Per-IP limits on /auth/l
+ogin and /votes; per-judge limit on /grades;
+ []
+
+
+Overfull \hbox (17.86708pt too wide) in paragraph at lines 24--27
+[]\T1/lmtt/b/n/10.95 HMAC proof-of-presence. \T1/lmtt/m/n/10.95 /votes/init iss
+ues a signed token bound to the browser
+ []
+
+
+Overfull \hbox (16.14246pt too wide) in paragraph at lines 27--30
+[]\T1/lmtt/b/n/10.95 Anomaly scoring. \T1/lmtt/m/n/10.95 Bursts and reuse patte
+rns surface themselves into vote_flags;
+ []
+
+
+Overfull \hbox (19.92995pt too wide) in paragraph at lines 32--37
+[] []\T1/lmr/bx/n/10.95 (-20) Iden-tity & se-crets.[] \T1/lmtt/m/n/10.95 JWTs a
+re signed with JWT_SECRET and expire in 7days. Passwords
+ []
+
+
+Overfull \hbox (1.18205pt too wide) in paragraph at lines 32--37
+\T1/lmtt/m/n/10.95 are bcrypt-hashed with cost 10. .env files are git-ignored; 
+.env.example ships
+ []
+
+
+Overfull \hbox (14.11668pt too wide) in paragraph at lines 32--37
+\T1/lmtt/m/n/10.95 with names but no values. The Supabase service-role key neve
+r leaves the backend. 
+ []
+
+
+Overfull \hbox (19.30832pt too wide) in paragraph at lines 38--41
+[] []\T1/lmr/bx/n/10.95 (-20) SQL in-jec-tion.[] \T1/lmtt/m/n/10.95 Every datab
+ase call goes through the Supabase JS client, which uses
+ []
+
+
+Overfull \hbox (18.42825pt too wide) in paragraph at lines 38--41
+\T1/lmtt/m/n/10.95 parameterised queries; no string concatenation into a SQL fr
+agment occurs anywhere
+ []
+
+
+Overfull \hbox (57.51033pt too wide) in paragraph at lines 42--45
+[] []\T1/lmr/bx/n/10.95 (-20) XSS.[] \T1/lmtt/m/n/10.95 React escapes interpola
+ted values by default; we never use dangerouslySetInnerHTML.
+ []
+
+
+Overfull \hbox (19.86542pt too wide) in paragraph at lines 42--45
+\T1/lmtt/m/n/10.95 The CSP is a defence-in-depth measure for the unlikely case 
+of a future regression. 
+ []
+
+
+Overfull \hbox (20.21211pt too wide) in paragraph at lines 46--50
+[] []\T1/lmr/bx/n/10.95 (-20) Au-dit trail.[] \T1/lmtt/m/n/10.95 Every privileg
+ed write appends to audit_logs. The integrity dashboard
+ []
+
+
+Overfull \hbox (18.42825pt too wide) in paragraph at lines 46--50
+\T1/lmtt/m/n/10.95 renders the last 50 entries. Together with the bcrypt hash, 
+the JWT, and the role
+ []
+
+
+Overfull \hbox (14.40413pt too wide) in paragraph at lines 46--50
+\T1/lmtt/m/n/10.95 check, this gives us a forensic chain that answers ``who cha
+nged which grade when''. 
+ []
+
+
+Overfull \hbox (15.17395pt too wide) in paragraph at lines 53--58
+[]\T1/lmtt/b/n/10.95 Botnet with rotating IPs and headless browsers. \T1/lmtt/m
+/n/10.95 Could defeat rate limiting and
+ []
+
+
+Overfull \hbox (38.16888pt too wide) in paragraph at lines 53--58
+\T1/lmtt/m/n/10.95 IP-based anomaly heuristics. Mitigation: People's Choice exc
+lusion still triggers
+ []
+
+
+Overfull \hbox (55.12764pt too wide) in paragraph at lines 53--58
+\T1/lmtt/m/n/10.95 if the same UA pattern reuses across sessions; CAPTCHA on /v
+otes/init is a future-work
+ []
+
+[25 <./figures/class-frontend.png>]
+Overfull \hbox (75.53564pt too wide) in paragraph at lines 58--62
+[]\T1/lmtt/b/n/10.95 Local storage XSS exfiltration of JWT. \T1/lmtt/m/n/10.95 
+A successful XSS could read the token. Mitigation:
+ []
+
+
+Overfull \hbox (18.04831pt too wide) in paragraph at lines 58--62
+\T1/lmtt/m/n/10.95 short JWT lifetime, JWT_SECRET rotatable to invalidate all t
+okens. Future work:
+ []
+
+
+Overfull \hbox (26.67142pt too wide) in paragraph at lines 62--64
+[]\T1/lmtt/b/n/10.95 Compromised admin account. \T1/lmtt/m/n/10.95 Same answer:
+ rotate JWT_SECRET, then issue new admin
+ []
+
+
+Overfull \hbox (5.26851pt too wide) in paragraph at lines 68--71
+[] []\T1/lmr/bx/n/10.95 (-20) State-less back-end.[] \T1/lmtt/m/n/10.95 The Exp
+ress process holds no per-user session. Every request
+ []
+
+
+Overfull \hbox (12.67952pt too wide) in paragraph at lines 68--71
+\T1/lmtt/m/n/10.95 is independently authenticatable. Render's autoscaler can mu
+ltiply the number of
+ []
+
+
+Overfull \hbox (7.81573pt too wide) in paragraph at lines 72--74
+[] []\T1/lmr/bx/n/10.95 (-20) Cache.[] \T1/lmtt/m/n/10.95 The LRU sits in front
+ of every read endpoint with TTLs chosen to balance
+ []
+
+
+Overfull \hbox (16.32043pt too wide) in paragraph at lines 90--93
+[]\T1/lmtt/m/n/10.95 In a 10000-user load profile, the bulk of requests are gal
+lery and homepage reads.
+ []
+
+
+Overfull \hbox (22.16492pt too wide) in paragraph at lines 90--93
+\T1/lmtt/m/n/10.95 With a 60-second TTL the database sees one query per filter 
+combination per minute;
+ []
+
+
+Overfull \hbox (33.30344pt too wide) in paragraph at lines 94--98
+[] []\T1/lmr/bx/n/10.95 (-20) Atomic vote in-cre-ment.[] \T1/lmtt/m/n/10.95 rpc
+('increment_vote_count', ...) runs an SQL UPDATE projects
+ []
+
+
+Overfull \hbox (39.69856pt too wide) in paragraph at lines 94--98
+\T1/lmtt/m/n/10.95 SET vote_count = vote_count + 1 WHERE id = $1. Concurrent vo
+ters do not lose updates;
+ []
+
+
+Overfull \hbox (4.38329pt too wide) in paragraph at lines 99--104
+[] []\T1/lmr/bx/n/10.95 (-20) Why we are not Re-dis--bound.[] \T1/lmtt/m/n/10.9
+5 Process-local LRU is the right tool for this scale.
+ []
+
+
+Overfull \hbox (16.41618pt too wide) in paragraph at lines 99--104
+\T1/lmtt/m/n/10.95 A second backend instance would have a separate cache and sl
+ightly higher DB load;
+ []
+
+
+Overfull \hbox (15.06424pt too wide) in paragraph at lines 99--104
+\T1/lmtt/m/n/10.95 this is a $\OT1/lmr/m/n/10.95 (-20) 2\OMS/lmsy/m/n/10.95 ^^B
+$ \T1/lmtt/m/n/10.95 degradation, not a correctness bug. The cache module's API
+ is small
+ []
+
+
+Overfull \hbox (17.95811pt too wide) in paragraph at lines 105--109
+[] []\T1/lmr/bx/n/10.95 (-20) Fron-tend.[] \T1/lmtt/m/n/10.95 A 740kB JS bundle
+ (217kB gzipped) is one HTTP request to Vercel's edge.
+ []
+
+
+Overfull \hbox (18.14081pt too wide) in paragraph at lines 105--109
+\T1/lmtt/m/n/10.95 After the first paint, the SPA does not reload; navigation i
+s a route change. The
+ []
+
+
+Overfull \hbox (20.15286pt too wide) in paragraph at lines 105--109
+\T1/lmtt/m/n/10.95 bundle is large enough to warrant code-splitting in a future
+ iteration; we did not. 
+ []
+
+
+Overfull \hbox (24.17699pt too wide) in paragraph at lines 112--117
+\T1/lmtt/m/n/10.95 rejected promises both flow to the global errorHandler, whic
+h logs with the request
+ []
+
+
+Overfull \hbox (18.14081pt too wide) in paragraph at lines 112--117
+\T1/lmtt/m/n/10.95 id and emits a JSON response carrying the request id back to
+ the client. The user
+ []
+
+
+Overfull \hbox (53.8617pt too wide) in paragraph at lines 118--121
+[] []\T1/lmr/bx/n/10.95 (-20) Log-ging.[] \T1/lmtt/m/n/10.95 Pino emits structu
+red JSON logs in production and pretty-prints in development.
+ []
+
+
+Overfull \hbox (52.92065pt too wide) in paragraph at lines 118--121
+\T1/lmtt/m/n/10.95 Every line carries a request id. The redact list scrubs auth
+orization headers, password
+ []
+
+[26]
+Overfull \hbox (43.32423pt too wide) in paragraph at lines 122--127
+\T1/lmtt/m/n/10.95 a row whose status is submitted. The audit log captures \T1/
+lmtt/m/it/10.95 both \T1/lmtt/m/n/10.95 the new and the previous
+ []
+
+
+Overfull \hbox (14.40413pt too wide) in paragraph at lines 122--127
+\T1/lmtt/m/n/10.95 total scores in metadata, so a later forensic pass can detec
+t out-of-band changes. 
+ []
+
+
+Overfull \hbox (46.59705pt too wide) in paragraph at lines 139--144
+\T1/lmtt/m/n/10.95 / services / utils / config. The client mirrors this with pa
+ges / components / context
+ []
+
+
+Overfull \hbox (6.35591pt too wide) in paragraph at lines 139--144
+\T1/lmtt/m/n/10.95 / hooks / services / utils. A new endpoint touches the small
+est possible set of
+ []
+
+
+Overfull \hbox (54.10806pt too wide) in paragraph at lines 145--147
+[] []\T1/lmr/bx/n/10.95 (-20) Lint-ing.[] \T1/lmtt/m/n/10.95 The client uses ES
+Lint with the React Hooks plugin; the server uses a dedicated
+ []
+
+
+Overfull \hbox (36.96284pt too wide) in paragraph at lines 170--174
+[] []\T1/lmr/bx/n/10.95 (-20) Fea-ture flags.[] \T1/lmtt/m/n/10.95 REQUIRE_VOTE
+_TOKEN, ENABLE_AI_INSIGHTS, and VITE_USE_SSE let us disable
+ []
+
+
+Overfull \hbox (12.67952pt too wide) in paragraph at lines 170--174
+\T1/lmtt/m/n/10.95 the riskiest behaviour without a redeploy. This is the maint
+enance equivalent of
+ []
+
+
+Overfull \hbox (31.58282pt too wide) in paragraph at lines 175--180
+[] []\T1/lmr/bx/n/10.95 (-20) Type--safety sub-sti-tute.[] \T1/lmtt/m/n/10.95 W
+e do not use TypeScript. We do use zod, which gives runtime
+ []
+
+
+Overfull \hbox (6.64334pt too wide) in paragraph at lines 175--180
+\T1/lmtt/m/n/10.95 validation guaranteed at the boundary, plus JSDoc-style type
+s on the most-shared
+ []
+
+
+Overfull \hbox (47.17192pt too wide) in paragraph at lines 175--180
+\T1/lmtt/m/n/10.95 utilities. The trade-off is a faster iteration loop at the c
+ost of in-IDE autocomplete
+ []
+
+
+Overfull \hbox (8.05475pt too wide) in paragraph at lines 183--188
+[] []\T1/lmr/bx/n/10.95 (-20) Health probe.[] \T1/lmtt/m/n/10.95 /api/health pi
+ngs Supabase and returns DB latency, uptime, memory,
+ []
+
+
+Overfull \hbox (27.62622pt too wide) in paragraph at lines 183--188
+\T1/lmtt/m/n/10.95 cache stats, and the SSE client count. On DB failure it retu
+rns status: 'degraded'
+ []
+
+
+Overfull \hbox (23.88954pt too wide) in paragraph at lines 183--188
+\T1/lmtt/m/n/10.95 with HTTP 200 so that Render's health check does not flap; w
+e still have a separate
+ []
+
+[27]
+Overfull \hbox (18.9213pt too wide) in paragraph at lines 189--191
+[] []\T1/lmr/bx/n/10.95 (-20) Grace-ful degra-da-tion.[] \T1/lmtt/m/n/10.95 The
+ user-facing surface is intentionally tolerant of failure
+ []
+
+
+Overfull \hbox (14.62651pt too wide) in paragraph at lines 195--197
+[]\T1/lmtt/m/n/10.95 Supabase down $\OMS/lmsy/m/n/10.95 !$ \T1/lmtt/m/n/10.95 c
+ache serves the last successful read; new writes return clean
+ []
+
+
+Overfull \hbox (1.18205pt too wide) in paragraph at lines 199--202
+\T1/lmtt/m/n/10.95 continues to render whatever it has; on reconnect, the SSE c
+hannel re-syncs the
+ []
+
+
+Overfull \hbox (4.05641pt too wide) in paragraph at lines 205--209
+\T1/lmtt/m/n/10.95 project list is one query with one count and one range. Winn
+ers is six queries,
+ []
+
+
+Overfull \hbox (29.35085pt too wide) in paragraph at lines 210--214
+\T1/lmtt/m/n/10.95 (vote), 1 RPC (counter), 1 in-memory broadcast, 3 cache inva
+lidations, 1 best-effort
+ []
+
+
+Overfull \hbox (8.6554pt too wide) in paragraph at lines 210--214
+\T1/lmtt/m/n/10.95 flag insert. All synchronous I/O in the hot path is to a sin
+gle Supabase region. 
+ []
+
+
+Overfull \hbox (5.57887pt too wide) in paragraph at lines 215--219
+\T1/lmtt/m/n/10.95 After the first 30seconds of an event with $\OMS/lmsy/m/n/10
+.95 ^^X$\T1/lmtt/m/n/10.95 150 simulated visitors the hit rate
+ []
+
+) (./sections/10-testing.tex
+Overfull \hbox (23.6021pt too wide) in paragraph at lines 6--12
+\T1/lmtt/m/n/10.95 We did not build an automated test suite. The architecture i
+s test-friendly; every
+ []
+
+
+Overfull \hbox (18.42825pt too wide) in paragraph at lines 6--12
+\T1/lmtt/m/n/10.95 controller is small, mostly pure, and depends on a single Su
+pabase client we could
+ []
+
+
+Overfull \hbox (2.90666pt too wide) in paragraph at lines 6--12
+\T1/lmtt/m/n/10.95 mock; but the scope of the capstone prioritised feature brea
+dth over CI tooling.
+ []
+
+
+Overfull \hbox (5.49359pt too wide) in paragraph at lines 6--12
+\T1/lmtt/m/n/10.95 What we did build is a manual verification matrix that we ru
+n before each demo /
+ []
+
+
+Overfull \hbox (11.7617pt too wide) in alignment at lines 13--18
+ [] [] [] [] 
+ []
+
+
+Overfull \hbox (11.7617pt too wide) in alignment at lines 18--22
+ [] [] [] [] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 24--25
+[]|\T1/lmtt/m/n/10.95 200 with
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 24--25
+\T1/lmtt/m/n/10.95 db.latencyMs
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 25--25
+[]|\T1/lmtt/m/n/10.95 POST /auth/login with seeded
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 25--26
+[]|\T1/lmtt/m/n/10.95 200, JWT
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 26--27
+[]|\T1/lmtt/m/n/10.95 401 ``invalid
+ []
+
+LaTeX Font Info:    Trying to load font information for TS1+lmtt on input line 
+27.
+(/usr/share/texmf/tex/latex/lm/ts1lmtt.fd
+File: ts1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
+Package microtype Info: Loading generic protrusion settings for font family
+(microtype)             `lmtt' (encoding: TS1).
+(microtype)             For optimal results, create family-specific settings.
+(microtype)             See the microtype manual for details.
+Package microtype Info: Character `texttrademark ' is missing
+(microtype)             in font `TS1/lmtt/m/n/10.95'.
+(microtype)             Ignoring protrusion settings for this character.
+
+Underfull \hbox (badness 10000) in paragraph at lines 28--29
+[]|\T1/lmtt/m/n/10.95 400 with zod
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 29--29
+[]|\T1/lmtt/m/n/10.95 POST /votes/init
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 29--30
+[]|\T1/lmtt/m/n/10.95 200, voteToken
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 30--31
+[]|\T1/lmtt/m/n/10.95 201,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 31--31
+[]|\T1/lmtt/m/n/10.95 Vote again from same
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 31--32
+[]|\T1/lmtt/m/n/10.95 409 ``already
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 33--33
+[]|\T1/lmtt/m/n/10.95 Vote without token
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 33--34
+[]|\T1/lmtt/m/n/10.95 403 ``invalid:
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 34--35
+[]|\T1/lmtt/m/n/10.95 3rd row appears
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 34--35
+\T1/lmtt/m/n/10.95 in vote_flags
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 35--35
+[]|\T1/lmtt/m/n/10.95 3\TS1/lmtt/m/n/10.95 Ö \T1/lmtt/m/n/10.95 high-severity f
+lag on a
+ []
+
+
+Overfull \hbox (35.87994pt too wide) in paragraph at lines 35--36
+[]|\T1/lmtt/m/n/10.95 /winners.peoplesChoice
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 36--36
+[]|\T1/lmtt/m/n/10.95 PUT /grades/X/draft with
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 36--37
+[]|\T1/lmtt/m/n/10.95 200,
+ []
+
+
+Overfull \hbox (12.88501pt too wide) in paragraph at lines 36--37
+\T1/lmtt/m/n/10.95 status=in_progress| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 37--37
+[]|\T1/lmtt/m/n/10.95 Grade auto-save
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 37--38
+[]|\T1/lmtt/m/n/10.95 one PUT request
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 38--38
+[]|\T1/lmtt/m/n/10.95 POST /grades/X/submit with
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 38--39
+[]|\T1/lmtt/m/n/10.95 200,
+ []
+
+
+Overfull \hbox (1.38754pt too wide) in paragraph at lines 38--39
+\T1/lmtt/m/n/10.95 status=submitted| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 39--40
+[]|\T1/lmtt/m/n/10.95 403 ``already
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 40--41
+[]|\T1/lmtt/m/n/10.95 audit_logs
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 40--41
+\T1/lmtt/m/n/10.95 row with
+ []
+
+
+Overfull \hbox (18.63374pt too wide) in paragraph at lines 40--41
+\T1/lmtt/m/n/10.95 action=grade.submit| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 41--41
+[]|\T1/lmtt/m/n/10.95 Admin POST
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 41--41
+\T1/lmtt/m/n/10.95 /session/set-public
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 41--42
+[]|\T1/lmtt/m/n/10.95 both browsers
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 41--42
+\T1/lmtt/m/n/10.95 see ``Coming
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 41--42
+\T1/lmtt/m/n/10.95 Soon'' lift
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 42--42
+[]|\T1/lmtt/m/n/10.95 Non-admin judge tries the
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 43--44
+[]|\T1/lmtt/m/n/10.95 200,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 43--44
+\T1/lmtt/m/n/10.95 Content-Type:
+ []
+
+
+Overfull \hbox (10.01064pt too wide) in paragraph at lines 43--44
+\T1/lmtt/m/n/10.95 text/event-stream,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 44--45
+[]|\T1/lmtt/m/n/10.95 : ping comment
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 45--46
+[]|\T1/lmtt/m/n/10.95 client reopens
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 45--46
+\T1/lmtt/m/n/10.95 stream,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 45--46
+\T1/lmtt/m/n/10.95 snapshot
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 46--47
+[]|\T1/lmtt/m/n/10.95 200, cached:
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 47--48
+[]|\T1/lmtt/m/n/10.95 200, cached:
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 48--49
+[]|\T1/lmtt/m/n/10.95 200, _stub:
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 49--50
+[]|\T1/lmtt/m/n/10.95 200, all 6
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 50--50
+[]|\T1/lmtt/m/n/10.95 GET
+ []
+
+
+Overfull \hbox (43.31082pt too wide) in paragraph at lines 50--50
+\T1/lmtt/m/n/10.95 /admin/votes-timeseries?windowMin=60| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 50--51
+[]|\T1/lmtt/m/n/10.95 60 buckets
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 51--52
+[]|\T1/lmtt/m/n/10.95 rows for
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 51--52
+\T1/lmtt/m/n/10.95 projects with
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 51--52
+\OMS/lmsy/m/n/10.95 ^^U \OT1/lmr/m/n/10.95 (+20) 2$ \T1/lmtt/m/n/10.95 submitte
+d
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 52--53
+[]|\T1/lmtt/m/n/10.95 flagged rows
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 52--53
+\T1/lmtt/m/n/10.95 in reverse
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 52--53
+\T1/lmtt/m/n/10.95 chronological
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 53--54
+[]|\T1/lmtt/m/n/10.95 last $\OMS/lmsy/m/n/10.95 ^^T$\T1/lmtt/m/n/10.95 50 audit
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 54--55
+[]|\T1/lmtt/m/n/10.95 response
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 54--55
+\T1/lmtt/m/n/10.95 includes
+ []
+
+
+Overfull \hbox (38.46686pt too wide) in paragraph at lines 54--55
+\T1/lmtt/m/n/10.95 X-Content-Type-Options:
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 55--55
+[]|\T1/lmtt/m/n/10.95 OPTIONS /api/health from
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 55--56
+[]|\T1/lmtt/m/n/10.95 204 with
+ []
+
+
+Overfull \hbox (64.33617pt too wide) in paragraph at lines 55--56
+\T1/lmtt/m/n/10.95 Access-Control-Allow-Origin| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 56--57
+[]|\T1/lmtt/m/n/10.95 main chunk $\OMS/lmsy/m/n/10.95 ^^T$
+ []
+
+
+Overfull \hbox (11.7617pt too wide) in alignment at lines 22--59
+ [] [] [] [] 
+ []
+
+[28] [29]
+Overfull \hbox (23.88954pt too wide) in paragraph at lines 63--70
+\T1/lmtt/m/n/10.95 We used a small Node script to drive synthetic traffic at th
+e API to validate cache
+ []
+
+
+Overfull \hbox (20.3293pt too wide) in paragraph at lines 63--70
+\T1/lmtt/m/n/10.95 hit-rate and rate-limit behaviour. The script issues \T1/lmt
+t/m/it/10.95 N \T1/lmtt/m/n/10.95 parallel GET /api/projects
+ []
+
+
+Overfull \hbox (6.93079pt too wide) in paragraph at lines 63--70
+\T1/lmtt/m/n/10.95 requests over 30 seconds with random filter combinations; th
+e test passes if the
+ []
+
+
+Overfull \hbox (35.09958pt too wide) in paragraph at lines 63--70
+\T1/lmtt/m/n/10.95 /admin/stats cache hit-rate exceeds 70% in the second half o
+f the window. The script
+ []
+
+
+Overfull \hbox (6.93079pt too wide) in paragraph at lines 63--70
+\T1/lmtt/m/n/10.95 is included in the repository at server/scripts/loadtest.js 
+(not shipped in this
+ []
+
+
+Overfull \hbox (18.04831pt too wide) in paragraph at lines 76--79
+[]\T1/lmtt/b/n/10.95 Unit: \T1/lmtt/m/n/10.95 verifyVoteToken and scoreVote are
+ the obvious starting points; both pure,
+ []
+
+
+Overfull \hbox (15.17395pt too wide) in paragraph at lines 79--82
+[]\T1/lmtt/b/n/10.95 Integration: \T1/lmtt/m/n/10.95 spin up Express against a 
+Supabase test project (or a Postgres in
+ []
+
+
+Overfull \hbox (9.42522pt too wide) in paragraph at lines 82--84
+[]\T1/lmtt/b/n/10.95 End-to-end: \T1/lmtt/m/n/10.95 Playwright against a deploy
+ed preview build, scripted to walk the
+ []
+
+[30]) (./sections/11-deployment.tex
+Overfull \hbox (23.88954pt too wide) in paragraph at lines 88--1
+\T1/lmtt/m/n/10.95 We periodically (twice during development) ran the system un
+der a ``chaos mode''; the
+ []
+
+
+Overfull \hbox (12.39207pt too wide) in paragraph at lines 88--1
+\T1/lmtt/m/n/10.95 server was restarted at random while the client was open. Th
+e expected behaviour
+ []
+
+
+Overfull \hbox (24.17699pt too wide) in paragraph at lines 88--1
+\T1/lmtt/m/n/10.95 is that the SSE socket reconnects, the session snapshot re-s
+yncs, and any in-flight
+ []
+
+
+Overfull \hbox (6.64334pt too wide) in paragraph at lines 88--1
+\T1/lmtt/m/n/10.95 writes either succeeded or returned a clean 500 with a reque
+st id. This was not
+ []
+
+
+Overfull \hbox (11.14983pt too wide) in paragraph at lines 7--11
+[]\T1/lmtt/b/n/10.95 Frontend: \T1/lmtt/m/n/10.95 Vercel project linked to the 
+GitHub repo. Builds on push to master.
+ []
+
+
+Overfull \hbox (43.63017pt too wide) in paragraph at lines 7--11
+\T1/lmtt/m/n/10.95 vercel.json rewrites /api/(.*) to the Render origin so the S
+PA can use a same-origin
+ []
+
+
+Overfull \hbox (26.67142pt too wide) in paragraph at lines 11--14
+[]\T1/lmtt/b/n/10.95 Backend: \T1/lmtt/m/n/10.95 Render Web Service, Node 20 ru
+ntime, npm start as the entrypoint. Port
+ []
+
+
+Overfull \hbox (11.14983pt too wide) in paragraph at lines 14--16
+[]\T1/lmtt/b/n/10.95 Database: \T1/lmtt/m/n/10.95 Supabase project (us-east-1).
+ Service-role key held only on Render. 
+ []
+
+[31]
+Overfull \hbox (25.61415pt too wide) in paragraph at lines 58--60
+\T1/lmtt/m/n/10.95 Apply, in order, the SQL files under server/migrations/ via 
+the Supabase SQL editor.
+ []
+
+
+Overfull \hbox (32.51263pt too wide) in paragraph at lines 67--72
+[]\T1/lmtt/m/n/10.95 The original schema (projects, judges, judge_projects, vot
+es, grades, schedule_items,
+ []
+
+
+Overfull \hbox (6.93079pt too wide) in paragraph at lines 67--72
+\T1/lmtt/m/n/10.95 live_sessions) was created out-of-band during initial setup 
+and is reproduced in
+ []
+
+
+Overfull \hbox (38.54881pt too wide) in paragraph at lines 75--79
+\T1/lmtt/m/n/10.95 npm run seed populates 24 projects, 5 TED talks, 6 interview
+s, 5 judges, the schedule,
+ []
+
+
+Overfull \hbox (35.67445pt too wide) in paragraph at lines 75--79
+\T1/lmtt/m/n/10.95 and a single live_sessions row keyed main. The seed script i
+s idempotent: it clears
+ []
+
+
+Overfull \hbox (35.40073pt too wide) in paragraph at lines 95--99
+[]\T1/lmtt/m/n/10.95 During event, watch the integrity dashboard for high-sever
+ity flags. If a project
+ []
+
+
+Overfull \hbox (6.08218pt too wide) in paragraph at lines 95--99
+\T1/lmtt/m/n/10.95 is unfairly tainted, an admin can DELETE FROM vote_flags WHE
+RE project_id = ?
+ []
+
+
+Overfull \hbox (15.55388pt too wide) in paragraph at lines 104--108
+\T1/lmtt/m/n/10.95 Pino emits NDJSON in production. We do not currently ship a 
+hosted log collector,
+ []
+
+
+Overfull \hbox (29.63828pt too wide) in paragraph at lines 104--108
+\T1/lmtt/m/n/10.95 but Render's web UI exposes log tailing per dyno. Adding a h
+osted collector (Better
+ []
+
+
+Overfull \hbox (6.64334pt too wide) in paragraph at lines 109--112
+[]\T1/lmtt/m/n/10.95 The /admin/analytics page doubles as a low-fidelity ops da
+shboard; the cache hit
+ []
+
+
+Overfull \hbox (25.9016pt too wide) in paragraph at lines 109--112
+\T1/lmtt/m/n/10.95 rate and submitted-grade count are the two metrics we glance
+ at during a live event. 
+ []
+
+
+Overfull \hbox (3.67648pt too wide) in paragraph at lines 116--119
+[]\T1/lmtt/b/n/10.95 Lost JWT secret. \T1/lmtt/m/n/10.95 Rotate by changing JWT
+_SECRET on Render and restarting; all
+ []
+
+
+Overfull \hbox (95.65622pt too wide) in paragraph at lines 119--121
+[]\T1/lmtt/b/n/10.95 Compromised admin account. \T1/lmtt/m/n/10.95 Same answer 
++ UPDATE judges SET password = bcrypt-of-new-password
+ []
+
+
+Overfull \hbox (15.17395pt too wide) in paragraph at lines 121--125
+[]\T1/lmtt/b/n/10.95 Render outage. \T1/lmtt/m/n/10.95 Frontend continues to re
+nder the last cached state. Voting and
+ []
+
+
+Overfull \hbox (32.1327pt too wide) in paragraph at lines 121--125
+\T1/lmtt/m/n/10.95 grading fail with 5xx; clients can retry. We accept this as 
+the cost of free-tier
+ []
+
+[32]
+Overfull \hbox (20.92268pt too wide) in paragraph at lines 125--128
+[]\T1/lmtt/b/n/10.95 Supabase outage. \T1/lmtt/m/n/10.95 /api/health returns de
+graded. Reads served from cache for the
+ []
+
+
+Overfull \hbox (39.60605pt too wide) in paragraph at lines 128--130
+[]\T1/lmtt/b/n/10.95 Anthropic outage. \T1/lmtt/m/n/10.95 AI panel falls back t
+o stub silently; public surfaces unaffected. 
+ []
+
+) (./sections/12-future-work.tex
+Overfull \hbox (3.67648pt too wide) in paragraph at lines 7--12
+[]\T1/lmtt/b/n/10.95 No automated test suite. \T1/lmtt/m/n/10.95 The architectu
+re supports testing, but tests do not
+ []
+
+
+Overfull \hbox (0.80211pt too wide) in paragraph at lines 7--12
+\T1/lmtt/m/n/10.95 yet exist. Adding Vitest unit tests for the pure utilities (
+verifyVoteToken,
+ []
+
+
+Overfull \hbox (32.42015pt too wide) in paragraph at lines 7--12
+\T1/lmtt/m/n/10.95 scoreVote) and integration tests for the four flows would cl
+ose the biggest single
+ []
+
+
+Overfull \hbox (15.17395pt too wide) in paragraph at lines 12--16
+[]\T1/lmtt/b/n/10.95 Single-region deploy. \T1/lmtt/m/n/10.95 Render dyno is in
+ one region; Supabase project is in one
+ []
+
+
+Overfull \hbox (15.17395pt too wide) in paragraph at lines 12--16
+\T1/lmtt/m/n/10.95 region. A regional outage takes the platform down. Multi-reg
+ion read replicas
+ []
+
+
+Overfull \hbox (38.16888pt too wide) in paragraph at lines 16--19
+[]\T1/lmtt/b/n/10.95 Process-local cache and SSE state. \T1/lmtt/m/n/10.95 Both
+ are per-instance. Scaling out to multiple
+ []
+
+
+Overfull \hbox (11.14983pt too wide) in paragraph at lines 16--19
+\T1/lmtt/m/n/10.95 instances requires Redis for cache coherence and Redis pub/s
+ub for SSE fan-out. 
+ []
+
+
+Overfull \hbox (15.17395pt too wide) in paragraph at lines 19--23
+[]\T1/lmtt/b/n/10.95 No CAPTCHA or hCaptcha on /votes/init. \T1/lmtt/m/n/10.95 
+A determined attacker with a botnet can
+ []
+
+
+Overfull \hbox (20.92268pt too wide) in paragraph at lines 19--23
+\T1/lmtt/m/n/10.95 still issue an init token per attacker browser. The anomaly 
+detector raises the
+ []
+
+
+Overfull \hbox (9.13777pt too wide) in paragraph at lines 23--26
+[]\T1/lmtt/b/n/10.95 JWT in localStorage. \T1/lmtt/m/n/10.95 An XSS would expos
+e the token. The modern preference is
+ []
+
+
+Overfull \hbox (32.42015pt too wide) in paragraph at lines 23--26
+\T1/lmtt/m/n/10.95 httpOnly cookies; we deferred the change to avoid the CSRF-t
+oken plumbing it would
+ []
+
+
+Overfull \hbox (24.5636pt too wide) in paragraph at lines 26--28
+[]\T1/lmtt/b/n/10.95 Bundle size. \T1/lmtt/m/n/10.95 740kB unsplit. Acceptable 
+on Wi-Fi, slow on a cellular connection. 
+ []
+
+
+Overfull \hbox (26.67142pt too wide) in paragraph at lines 28--31
+[]\T1/lmtt/b/n/10.95 No internationalisation. \T1/lmtt/m/n/10.95 The UI has stu
+bs for English/Arabic but not all strings
+ []
+
+
+Overfull \hbox (30.69553pt too wide) in paragraph at lines 31--34
+[]\T1/lmtt/b/n/10.95 Single-event tenancy. \T1/lmtt/m/n/10.95 The live_sessions
+.key = 'main' pattern works for one event;
+ []
+
+
+Overfull \hbox (42.58662pt too wide) in paragraph at lines 41--43
+[]\T1/lmtt/b/n/10.95 Vitest test suite. \T1/lmtt/m/n/10.95 Unit + integration. 
+Target: 80% statement coverage on server/. 
+ []
+
+
+Overfull \hbox (52.64693pt too wide) in paragraph at lines 43--45
+[]\T1/lmtt/b/n/10.95 Code-splitting. \T1/lmtt/m/n/10.95 Use React Router's lazy
+ routes. Cuts initial bundle by an estimated
+ []
+
+
+Overfull \hbox (23.90326pt too wide) in paragraph at lines 45--47
+[]\T1/lmtt/b/n/10.95 httpOnly cookie auth. \T1/lmtt/m/n/10.95 Move JWT to a sec
+ure cookie; add a CSRF token to mutating
+ []
+
+
+Overfull \hbox (6.65706pt too wide) in paragraph at lines 47--49
+[]\T1/lmtt/b/n/10.95 hCaptcha on /votes/init. \T1/lmtt/m/n/10.95 Closes the las
+t residual security gap for anonymous
+ []
+
+
+Overfull \hbox (46.8982pt too wide) in paragraph at lines 55--58
+[]\T1/lmtt/b/n/10.95 Multi-event tenancy. \T1/lmtt/m/n/10.95 Add an events tabl
+e; key every domain row by event_id; rewrite
+ []
+
+[33]
+Overfull \hbox (35.40073pt too wide) in paragraph at lines 58--60
+[]\T1/lmtt/b/n/10.95 Redis-backed cache + pub/sub. \T1/lmtt/m/n/10.95 Swap util
+s/cache.js and services/eventBus.js behind
+ []
+
+
+Overfull \hbox (29.652pt too wide) in paragraph at lines 60--62
+[]\T1/lmtt/b/n/10.95 i18n. \T1/lmtt/m/n/10.95 Wire LanguageContext.jsx through 
+every text block; add Arabic translations
+ []
+
+
+Overfull \hbox (63.85695pt too wide) in paragraph at lines 62--64
+[]\T1/lmtt/b/n/10.95 Voter accounts. \T1/lmtt/m/n/10.95 Optional Magic-link aut
+h for the audience to lift the anonymous-voting
+ []
+
+
+Overfull \hbox (12.11835pt too wide) in paragraph at lines 70--73
+[]\T1/lmtt/b/n/10.95 LLM-assisted feedback summarisation. \T1/lmtt/m/n/10.95 Af
+ter all judges submit, summarise their
+ []
+
+
+Overfull \hbox (0.90833pt too wide) in paragraph at lines 73--75
+[]\T1/lmtt/b/n/10.95 Live transcription. \T1/lmtt/m/n/10.95 Run pitch audio thr
+ough Whisper and present a real-time
+ []
+
+
+Overfull \hbox (18.15453pt too wide) in paragraph at lines 75--78
+[]\T1/lmtt/b/n/10.95 Mobile-native app. \T1/lmtt/m/n/10.95 React Native or Capa
+citor wrapper of the existing SPA, with
+ []
+
+
+Overfull \hbox (40.57457pt too wide) in paragraph at lines 78--82
+[]\T1/lmtt/b/n/10.95 Anomaly detector ML upgrade. \T1/lmtt/m/n/10.95 Replace th
+e rule-based scorer with a small classifier
+ []
+
+
+Overfull \hbox (9.42502pt too wide) in paragraph at lines 78--82
+\T1/lmtt/m/n/10.95 trained on historical flagged/clean votes. Only worth doing 
+once we have $\OMS/lmsy/m/n/10.95 ^^U$\T1/lmtt/m/n/10.95 10
+ []
+
+
+Overfull \hbox (6.55084pt too wide) in paragraph at lines 87--91
+[]\T1/lmtt/b/n/10.95 Defence in depth is a multiplier, not a tax. \T1/lmtt/m/n/
+10.95 Each single defence (rate limit,
+ []
+
+
+Overfull \hbox (9.42522pt too wide) in paragraph at lines 87--91
+\T1/lmtt/m/n/10.95 HMAC token, anomaly detector) is easy to build. The combined
+ effect dominates
+ []
+
+
+Overfull \hbox (70.93666pt too wide) in paragraph at lines 91--94
+[]\T1/lmtt/b/n/10.95 Boring tech buys time for interesting tech. \T1/lmtt/m/n/1
+0.95 React + Express + Postgres is unfashionable;
+ []
+
+
+Overfull \hbox (61.16382pt too wide) in paragraph at lines 94--97
+[]\T1/lmtt/b/n/10.95 Free tiers are political acts. \T1/lmtt/m/n/10.95 Vercel, 
+Render, and Supabase offering a real production
+ []
+
+
+Overfull \hbox (43.91762pt too wide) in paragraph at lines 97--100
+[]\T1/lmtt/b/n/10.95 Logs are infrastructure. \T1/lmtt/m/n/10.95 The decision t
+o add structured logging early (with request
+ []
+
+) (./sections/13-conclusion.tex
+Overfull \hbox (12.67952pt too wide) in paragraph at lines 4--9
+\T1/lmtt/m/n/10.95 Spotlight set out to replace the email-spreadsheet-paper-bal
+lot triplet that runs
+ []
+
+
+Overfull \hbox (38.54881pt too wide) in paragraph at lines 4--9
+\T1/lmtt/m/n/10.95 most live student showcases with one piece of software that 
+does simultaneous judging,
+ []
+
+
+Overfull \hbox (52.63321pt too wide) in paragraph at lines 4--9
+\T1/lmtt/m/n/10.95 anonymous voting, integrity moderation, and real-time admin 
+push; all within a free-tier
+ []
+
+
+Overfull \hbox (8.36795pt too wide) in paragraph at lines 10--16
+[]\T1/lmtt/m/n/10.95 The platform meets that goal. Public voters can browse and
+ vote in a single tap.
+ []
+
+
+Overfull \hbox (12.39207pt too wide) in paragraph at lines 10--16
+\T1/lmtt/m/n/10.95 Judges grade against a segment-specific rubric with auto-sav
+e and an AI-generated
+ []
+
+
+Overfull \hbox (35.67445pt too wide) in paragraph at lines 10--16
+\T1/lmtt/m/n/10.95 reading aid. Admins toggle the live show in real time and wa
+tch event-wide analytics
+ []
+
+
+Overfull \hbox (16.70363pt too wide) in paragraph at lines 10--16
+\T1/lmtt/m/n/10.95 and integrity flags as they happen. Every privileged write l
+eaves an audit trail;
+ []
+
+
+Overfull \hbox (18.14081pt too wide) in paragraph at lines 17--25
+[]\T1/lmtt/m/n/10.95 The non-functional posture is strong. Reads sit behind an 
+LRU cache with explicit
+ []
+
+
+Overfull \hbox (1.18205pt too wide) in paragraph at lines 17--25
+\T1/lmtt/m/n/10.95 invalidation on the writes that matter. Writes are atomic (P
+ostgres RPC) where
+ []
+
+
+Overfull \hbox (17.59337pt too wide) in paragraph at lines 17--25
+\T1/lmtt/m/n/10.95 structured log line $\OMS/lmsy/m/n/10.95 !$ \T1/lmtt/m/n/10.
+95 JSON response with a request id. SSE plus polling fallback
+ []
+
+
+Overfull \hbox (93.16179pt too wide) in paragraph at lines 17--25
+\T1/lmtt/m/n/10.95 plus an AI stub plus a degraded health code give the system 
+three lines of graceful-degradation
+ []
+
+
+Overfull \hbox (8.6554pt too wide) in paragraph at lines 17--25
+\T1/lmtt/m/n/10.95 defence. Feature flags let us disable the riskiest behaviour
+ without a redeploy. 
+ []
+
+[34]
+Overfull \hbox (81.37688pt too wide) in paragraph at lines 26--31
+[]\T1/lmtt/m/n/10.95 What remains is an honest debt: no automated test suite, s
+ingle-region deploy, process-local
+ []
+
+
+Overfull \hbox (64.41812pt too wide) in paragraph at lines 26--31
+\T1/lmtt/m/n/10.95 fan-out state, no CAPTCHA on the integrity boundary. None of
+ these compromise correctness
+ []
+
+
+Overfull \hbox (25.9016pt too wide) in paragraph at lines 26--31
+\T1/lmtt/m/n/10.95 today; all of them are addressable with the iteration paths 
+described in Section [][]11[][]. 
+ []
+
+) (./sections/14-references.tex
+Overfull \hbox (1.18205pt too wide) in paragraph at lines 32--1
+[]\T1/lmtt/m/n/10.95 For the contribution as a capstone, the relevant claim is 
+this: a single small
+ []
+
+
+Overfull \hbox (55.79501pt too wide) in paragraph at lines 32--1
+\T1/lmtt/m/n/10.95 codebase can simultaneously deliver six non-functional quali
+ties , security, scalability,
+ []
+
+
+Overfull \hbox (35.67445pt too wide) in paragraph at lines 32--1
+\T1/lmtt/m/n/10.95 reliability, maintainability, availability, efficiency; if t
+he engineering discipline
+ []
+
+
+Overfull \hbox (9.80515pt too wide) in paragraph at lines 32--1
+\T1/lmtt/m/n/10.95 is applied at the controller boundary (validation, rate-limi
+ting, cache wrapping,
+ []
+
+
+Overfull \hbox (12.67952pt too wide) in paragraph at lines 32--1
+\T1/lmtt/m/n/10.95 audit logging) rather than retro-fitted later. Spotlight is 
+one demonstration of
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 8--10
+[]\T1/lmtt/m/n/10.95 W3C, \T1/lmtt/m/it/10.95 Server-Sent Events (W3C Recommend
+ation)\T1/lmtt/m/n/10.95 , [][]$https : / / www . w3 . org / TR /
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 12--14
+[]\T1/lmtt/m/n/10.95 B. Leiba, \T1/lmtt/m/it/10.95 The IETF Anti-Spam Effort an
+d the Layered Defense Principle\T1/lmtt/m/n/10.95 ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 16--18
+[]\T1/lmtt/m/n/10.95 J. Burstein et al., \T1/lmtt/m/it/10.95 Using Large Langua
+ge Models in Educational Assessment:
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 20--22
+[]\T1/lmtt/m/n/10.95 Anthropic, \T1/lmtt/m/it/10.95 Prompt Caching; API Documen
+tation\T1/lmtt/m/n/10.95 , [][]$https : / / docs . anthropic . com /
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 24--26
+[]\T1/lmtt/m/n/10.95 helmetjs, \T1/lmtt/m/it/10.95 Helmet; Express middleware f
+or HTTP security headers\T1/lmtt/m/n/10.95 , [][]$https :
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 28--30
+[]\T1/lmtt/m/n/10.95 N. Walsh et al., \T1/lmtt/m/it/10.95 express-rate-limit\T1
+/lmtt/m/n/10.95 , [][]$https : / / github . com /
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 32--34
+[]\T1/lmtt/m/n/10.95 I. Z. Schlueter, \T1/lmtt/m/it/10.95 lru-cache\T1/lmtt/m/n
+/10.95 , [][]$https : / / github . com / isaacs / node-[]lru-[]cache$[][],
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 36--38
+[]\T1/lmtt/m/n/10.95 M. Collina et al., \T1/lmtt/m/it/10.95 pino; very low over
+head Node.js logger\T1/lmtt/m/n/10.95 , [][]$https :
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 40--42
+[]\T1/lmtt/m/n/10.95 C. Bond, \T1/lmtt/m/it/10.95 Zod: TypeScript-first schema 
+validation with static type
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 44--47
+[]\T1/lmtt/m/n/10.95 Recharts contributors, \T1/lmtt/m/it/10.95 Recharts; a com
+posable charting library built on
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 49--51
+[]\T1/lmtt/m/n/10.95 OWASP, \T1/lmtt/m/it/10.95 OWASP Top Ten Web Application S
+ecurity Risks\T1/lmtt/m/n/10.95 , [][]$https : / / owasp . org /
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 53--55
+[]\T1/lmtt/m/n/10.95 J. Nielsen, \T1/lmtt/m/it/10.95 Response Times: The 3 Impo
+rtant Limits\T1/lmtt/m/n/10.95 , Nielsen Norman Group,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 57--59
+[]\T1/lmtt/m/n/10.95 R. T. Fielding, \T1/lmtt/m/it/10.95 Architectural Styles a
+nd the Design of Network-based
+ []
+
+[35]) (./sections/15-appendix-schema.tex
+Overfull \hbox (35.38701pt too wide) in paragraph at lines 4--8
+\T1/lmtt/m/n/10.95 The following SQL is the consolidated schema for the platfor
+m. Tables created during
+ []
+
+
+Overfull \hbox (60.57043pt too wide) in paragraph at lines 4--8
+\T1/lmtt/m/n/10.95 initial setup are marked \T1/lmtt/m/it/10.95 base\T1/lmtt/m/
+n/10.95 ; those introduced by the migrations described in Section [][]10[][]
+ []
+
+[36] [37]) (./sections/16-appendix-api.tex
+Package microtype Info: Character `029' is missing
+(microtype)             in font `T1/lmtt/m/sc/10.95'.
+(microtype)             Ignoring protrusion settings for this character.
+
+Overfull \hbox (3.76897pt too wide) in paragraph at lines 4--8
+\T1/lmtt/m/n/10.95 All routes mount under /api. Bracketed annotations indicate 
+middleware applied:
+ []
+
+
+Overfull \hbox (11.1739pt too wide) in paragraph at lines 4--8
+\T1/lmtt/m/n/10.95 [\T1/lmtt/m/sc/10.95 auth\T1/lmtt/m/n/10.95 ] requires JWT, 
+[\T1/lmtt/m/sc/10.95 admin\T1/lmtt/m/n/10.95 ] requires is_admin, [\T1/lmtt/m/s
+c/10.95 lim\T1/lmtt/m/n/10.95 -$\OML/lmm/m/it/10.95 N$\T1/lmtt/m/n/10.95 ] indi
+cates the rate limit
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 14--15
+[]|\T1/lmtt/m/n/10.95 [\T1/lmtt/m/sc/10.95 lim\T1/lmtt/m/n/10.95 -5][\T1/lmtt/m
+/sc/10.95 val\T1/lmtt/m/n/10.95 ] Verify credentials, return JWT and
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 15--16
+[]|\T1/lmtt/m/n/10.95 [\T1/lmtt/m/sc/10.95 auth\T1/lmtt/m/n/10.95 ] Return the 
+JWT-identified judge with
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 24--25
+[]|\T1/lmtt/m/n/10.95 List with filters category, search, segmentType,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 36--37
+[]|\T1/lmtt/m/n/10.95 [\T1/lmtt/m/sc/10.95 lim\T1/lmtt/m/n/10.95 -5][\T1/lmtt/m
+/sc/10.95 val\T1/lmtt/m/n/10.95 ] Issue an HMAC vote token bound to
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 37--38
+[]|\T1/lmtt/m/n/10.95 [\T1/lmtt/m/sc/10.95 lim\T1/lmtt/m/n/10.95 -5][\T1/lmtt/m
+/sc/10.95 val\T1/lmtt/m/n/10.95 ] Cast a vote. Optionally enforces
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 38--39
+[]|\T1/lmtt/m/n/10.95 [\T1/lmtt/m/sc/10.95 val\T1/lmtt/m/n/10.95 ] Has the hold
+er of browser token :t already
+ []
+
+[38]
+Underfull \hbox (badness 10000) in paragraph at lines 48--49
+[]|\T1/lmtt/m/n/10.95 [\T1/lmtt/m/sc/10.95 auth\T1/lmtt/m/n/10.95 ][\T1/lmtt/m/
+sc/10.95 lim\T1/lmtt/m/n/10.95 -60] Assigned + graded projects for
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 49--50
+[]|\T1/lmtt/m/n/10.95 [\T1/lmtt/m/sc/10.95 auth\T1/lmtt/m/n/10.95 ][\T1/lmtt/m/
+sc/10.95 lim\T1/lmtt/m/n/10.95 -60] Get the judge's grade row for one
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 50--50
+[]|\T1/lmtt/m/n/10.95 PUT
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 51--51
+[]|\T1/lmtt/m/n/10.95 POST
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 51--52
+[]|\T1/lmtt/m/n/10.95 [\T1/lmtt/m/sc/10.95 auth\T1/lmtt/m/n/10.95 ][\T1/lmtt/m/
+sc/10.95 lim\T1/lmtt/m/n/10.95 -60][\T1/lmtt/m/sc/10.95 val\T1/lmtt/m/n/10.95 ]
+ Upsert as submitted.
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 61--62
+[]|\T1/lmtt/m/n/10.95 SSE stream. Emits session.snapshot,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 62--63
+[]|\T1/lmtt/m/n/10.95 [\T1/lmtt/m/sc/10.95 auth\T1/lmtt/m/n/10.95 ][\T1/lmtt/m/
+sc/10.95 admin\T1/lmtt/m/n/10.95 ][\T1/lmtt/m/sc/10.95 val\T1/lmtt/m/n/10.95 ] 
+Update now-playing / up-next /
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 63--63
+[]|\T1/lmtt/m/n/10.95 POST
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 74--75
+[]|\T1/lmtt/m/n/10.95 Champions, honorable mentions, peoples choice.
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 85--86
+[]|\T1/lmtt/m/n/10.95 [\T1/lmtt/m/sc/10.95 auth\T1/lmtt/m/n/10.95 ] Force regen
+eration (admin via
+ []
+
+[39]
+Underfull \hbox (badness 10000) in paragraph at lines 95--95
+[]|\T1/lmtt/m/n/10.95 GET
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 95--96
+[]|\T1/lmtt/m/n/10.95 [\T1/lmtt/m/sc/10.95 auth\T1/lmtt/m/n/10.95 ][\T1/lmtt/m/
+sc/10.95 admin\T1/lmtt/m/n/10.95 ] Votes/min for the last windowMin
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 96--97
+[]|\T1/lmtt/m/n/10.95 [\T1/lmtt/m/sc/10.95 auth\T1/lmtt/m/n/10.95 ][\T1/lmtt/m/
+sc/10.95 admin\T1/lmtt/m/n/10.95 ] Std-dev of judge total scores per
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 97--98
+[]|\T1/lmtt/m/n/10.95 [\T1/lmtt/m/sc/10.95 auth\T1/lmtt/m/n/10.95 ][\T1/lmtt/m/
+sc/10.95 admin\T1/lmtt/m/n/10.95 ] Flagged-vote rows in reverse
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 99--100
+[]|\T1/lmtt/m/n/10.95 [\T1/lmtt/m/sc/10.95 auth\T1/lmtt/m/n/10.95 ][\T1/lmtt/m/
+sc/10.95 admin\T1/lmtt/m/n/10.95 ] Per-judge counts (assigned,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 108--109
+[]|\T1/lmtt/m/n/10.95 Liveness + readiness. Returns DB latency,
+ []
+
+) [40] (./main.aux)
+ ***********
+LaTeX2e <2023-11-01> patch level 1
+L3 programming layer <2024-01-22>
+ ***********
+Package rerunfilecheck Info: File `main.out' has not changed.
+(rerunfilecheck)             Checksum: F541D9C9146D22990F13008205217BB5;14009.
+ )
+(\end occurred inside a group at level 1)
+
+### simple group (level 1) entered at line 117 ({)
+### bottom level 
+Here is how much of TeX's memory you used:
+ 31543 strings out of 476106
+ 599207 string characters out of 5793933
+ 2163975 words of memory out of 5000000
+ 52118 multiletter control sequences out of 15000+600000
+ 624651 words of font info for 170 fonts, out of 8000000 for 9000
+ 59 hyphenation exceptions out of 8191
+ 84i,13n,87p,1193b,2506s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/share/texmf/fonts/type1/public/lm/lmbx10.pfb></usr/share/
+texmf/fonts/type1/public/lm/lmbx12.pfb></usr/share/texmf/fonts/type1/public/lm/
+lmmi10.pfb></usr/share/texmf/fonts/type1/public/lm/lmmi8.pfb></usr/share/texmf/
+fonts/type1/public/lm/lmr10.pfb></usr/share/texmf/fonts/type1/public/lm/lmr12.p
+fb></usr/share/texmf/fonts/type1/public/lm/lmr6.pfb></usr/share/texmf/fonts/typ
+e1/public/lm/lmri10.pfb></usr/share/texmf/fonts/type1/public/lm/lmri12.pfb></us
+r/share/texmf/fonts/type1/public/lm/lmsy10.pfb></usr/share/texmf/fonts/type1/pu
+blic/lm/lmtcsc10.pfb></usr/share/texmf/fonts/type1/public/lm/lmtk10.pfb></usr/s
+hare/texmf/fonts/type1/public/lm/lmtt10.pfb></usr/share/texmf/fonts/type1/publi
+c/lm/lmtt9.pfb></usr/share/texmf/fonts/type1/public/lm/lmtti10.pfb>
+Output written on main.pdf (46 pages, 1342056 bytes).
+PDF statistics:
+ 1629 PDF objects out of 1728 (max. 8388607)
+ 1510 compressed objects within 16 object streams
+ 734 named destinations out of 1000 (max. 500000)
+ 41796 words of extra memory for PDF output out of 42996 (max. 10000000)
+

@@ -1,4 +1,7 @@
 import supabase from '../config/supabase.js';
+import { audit } from '../utils/audit.js';
+import { cache } from '../utils/cache.js';
+import { broadcast } from '../services/eventBus.js';
 
 const shapeGrade = (row, projectRow = null) => ({
   _id: row.id,
@@ -57,7 +60,7 @@ export const getGradeForProject = async (req, res) => {
     .select('*')
     .eq('judge_id', req.judge._id)
     .eq('project_id', req.params.projectId)
-    .single();
+    .maybeSingle();
 
   if (!data) return res.json(null);
   res.json(shapeGrade(data));
@@ -76,7 +79,7 @@ export const saveDraft = async (req, res) => {
     .select('status')
     .eq('judge_id', req.judge._id)
     .eq('project_id', projectId)
-    .single();
+    .maybeSingle();
 
   if (existing?.status === 'submitted')
     return res.status(403).json({ message: 'Grade already submitted and locked' });
@@ -120,10 +123,10 @@ export const submitGrade = async (req, res) => {
 
   const { data: existing } = await supabase
     .from('grades')
-    .select('status')
+    .select('status, total_score')
     .eq('judge_id', req.judge._id)
     .eq('project_id', projectId)
-    .single();
+    .maybeSingle();
 
   if (existing?.status === 'submitted')
     return res.status(403).json({ message: 'Grade already submitted' });
@@ -161,5 +164,26 @@ export const submitGrade = async (req, res) => {
     .single();
 
   if (error) return res.status(500).json({ message: error.message });
+
+  // Tamper-evident audit trail — captures who, when, scores before/after.
+  audit({
+    actorType: 'judge',
+    actorId: req.judge._id,
+    action: 'grade.submit',
+    targetType: 'project',
+    targetId: projectId,
+    metadata: {
+      previousStatus: existing?.status ?? 'none',
+      previousTotal: existing?.total_score ?? null,
+      newTotal: totalScore,
+      scores,
+    },
+    ip: req.ip,
+  });
+
+  // Winners ranking just changed.
+  cache.invalidate('winners:');
+  broadcast('grade.submit', { projectId, judgeId: req.judge._id, totalScore });
+
   res.json(shapeGrade(data));
 };

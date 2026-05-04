@@ -1,0 +1,36 @@
+\section*{Abstract}
+\addcontentsline{toc}{section}{Abstract}
+
+Spotlight is a full-stack web platform built for the LAU Soft Skills 2026 event,
+a student showcase that simultaneously runs three formats: business plan
+pitches, TED-style talks, and mock interviews. The platform serves three
+audiences in real time: a public audience that votes for its favourite entry,
+a panel of judges that grades each entry against a five-criterion rubric, and
+an event admin who controls what the audience sees as the show progresses.
+
+The system combines an LRU caching layer, per-route rate limiting, server-sent
+events for sub-second push updates, an HMAC-based proof-of-vote token, an
+in-memory anomaly detector, an append-only audit log, and an LLM-assisted
+``quick read'' panel powered by Anthropic's Claude API with prompt caching.
+Together these features address the non-functional requirements expected of a
+production system: security, scalability, reliability, maintainability,
+availability, and efficiency.
+
+This report walks through the requirements, architecture, data model, detailed
+design, implementation, and verification of the platform. Where useful, code
+excerpts, sequence diagrams, and entity-relationship diagrams accompany the
+prose. The intent is for a reader to be able to reproduce the system from this
+document and the linked source repository.
+
+\vspace{1em}
+\noindent\textbf{Keywords:} React, Express, Supabase, Server-Sent Events,
+prompt caching, rate limiting, anomaly detection, audit logging.
+
+\section*{Acknowledgements}
+\addcontentsline{toc}{section}{Acknowledgements}
+
+Thanks to the LAU Soft Skills team for offering a real production deadline as
+a forcing function, to the open-source maintainers of React, Express,
+Supabase, pino, and Recharts whose libraries make a project of this scope
+possible by a single student, and to my supervisor for steering the
+non-functional priorities of this work.

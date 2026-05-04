@@ -1,0 +1,93 @@
+\section{Testing and Verification}
+\label{sec:test}
+
+\subsection{Verification strategy}
+
+We did not build an automated test suite. The architecture is
+test-friendly; every controller is small, mostly pure, and depends on
+a single Supabase client we could mock; but the scope of the capstone
+prioritised feature breadth over CI tooling. What we did build is a
+manual verification matrix that we run before each demo / event;
+Table~\ref{tab:verify} is the one we use.
+
+\begin{longtable}{p{0.06\textwidth}p{0.30\textwidth}p{0.36\textwidth}p{0.20\textwidth}}
+  \caption{Manual verification matrix.}\label{tab:verify}\\
+  \toprule
+  \textbf{ID} & \textbf{Scenario} & \textbf{Steps} & \textbf{Expected} \\
+  \midrule
+  \endfirsthead
+  \toprule
+  \textbf{ID} & \textbf{Scenario} & \textbf{Steps} & \textbf{Expected} \\
+  \midrule
+  \endhead
+
+  T-1 & Health probe & \texttt{curl /api/health} & 200 with \texttt{db.latencyMs $<$ 500} \\
+  T-2 & Login happy path & POST \texttt{/auth/login} with seeded admin & 200, JWT returned \\
+  T-3 & Login bad password & Same email, wrong pw & 401 ``invalid creds'' \\
+  T-4 & Login rate limit & 6× POST in 60\,s & 429 on 6th \\
+  T-5 & Login schema reject & POST \texttt{\{email: 1\}} & 400 with zod issues \\
+  T-6 & Vote init & POST \texttt{/votes/init \{browserToken\}} & 200, \texttt{voteToken} returned \\
+  T-7 & Vote cast happy & POST \texttt{/votes \{...\}} after init & 201, vote\_count++ \\
+  T-8 & Vote duplicate & Vote again from same browserToken & 409 ``already voted'' \\
+  T-9 & Vote rate limit & 6× POST \texttt{/votes} in 60\,s & 429 on 6th \\
+  T-10 & Vote without token (REQUIRE=true) & POST \texttt{/votes} skipping init & 403 ``invalid: malformed'' \\
+  T-11 & Vote anomaly burst & 3× from same IP in 60\,s & 3rd row appears in \texttt{vote\_flags} severity=high \\
+  T-12 & Tainted People's Choice & 3× high-severity flag on a project & \texttt{/winners.peoplesChoice} skips it \\
+  T-13 & Grade draft save & PUT \texttt{/grades/X/draft} with partial scores & 200, status=in\_progress \\
+  T-14 & Grade auto-save debounce & Type into rubric, wait 800\,ms & one PUT request observed \\
+  T-15 & Grade submit happy & POST \texttt{/grades/X/submit} with all 5 scores & 200, status=submitted \\
+  T-16 & Grade re-submit blocked & Same POST again & 403 ``already submitted'' \\
+  T-17 & Grade submit audit & After T-15 & \texttt{audit\_logs} row with action=grade.submit \\
+  T-18 & Session toggle & Admin POST \texttt{/session/set-public \{public:true\}} & both browsers see ``Coming Soon'' lift within 1\,s \\
+  T-19 & Session non-admin & Non-admin judge tries the same & 403 \\
+  T-20 & SSE connect & GET \texttt{/session/stream} & 200, \texttt{Content-Type: text/event-stream}, snapshot event \\
+  T-21 & SSE heartbeat & Hold connection 30\,s & \texttt{: ping} comment received \\
+  T-22 & SSE reconnect & Kill server, restart & client reopens stream, snapshot delivered \\
+  T-23 & AI insights cold & GET \texttt{/ai/insights/X} & 200, \texttt{cached: false}, payload \\
+  T-24 & AI insights warm & GET same & 200, \texttt{cached: true} \\
+  T-25 & AI stub fallback & Unset \texttt{ANTHROPIC\_API\_KEY} & 200, \texttt{\_stub: true} \\
+  T-26 & Admin stats & GET \texttt{/admin/stats} & 200, all 6 counts $\geq 0$ \\
+  T-27 & Admin votes timeseries & GET \texttt{/admin/votes-timeseries?windowMin=60} & 60 buckets returned \\
+  T-28 & Admin inter-rater & GET \texttt{/admin/inter-rater} & rows for projects with $\geq 2$ submitted grades \\
+  T-29 & Admin anomalies & GET \texttt{/admin/anomalies} & flagged rows in reverse chronological order \\
+  T-30 & Admin audit-log & GET \texttt{/admin/audit-log} & last $\leq$50 audit rows \\
+  T-31 & Helmet headers & GET \texttt{/} & response includes \texttt{X-Content-Type-Options: nosniff} \\
+  T-32 & CORS preflight & OPTIONS \texttt{/api/health} from foreign origin & 204 with \texttt{Access-Control-Allow-Origin} \\
+  T-33 & Bundle size & \texttt{npm run build} on client & main chunk $\leq$ 800\,kB \\
+
+  \bottomrule
+\end{longtable}
+
+\subsection{Synthetic load test (manual)}
+
+We used a small Node script to drive synthetic traffic at the API to
+validate cache hit-rate and rate-limit behaviour. The script issues
+\textit{N} parallel \texttt{GET /api/projects} requests over 30 seconds
+with random filter combinations; the test passes if the
+\texttt{/admin/stats} cache hit-rate exceeds 70\% in the second half of
+the window. The script is included in the repository at
+\texttt{server/scripts/loadtest.js} (not shipped in this report).
+
+\subsection{What automated tests would look like}
+
+If a CI pipeline is added, the natural test pyramid is:
+
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Unit:} \texttt{verifyVoteToken} and \texttt{scoreVote} are
+        the obvious starting points; both pure, both critical. A test
+        suite of $\sim$20 cases covers the boundaries.
+  \item \textbf{Integration:} spin up Express against a Supabase test
+        project (or a Postgres in Docker), run the manual matrix above as
+        Vitest cases.
+  \item \textbf{End-to-end:} Playwright against a deployed preview build,
+        scripted to walk the public-voter and judge flows.
+\end{itemize}
+
+\subsection{Defensive non-test: chaos verification}
+
+We periodically (twice during development) ran the system under a
+``chaos mode''; the server was restarted at random while the client
+was open. The expected behaviour is that the SSE socket reconnects, the
+session snapshot re-syncs, and any in-flight writes either succeeded or
+returned a clean 500 with a request id. This was not automated; it was
+done by hand and observed.

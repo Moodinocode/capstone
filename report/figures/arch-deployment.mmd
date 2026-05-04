@@ -1,0 +1,29 @@
+graph TB
+  subgraph "Edge / CDN"
+    V["Vercel Edge Network<br/>spotlight.vercel.app<br/>(static SPA, global CDN)"]
+  end
+
+  subgraph "Application tier"
+    R1["Render dyno #1<br/>Node 20 / Express 4"]
+    R2["Render dyno #2<br/>(autoscale)"]
+  end
+
+  subgraph "Data tier"
+    SB["Supabase project<br/>Postgres 15 + PgBouncer<br/>region: us-east-1"]
+  end
+
+  subgraph "External services"
+    AN["Anthropic API"]
+  end
+
+  subgraph "Operator"
+    DEV["Developer / admin<br/>browser"]
+  end
+
+  DEV --> V
+  V --> R1
+  V --> R2
+  R1 --> SB
+  R2 --> SB
+  R1 --> AN
+  R2 --> AN

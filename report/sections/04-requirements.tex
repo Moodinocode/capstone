@@ -1,0 +1,119 @@
+\section{Requirements}
+\label{sec:requirements}
+
+\subsection{Stakeholders}
+
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Public attendee}; anonymous, has a browser, votes once.
+  \item \textbf{Judge}; has an email/password, grades a fixed list of
+        assigned projects.
+  \item \textbf{Admin judge}; a judge who can additionally toggle the
+        live-session state and view the analytics + integrity dashboards.
+  \item \textbf{Operator (developer)}; runs migrations, reseeds, and
+        watches structured logs.
+\end{itemize}
+
+\subsection{Functional Requirements}
+
+Table~\ref{tab:func-req} lists the functional requirements with their
+MoSCoW priority and a one-line acceptance criterion.
+
+\begin{longtable}{p{0.06\textwidth}p{0.34\textwidth}p{0.08\textwidth}p{0.42\textwidth}}
+  \caption{Functional requirements (MoSCoW prioritised).}\label{tab:func-req}\\
+  \toprule
+  \textbf{ID} & \textbf{Requirement} & \textbf{Pr.} & \textbf{Acceptance} \\
+  \midrule
+  \endfirsthead
+  \toprule
+  \textbf{ID} & \textbf{Requirement} & \textbf{Pr.} & \textbf{Acceptance} \\
+  \midrule
+  \endhead
+
+  F-1  & Public can browse projects by segment type. & M & \texttt{/projects?segmentType=ted\_talk} returns $\geq 1$ row. \\
+  F-2  & Public can vote once per browser. & M & Second \texttt{POST /votes} from same browser token returns 409. \\
+  F-3  & Public can see project details. & M & \texttt{/projects/:id} renders title, team, description, video, document. \\
+  F-4  & Public sees a winners page. & M & \texttt{/winners} returns champions, honorable mentions, peoples choice. \\
+  F-5  & Judges authenticate with email + password. & M & \texttt{POST /auth/login} returns 200 with JWT for valid creds, 401 otherwise. \\
+  F-6  & Judges see assigned projects on a dashboard. & M & \texttt{/grades/my} returns ungraded + graded for the JWT-identified judge. \\
+  F-7  & Judges can save a draft grade. & M & \texttt{PUT /grades/:id/draft} upserts with status=in\_progress. \\
+  F-8  & Drafts auto-save. & S & Client debounces input at 800ms and sends \texttt{PUT}. \\
+  F-9  & Judges can submit a final grade. & M & \texttt{POST /grades/:id/submit} sets status=submitted; subsequent edits 403. \\
+  F-10 & Submitted grades are immutable. & M & Database \texttt{audit\_logs} captures attempted edits; controller returns 403. \\
+  F-11 & Admins can toggle event public/private. & M & \texttt{POST /session/set-public} flips a flag visible to all clients within 1\,s. \\
+  F-12 & Admins can toggle vote-count visibility. & M & ditto, \texttt{/session/votes-visible}. \\
+  F-13 & Admins can update now-playing/up-next. & M & \texttt{PUT /session} updates JSONB columns. \\
+  F-14 & Live state pushes to all clients. & M & SSE event \texttt{session.update} reaches connected client within 1\,s. \\
+  F-15 & Admin sees event-wide analytics. & S & \texttt{/admin/analytics} renders 6 cards + charts; data comes from \texttt{/admin/stats} etc. \\
+  F-16 & Admin sees integrity dashboard. & S & \texttt{/admin/integrity} renders flagged-vote table and audit-log table. \\
+  F-17 & AI advisory insight per project. & C & \texttt{/ai/insights/:id} returns a JSON payload of summary + strengths + questions + hints. \\
+  F-18 & Insights are cached per project. & C & Second call in same window returns \texttt{cached: true}. \\
+  F-19 & Anomalous votes are flagged. & S & A burst of 5 votes from a single IP in 60\,s produces a \texttt{vote\_flags} row of severity=high. \\
+  F-20 & Tainted projects excluded from People's Choice. & S & A project with $\geq 3$ high-severity flags does not appear as the People's Choice winner. \\
+  F-21 & Judge audit trail. & S & Every \texttt{grade.submit} appends a row to \texttt{audit\_logs}. \\
+  F-22 & Health check exposes liveness + DB latency. & M & \texttt{/api/health} returns 200 with \texttt{db.latencyMs} when DB reachable. \\
+
+  \bottomrule
+\end{longtable}
+
+\subsection{Non-Functional Requirements}
+
+Table~\ref{tab:nonfunc-req} states the non-functional contract. Every row
+maps to a concrete implementation discussed in
+Section~\ref{sec:nonfunc}.
+
+\begin{longtable}{p{0.06\textwidth}p{0.16\textwidth}p{0.62\textwidth}p{0.10\textwidth}}
+  \caption{Non-functional requirements.}\label{tab:nonfunc-req}\\
+  \toprule
+  \textbf{ID} & \textbf{Quality} & \textbf{Statement (acceptance)} & \textbf{Pr.} \\
+  \midrule
+  \endfirsthead
+  \toprule
+  \textbf{ID} & \textbf{Quality} & \textbf{Statement (acceptance)} & \textbf{Pr.} \\
+  \midrule
+  \endhead
+
+  N-1  & Security      & All client input is schema-validated at the API edge before any DB call. & M \\
+  N-2  & Security      & Passwords stored as bcrypt hash with cost factor 10. & M \\
+  N-3  & Security      & JWT secrets and Supabase service keys are never committed; \texttt{.env.example} ships with names but no values. & M \\
+  N-4  & Security      & Privileged endpoints require role check (\texttt{adminOnly}) on top of authentication. & M \\
+  N-5  & Security      & Vote endpoints are rate-limited at 5 / minute / IP. & M \\
+  N-6  & Security      & Vote payloads include a server-issued HMAC token whose validity is bound to the browser token and a 5-minute window. & S \\
+  N-7  & Security      & All privileged writes append a tamper-evident-style row to \texttt{audit\_logs}. & S \\
+  N-8  & Scalability   & Hot reads (project list, winners, vote counts) are served from an in-process LRU; cache hit-rate visible to admin. & M \\
+  N-9  & Scalability   & Vote increments use an atomic Postgres RPC, not read-modify-write from Node. & M \\
+  N-10 & Scalability   & Backend is stateless; multiple Render instances can run concurrently. & S \\
+  N-11 & Reliability   & Every async controller is wrapped in \texttt{asyncHandler}; rejected promises route to a global error handler. & M \\
+  N-12 & Reliability   & Every request is logged with a request id; errors carry the id back to the client. & M \\
+  N-13 & Reliability   & Submitted grades are append-only at the audit level even when over-written at the row level. & S \\
+  N-14 & Maintainability & API and UI are organised by concern (controllers, routes, middleware, services, components, hooks). & M \\
+  N-15 & Maintainability & Linting (ESLint flat config) on both tiers. & S \\
+  N-16 & Maintainability & Feature flags (\texttt{REQUIRE\_VOTE\_TOKEN}, \texttt{ENABLE\_AI\_INSIGHTS}, \texttt{VITE\_USE\_SSE}) gate the riskiest behaviour for clean rollback. & S \\
+  N-17 & Availability  & Health endpoint reports DB latency and returns \texttt{degraded} on DB failure rather than 500. & S \\
+  N-18 & Availability  & SSE has a polling fallback; AI calls have a deterministic stub. & S \\
+  N-19 & Efficiency    & The cold path of a vote is one DB insert + one RPC + one in-memory broadcast. & S \\
+  N-20 & Efficiency    & Anomaly scoring is in-memory, $O(\text{recent})$ where \texttt{recent} is bounded to the 5-minute ring. & S \\
+
+  \bottomrule
+\end{longtable}
+
+\subsection{Out of scope}
+
+\begin{itemize}[leftmargin=*]
+  \item Multi-event tenancy. The system handles one event at a time
+        (\texttt{live\_sessions.key = 'main'}).
+  \item Internationalisation beyond a stub for English/Arabic.
+  \item Email notifications.
+  \item Mobile-native apps.
+\end{itemize}
+
+\subsection{Constraints}
+
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Budget:} free tier of every service; the only paid item, if
+        enabled, is the Anthropic API at pay-as-you-go rates.
+  \item \textbf{Operator:} one student. So everything must be runnable from
+        \texttt{npm install} + a single migration step.
+  \item \textbf{Browsers:} latest Chrome, Firefox, Safari (desktop + mobile).
+  \item \textbf{Live event time:} a 90-minute window during which the
+        platform is the live presentation.
+\end{itemize}

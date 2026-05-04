@@ -1,0 +1,148 @@
+\section{Appendix A; Database Schema (DDL)}
+\label{app:schema}
+
+The following SQL is the consolidated schema for the platform. Tables
+created during initial setup are marked \emph{base}; those introduced by
+the migrations described in Section~\ref{sec:deploy} are marked
+\emph{migration N}.
+
+\begin{lstlisting}[language=SQL,caption={Consolidated DDL.}]
+-- base: projects ------------------------------------------------------
+create table if not exists projects (
+  id              uuid primary key default gen_random_uuid(),
+  project_number  text unique not null,
+  title           text not null,
+  team_name       text,
+  category        text,
+  description     text default '',
+  members         jsonb default '[]'::jsonb,
+  image_url       text default '',
+  video_url       text default '',
+  document_url    text default '',
+  zoom_link       text default '',
+  is_live         boolean default false,
+  vote_count      integer default 0,
+  tags            jsonb default '[]'::jsonb,
+  segment_type    text default 'project'
+                  check (segment_type in ('project','ted_talk','interview')),
+  is_seeded       boolean default false,
+  created_at      timestamptz default now(),
+  updated_at      timestamptz default now()
+);
+
+-- base: judges --------------------------------------------------------
+create table if not exists judges (
+  id          uuid primary key default gen_random_uuid(),
+  name        text not null,
+  email       text unique not null,
+  password    text not null,           -- bcrypt hash
+  is_admin    boolean default false,
+  created_at  timestamptz default now()
+);
+
+create table if not exists judge_projects (
+  judge_id    uuid references judges(id)   on delete cascade,
+  project_id  uuid references projects(id) on delete cascade,
+  primary key (judge_id, project_id)
+);
+
+-- base: grades --------------------------------------------------------
+create table if not exists grades (
+  id            uuid primary key default gen_random_uuid(),
+  judge_id      uuid not null references judges(id)   on delete cascade,
+  project_id    uuid not null references projects(id) on delete cascade,
+  score_c1      integer,
+  score_c2      integer,
+  score_c3      integer,
+  score_c4      integer,
+  score_c5      integer,
+  total_score   integer default 0,
+  feedback      text default '',
+  status        text default 'in_progress'
+                check (status in ('not_started','in_progress','submitted')),
+  last_saved_at timestamptz,
+  submitted_at  timestamptz,
+  created_at    timestamptz default now(),
+  updated_at    timestamptz default now(),
+  unique (judge_id, project_id)
+);
+
+-- base: votes ---------------------------------------------------------
+create table if not exists votes (
+  id            uuid primary key default gen_random_uuid(),
+  project_id    uuid not null references projects(id) on delete cascade,
+  browser_token uuid not null,
+  ip_address    text,
+  created_at    timestamptz default now()
+);
+create index if not exists votes_browser_token_idx on votes (browser_token);
+create index if not exists votes_project_idx       on votes (project_id);
+
+-- base: schedule, live_sessions --------------------------------------
+create table if not exists schedule_items (
+  id          uuid primary key default gen_random_uuid(),
+  sort_order  integer not null,
+  time        text not null,
+  start_time  text,
+  label       text not null,
+  type        text not null
+);
+
+create table if not exists live_sessions (
+  id              uuid primary key default gen_random_uuid(),
+  key             text unique not null default 'main',
+  is_event_live   boolean default false,
+  now_playing     jsonb default '{}'::jsonb,
+  up_next         jsonb default '{}'::jsonb,
+  created_at      timestamptz default now(),
+  updated_at      timestamptz default now()
+);
+
+-- base: increment RPC ------------------------------------------------
+create or replace function increment_vote_count(p_id uuid)
+returns void language sql as $$
+  update projects set vote_count = vote_count + 1 where id = p_id;
+$$;
+
+-- migration 1: audit_logs --------------------------------------------
+create table if not exists audit_logs (
+  id           uuid primary key default gen_random_uuid(),
+  actor_type   text not null,
+  actor_id     uuid,
+  action       text not null,
+  target_type  text,
+  target_id    text,
+  metadata     jsonb default '{}'::jsonb,
+  ip           text,
+  created_at   timestamptz default now()
+);
+create index if not exists audit_logs_action_idx     on audit_logs (action);
+create index if not exists audit_logs_actor_idx      on audit_logs (actor_id);
+create index if not exists audit_logs_created_at_idx on audit_logs (created_at desc);
+
+-- migration 2: vote_flags --------------------------------------------
+create table if not exists vote_flags (
+  id              uuid primary key default gen_random_uuid(),
+  vote_id         uuid,
+  project_id      uuid not null references projects(id) on delete cascade,
+  browser_token   uuid,
+  ip              text,
+  user_agent_hash text,
+  score           integer not null,
+  severity        text not null check (severity in ('low','medium','high')),
+  reasons         jsonb not null default '[]'::jsonb,
+  created_at      timestamptz default now()
+);
+create index if not exists vote_flags_project_idx     on vote_flags (project_id);
+create index if not exists vote_flags_severity_idx    on vote_flags (severity);
+create index if not exists vote_flags_created_at_idx  on vote_flags (created_at desc);
+
+-- migration 3: ai_insights -------------------------------------------
+create table if not exists ai_insights (
+  project_id  uuid primary key references projects(id) on delete cascade,
+  model       text not null,
+  payload     jsonb not null,
+  created_at  timestamptz default now(),
+  updated_at  timestamptz default now()
+);
+\end{lstlisting}

@@ -1,0 +1,85 @@
+erDiagram
+  PROJECTS ||--o{ VOTES : receives
+  PROJECTS ||--o{ GRADES : evaluated_by
+  PROJECTS ||--o{ AI_INSIGHTS : has
+  PROJECTS ||--o{ VOTE_FLAGS : flagged_for
+  JUDGES   ||--o{ GRADES : authors
+  JUDGES   ||--o{ JUDGE_PROJECTS : assigned
+  JUDGES   ||--o{ AUDIT_LOGS : actor
+  PROJECTS ||--o{ JUDGE_PROJECTS : assigned_to
+  LIVE_SESSIONS ||--o{ AUDIT_LOGS : changed_by
+
+  PROJECTS {
+    uuid id PK
+    text project_number
+    text title
+    text team_name
+    text segment_type
+    int  vote_count
+    jsonb members
+    jsonb tags
+    timestamptz created_at
+  }
+  JUDGES {
+    uuid id PK
+    text email
+    text password
+    bool is_admin
+    timestamptz created_at
+  }
+  JUDGE_PROJECTS {
+    uuid judge_id FK
+    uuid project_id FK
+  }
+  GRADES {
+    uuid id PK
+    uuid judge_id FK
+    uuid project_id FK
+    int  score_c1
+    int  score_c2
+    int  score_c3
+    int  score_c4
+    int  score_c5
+    int  total_score
+    text status
+    timestamptz submitted_at
+  }
+  VOTES {
+    uuid id PK
+    uuid project_id FK
+    uuid browser_token
+    text ip_address
+    timestamptz created_at
+  }
+  VOTE_FLAGS {
+    uuid id PK
+    uuid project_id FK
+    uuid browser_token
+    int  score
+    text severity
+    jsonb reasons
+    timestamptz created_at
+  }
+  AI_INSIGHTS {
+    uuid project_id PK,FK
+    text model
+    jsonb payload
+    timestamptz updated_at
+  }
+  AUDIT_LOGS {
+    uuid id PK
+    text actor_type
+    uuid actor_id
+    text action
+    text target_type
+    text target_id
+    jsonb metadata
+    timestamptz created_at
+  }
+  LIVE_SESSIONS {
+    uuid id PK
+    text key
+    bool is_event_live
+    jsonb now_playing
+    jsonb up_next
+  }

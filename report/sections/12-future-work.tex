@@ -1,0 +1,100 @@
+\section{Limitations and Future Work}
+\label{sec:future}
+
+\subsection{Honest limitations}
+
+\begin{itemize}[leftmargin=*]
+  \item \textbf{No automated test suite.} The architecture supports
+        testing, but tests do not yet exist. Adding Vitest unit tests for
+        the pure utilities (\texttt{verifyVoteToken},
+        \texttt{scoreVote}) and integration tests for the four flows
+        would close the biggest single gap.
+  \item \textbf{Single-region deploy.} Render dyno is in one region;
+        Supabase project is in one region. A regional outage takes the
+        platform down. Multi-region read replicas are a Supabase Pro
+        feature.
+  \item \textbf{Process-local cache and SSE state.} Both are
+        per-instance. Scaling out to multiple instances requires Redis
+        for cache coherence and Redis pub/sub for SSE fan-out.
+  \item \textbf{No CAPTCHA or hCaptcha on \texttt{/votes/init}.}
+        A determined attacker with a botnet can still issue an init token
+        per attacker browser. The anomaly detector raises the cost, but
+        does not eliminate it.
+  \item \textbf{JWT in localStorage.} An XSS would expose the token. The
+        modern preference is httpOnly cookies; we deferred the change to
+        avoid the CSRF-token plumbing it would require.
+  \item \textbf{Bundle size.} 740\,kB unsplit. Acceptable on Wi-Fi,
+        slow on a cellular connection.
+  \item \textbf{No internationalisation.} The UI has stubs for
+        English/Arabic but not all strings are wired through the
+        translator.
+  \item \textbf{Single-event tenancy.} The \texttt{live\_sessions.key
+        = 'main'} pattern works for one event; supporting parallel
+        events would require schema changes.
+\end{itemize}
+
+\subsection{Future work, prioritised}
+
+\subsubsection*{Tier 1; next iteration}
+
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Vitest test suite.} Unit + integration. Target:
+        80\% statement coverage on \texttt{server/}.
+  \item \textbf{Code-splitting.} Use React Router's lazy routes. Cuts
+        initial bundle by an estimated 60\%.
+  \item \textbf{httpOnly cookie auth.} Move JWT to a secure cookie;
+        add a CSRF token to mutating endpoints.
+  \item \textbf{hCaptcha on \texttt{/votes/init}.} Closes the last
+        residual security gap for anonymous voting.
+\end{enumerate}
+
+\subsubsection*{Tier 2; if scope grows}
+
+\begin{enumerate}[leftmargin=*]
+  \setcounter{enumi}{4}
+  \item \textbf{Multi-event tenancy.} Add an \texttt{events} table; key
+        every domain row by \texttt{event\_id}; rewrite
+        \texttt{live\_sessions} to be (\texttt{event\_id}, key).
+  \item \textbf{Redis-backed cache + pub/sub.} Swap \texttt{utils/cache.js}
+        and \texttt{services/eventBus.js} behind their existing APIs.
+  \item \textbf{i18n.} Wire \texttt{LanguageContext.jsx} through every
+        text block; add Arabic translations for every key.
+  \item \textbf{Voter accounts.} Optional Magic-link auth for the
+        audience to lift the anonymous-voting integrity ceiling.
+\end{enumerate}
+
+\subsubsection*{Tier 3; speculative}
+
+\begin{enumerate}[leftmargin=*]
+  \setcounter{enumi}{8}
+  \item \textbf{LLM-assisted feedback summarisation.} After all judges
+        submit, summarise their feedback into a single per-project
+        narrative for the team to receive.
+  \item \textbf{Live transcription.} Run pitch audio through Whisper
+        and present a real-time caption track for accessibility.
+  \item \textbf{Mobile-native app.} React Native or Capacitor wrapper
+        of the existing SPA, with a Push Notification track for
+        ``your assigned project is up next''.
+  \item \textbf{Anomaly detector ML upgrade.} Replace the rule-based
+        scorer with a small classifier trained on historical
+        flagged/clean votes. Only worth doing once we have $\geq$10
+        events of historical data.
+\end{enumerate}
+
+\subsection{Lessons learned}
+
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Defence in depth is a multiplier, not a tax.} Each
+        single defence (rate limit, HMAC token, anomaly detector) is
+        easy to build. The combined effect dominates any single defence
+        we could have built more carefully.
+  \item \textbf{Boring tech buys time for interesting tech.} React +
+        Express + Postgres is unfashionable; that left budget for the
+        AI panel and the real-time push.
+  \item \textbf{Free tiers are political acts.} Vercel, Render, and
+        Supabase offering a real production runtime for free changes
+        what a single student can ship.
+  \item \textbf{Logs are infrastructure.} The decision to add structured
+        logging early (with request ids) paid back during every
+        debugging session that followed.
+\end{itemize}

@@ -1,0 +1,12 @@
+stateDiagram-v2
+  [*] --> NotStarted : assignment created
+  NotStarted --> InProgress : first PUT /draft
+  InProgress --> InProgress : auto-save (debounced)
+  InProgress --> Submitted : POST /submit (all 5 scores filled)
+  InProgress --> NotStarted : (admin reset, rare)
+  Submitted --> [*] : (immutable)
+  note right of Submitted
+    No write path can move Submitted
+    back to InProgress.
+    Audit log captures every transition.
+  end note

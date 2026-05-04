@@ -1,4 +1,6 @@
 import supabase from '../config/supabase.js';
+import { cache } from '../utils/cache.js';
+import logger from '../utils/logger.js';
 
 const shapeProject = (row) => ({
   _id: row.id,
@@ -23,27 +25,32 @@ const shapeProject = (row) => ({
 export const getProjects = async (req, res) => {
   const { category, search, page = 1, limit = 50, segmentType } = req.query;
 
-  let query = supabase
-    .from('projects')
-    .select('*', { count: 'exact' })
-    .order('project_number', { ascending: true })
-    .range((page - 1) * limit, page * limit - 1);
+  // Cache key includes every filter so different queries don't cross-pollute.
+  const key = `projects:${segmentType ?? 'project'}:${category ?? 'All'}:${search ?? ''}:p${page}:l${limit}`;
 
-  // Public gallery only shows pitches; judges can request other types
-  query = query.eq('segment_type', segmentType ?? 'project');
+  const result = await cache.getOrSet(key, 60_000, async () => {
+    let query = supabase
+      .from('projects')
+      .select('*', { count: 'exact' })
+      .order('project_number', { ascending: true })
+      .range((page - 1) * limit, page * limit - 1);
 
-  if (category && category !== 'All') query = query.eq('category', category);
-  if (search) {
-    query = query.or(`title.ilike.%${search}%,team_name.ilike.%${search}%`);
-  }
+    query = query.eq('segment_type', segmentType ?? 'project');
 
-  const { data, count, error } = await query;
-  if (error) {
-    console.error('[getProjects] Supabase error:', error);
-    return res.status(500).json({ message: error.message });
-  }
+    if (category && category !== 'All') query = query.eq('category', category);
+    if (search) {
+      query = query.or(`title.ilike.%${search}%,team_name.ilike.%${search}%`);
+    }
 
-  res.json({ projects: data.map(shapeProject), total: count, page: Number(page) });
+    const { data, count, error } = await query;
+    if (error) {
+      logger.error({ err: error.message }, 'getProjects supabase error');
+      throw error;
+    }
+    return { projects: data.map(shapeProject), total: count, page: Number(page) };
+  });
+
+  res.json(result);
 };
 
 export const getProjectById = async (req, res) => {
@@ -79,6 +86,7 @@ export const createProject = async (req, res) => {
     .single();
 
   if (error) return res.status(400).json({ message: error.message });
+  cache.invalidate('projects:');
   res.status(201).json(shapeProject(data));
 };
 
@@ -108,5 +116,6 @@ export const updateProject = async (req, res) => {
     .single();
 
   if (error || !data) return res.status(404).json({ message: 'Project not found' });
+  cache.invalidate('projects:');
   res.json(shapeProject(data));
 };

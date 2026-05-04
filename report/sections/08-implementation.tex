@@ -1,0 +1,424 @@
+\section{Implementation Walkthrough}
+\label{sec:impl}
+
+This section reads the most load-bearing pieces of source. The full
+codebase is available in the project repository; the listings below are
+the parts a reader needs to internalise.
+
+\subsection{Express bootstrap}
+
+The API entry point composes middleware in a deliberate order: security
+headers first (Helmet), then CORS, then the JSON body parser with a tight
+size limit, then the structured logger, then the global rate limiter,
+then the routers.
+
+\begin{lstlisting}[caption={\texttt{server/server.js} (key fragment)},label={lst:server}]
+app.set('trust proxy', 1);
+app.use(helmet());
+app.use(cors({ origin: process.env.CORS_ORIGIN || '*' }));
+app.use(express.json({ limit: '256kb' }));
+app.use(httpLogger);
+app.use('/api', apiLimiter);
+
+app.use('/api/auth',     authRoutes);
+app.use('/api/projects', projectRoutes);
+app.use('/api/grades',   gradeRoutes);
+app.use('/api/votes',    voteRoutes);
+app.use('/api/session',  sessionRoutes);
+app.use('/api/schedule', scheduleRoutes);
+app.use('/api/winners',  winnersRoutes);
+app.use('/api/ai',       aiRoutes);
+app.use('/api/admin',    adminRoutes);
+\end{lstlisting}
+
+\texttt{trust proxy} is set so that \texttt{req.ip} reflects the
+\texttt{X-Forwarded-For} header set by Render's edge, not the loopback
+address of Render's reverse proxy. Without this line, the per-IP rate
+limit would mistakenly limit \emph{everyone} to one shared bucket.
+
+\subsection{Validation middleware}
+
+\begin{lstlisting}[caption={\texttt{server/middleware/validate.js}; the generic validator},label={lst:validate}]
+export const validate = (schemas) => (req, res, next) => {
+  try {
+    if (schemas.body)   req.body   = schemas.body.parse(req.body ?? {});
+    if (schemas.query)  req.query  = schemas.query.parse(req.query ?? {});
+    if (schemas.params) req.params = schemas.params.parse(req.params ?? {});
+    next();
+  } catch (err) {
+    if (err instanceof z.ZodError) {
+      return res.status(400).json({
+        message: 'Invalid request',
+        issues: err.issues.map((i) => ({ path: i.path.join('.'), message: i.message })),
+      });
+    }
+    next(err);
+  }
+};
+\end{lstlisting}
+
+The schemas object lives in the same file:
+
+\begin{lstlisting}[caption={Schemas (excerpt)},label={lst:schemas}]
+export const schemas = {
+  login: {
+    body: z.object({
+      email: z.string().email().max(120),
+      password: z.string().min(1).max(200),
+    }),
+  },
+  voteCast: {
+    body: z.object({
+      projectId: z.string().uuid(),
+      browserToken: z.string().uuid(),
+      voteToken: z.string().min(10).max(400).optional(),
+    }),
+  },
+  gradeBody: {
+    body: z.object({
+      scores: z.object({
+        c1: z.number().min(0).max(5).nullable().optional(),
+        c2: z.number().min(0).max(5).nullable().optional(),
+        c3: z.number().min(0).max(5).nullable().optional(),
+        c4: z.number().min(0).max(5).nullable().optional(),
+        c5: z.number().min(0).max(5).nullable().optional(),
+      }).default({}),
+      feedback: z.string().max(5000).optional(),
+    }),
+    params: z.object({ projectId: z.string().uuid() }),
+  },
+  /* ... */
+};
+\end{lstlisting}
+
+\subsection{Per-route rate limits}
+
+\begin{lstlisting}[caption={\texttt{server/middleware/limits.js}},label={lst:limits}]
+export const loginLimiter = rateLimit({
+  windowMs: 60 * 1000, max: 5,
+  standardHeaders: true, legacyHeaders: false,
+  message: { message: 'Too many login attempts. Please wait a minute.' },
+});
+
+export const voteLimiter = rateLimit({
+  windowMs: 60 * 1000, max: 5,
+  standardHeaders: true, legacyHeaders: false,
+  message: { message: 'Too many votes from this address.' },
+});
+
+export const gradeLimiter = rateLimit({
+  windowMs: 60 * 1000, max: 60,
+  standardHeaders: true, legacyHeaders: false,
+  keyGenerator: (req) => req.judge?._id || req.ip,
+  message: { message: 'Too many grading requests, slow down.' },
+});
+\end{lstlisting}
+
+The grade limiter keys on \texttt{req.judge._id} rather than \texttt{req.ip}
+so that two judges behind one campus NAT do not penalise each other.
+
+\subsection{Cache helper}
+
+\begin{lstlisting}[caption={\texttt{server/utils/cache.js}},label={lst:cache}]
+import { LRUCache } from 'lru-cache';
+
+const store = new LRUCache({ max: 1000, ttl: 60_000 });
+let hits = 0, misses = 0;
+
+export const cache = {
+  async getOrSet(key, ttlMs, loader) {
+    const cached = store.get(key);
+    if (cached !== undefined) { hits++; return cached; }
+    misses++;
+    const fresh = await loader();
+    store.set(key, fresh, { ttl: ttlMs });
+    return fresh;
+  },
+  invalidate(prefix) {
+    for (const k of store.keys()) {
+      if (typeof k === 'string' && k.startsWith(prefix)) store.delete(k);
+    }
+  },
+  stats() {
+    return { size: store.size, hits, misses, hitRate: hits / (hits + misses || 1) };
+  },
+};
+\end{lstlisting}
+
+\subsection{HMAC vote token}
+
+\begin{lstlisting}[caption={\texttt{server/utils/voteToken.js} (issue + verify)},label={lst:vote-token}]
+export function issueVoteToken(browserToken) {
+  const issuedAt = Date.now();
+  const nonce = randomBytes(8).toString('hex');
+  const payload = `${browserToken}|${issuedAt}|${nonce}`;
+  const sig = createHmac('sha256', SECRET).update(payload).digest('hex');
+  return `${Buffer.from(payload).toString('base64url')}.${sig}`;
+}
+
+export function verifyVoteToken(token, expectedBrowserToken) {
+  if (typeof token !== 'string' || !token.includes('.')) return { ok: false, reason: 'malformed' };
+  const [b64, sig] = token.split('.');
+  let payload;
+  try { payload = Buffer.from(b64, 'base64url').toString('utf8'); }
+  catch { return { ok: false, reason: 'malformed' }; }
+  const expectedSig = createHmac('sha256', SECRET).update(payload).digest('hex');
+  if (sig.length !== expectedSig.length) return { ok: false, reason: 'bad-signature' };
+  if (!timingSafeEqual(Buffer.from(sig), Buffer.from(expectedSig))) {
+    return { ok: false, reason: 'bad-signature' };
+  }
+  const [browserToken, issuedAtStr] = payload.split('|');
+  if (browserToken !== expectedBrowserToken) return { ok: false, reason: 'token-mismatch' };
+  const issuedAt = Number(issuedAtStr);
+  if (!Number.isFinite(issuedAt)) return { ok: false, reason: 'malformed' };
+  if (Date.now() - issuedAt > TTL_MS) return { ok: false, reason: 'expired' };
+  return { ok: true };
+}
+\end{lstlisting}
+
+The use of \texttt{timingSafeEqual} closes the timing-attack vector;
+without it, a sufficiently determined attacker could iteratively guess
+signature bytes by measuring response times.
+
+\subsection{Anomaly scoring}
+
+\begin{lstlisting}[caption={\texttt{server/services/anomalyDetector.js} (scoring)},label={lst:anom}]
+export function scoreVote({ ip, userAgent, browserToken }) {
+  trim();
+  const reasons = [];
+  let score = 0;
+  const now = Date.now();
+  const subnet = subnet24(ip);
+
+  const sameIp = recent.filter((r) => r.ip === ip);
+  const sameSubnet = recent.filter((r) => subnet24(r.ip) === subnet);
+  const sameUa = recent.filter((r) => r.ua === userAgent);
+  const burstIp = sameIp.filter((r) => now - r.time < BURST_WINDOW_MS);
+  const burstSubnet = sameSubnet.filter((r) => now - r.time < BURST_WINDOW_MS);
+
+  if (burstIp.length >= 3)        { score += 40; reasons.push(`burst:${burstIp.length} from same IP within 60s`); }
+  else if (burstIp.length >= 1)   { score += 15; reasons.push(`recent vote from same IP within 60s`); }
+  if (burstSubnet.length >= 8)    { score += 30; reasons.push(`burst:${burstSubnet.length} from /24 within 60s`); }
+  if (sameUa.length >= 6)         { score += 15; reasons.push(`UA reused ${sameUa.length}x in 5min`); }
+  if (sameIp.length >= 12)        { score += 20; reasons.push(`${sameIp.length} votes from same IP in 5min`); }
+  if (!userAgent || userAgent.length < 10) { score += 10; reasons.push('thin/missing User-Agent'); }
+
+  let severity = 'none';
+  if (score >= 60) severity = 'high';
+  else if (score >= 30) severity = 'medium';
+  else if (score >= 10) severity = 'low';
+
+  recent.push({ ip, ua: userAgent, time: now, browserToken });
+  return { score, severity, reasons };
+}
+\end{lstlisting}
+
+\subsection{Vote controller (the cold path)}
+
+\begin{lstlisting}[caption={\texttt{server/controllers/voteController.js} (castVote, abridged)},label={lst:cast}]
+export const castVote = async (req, res) => {
+  const { projectId, browserToken, voteToken } = req.body;
+  const ip = req.ip ?? '';
+  const userAgent = req.headers['user-agent'] || '';
+
+  if (process.env.REQUIRE_VOTE_TOKEN === 'true') {
+    const v = verifyVoteToken(voteToken, browserToken);
+    if (!v.ok) return res.status(403).json({ message: `Vote token invalid: ${v.reason}` });
+  }
+
+  const { data: project } = await supabase.from('projects').select('id').eq('id', projectId).single();
+  if (!project) return res.status(404).json({ message: 'Project not found' });
+
+  const { data: existing } = await supabase
+    .from('votes').select('project_id').eq('browser_token', browserToken).maybeSingle();
+  if (existing) {
+    return res.status(409).json({ message: 'Already voted', votedProjectId: existing.project_id });
+  }
+
+  const anomaly = scoreVote({ ip, userAgent, browserToken });
+
+  const { data: insertedVote, error: insertErr } = await supabase
+    .from('votes').insert({ project_id: projectId, browser_token: browserToken, ip_address: ip })
+    .select().single();
+  if (insertErr) return res.status(500).json({ message: 'Could not record vote' });
+
+  await supabase.rpc('increment_vote_count', { p_id: projectId });
+
+  if (anomaly.severity !== 'none') {
+    recordFlag({ voteId: insertedVote.id, projectId, browserToken, ip,
+                 userAgent: hashUserAgent(userAgent),
+                 score: anomaly.score, severity: anomaly.severity, reasons: anomaly.reasons })
+      .catch((e) => logger.warn({ err: e.message }, 'flag persist failed'));
+  }
+
+  cache.invalidate('projects:'); cache.invalidate('winners:'); cache.invalidate('vote-counts');
+  broadcast('vote.cast', { projectId, flagged: anomaly.severity !== 'none', severity: anomaly.severity });
+
+  res.status(201).json({ message: 'Vote recorded', projectId, flagged: anomaly.severity !== 'none' });
+};
+\end{lstlisting}
+
+The hot path is exactly what the architecture promised: one
+\texttt{SELECT} for project existence, one \texttt{SELECT} for duplicate
+detection, one in-memory anomaly score, one \texttt{INSERT}, one RPC,
+one cache invalidation, one broadcast. No N+1, no joins, no hidden
+fan-out.
+
+\subsection{SSE event bus}
+
+\begin{lstlisting}[caption={\texttt{server/services/eventBus.js}},label={lst:bus}]
+const clients = new Set();
+
+export function addClient(res)    { clients.add(res); }
+export function removeClient(res) { clients.delete(res); }
+
+export function broadcast(event, data) {
+  const payload = `event: ${event}\ndata: ${JSON.stringify(data)}\n\n`;
+  for (const res of clients) {
+    try { res.write(payload); }
+    catch (err) { clients.delete(res); }
+  }
+}
+
+setInterval(() => {
+  for (const res of clients) {
+    try { res.write(': ping\n\n'); } catch { clients.delete(res); }
+  }
+}, 25_000).unref?.();
+\end{lstlisting}
+
+The route handler that turns a normal HTTP request into an SSE stream:
+
+\begin{lstlisting}[caption={SSE handler in \texttt{sessionController.js}},label={lst:sse}]
+export const streamSession = (req, res) => {
+  res.set({
+    'Content-Type': 'text/event-stream',
+    'Cache-Control': 'no-cache, no-transform',
+    Connection: 'keep-alive',
+    'X-Accel-Buffering': 'no',
+  });
+  res.flushHeaders?.();
+
+  readMain()
+    .then((row) => res.write(`event: session.snapshot\ndata: ${JSON.stringify(shapeSession(row))}\n\n`))
+    .catch((err) => logger.warn({ err: err.message }, 'sse snapshot failed'));
+
+  addClient(res);
+  req.on('close', () => removeClient(res));
+};
+\end{lstlisting}
+
+\subsection{Claude API call with prompt caching}
+
+\begin{lstlisting}[caption={\texttt{server/services/claude.js} (the message create)},label={lst:claude}]
+const RUBRIC_SYSTEM = `You are an experienced judge for a university soft-skills competition.
+... (rubric block) ...`;
+
+export async function generateInsights(project) {
+  if (!ENABLE_REAL) return stubInsights(project);
+
+  const userText = [
+    `Project: ${project.title}`,
+    `Segment: ${project.segmentType}`,
+    `Team / speaker: ${project.teamName || '(unknown)'}`,
+    `Category: ${project.category || '(unknown)'}`,
+    `Tags: ${(project.tags || []).join(', ') || '(none)'}`,
+    '',
+    'Description:',
+    project.description || '(no description provided)',
+  ].join('\n');
+
+  const resp = await client.messages.create({
+    model: MODEL,
+    max_tokens: 700,
+    system: [
+      { type: 'text', text: RUBRIC_SYSTEM, cache_control: { type: 'ephemeral' } },
+    ],
+    messages: [{ role: 'user', content: userText }],
+  });
+
+  const text = resp.content.filter((b) => b.type === 'text').map((b) => b.text).join('\n').trim();
+  logger.info({
+    cacheRead:  resp.usage?.cache_read_input_tokens ?? 0,
+    cacheWrite: resp.usage?.cache_creation_input_tokens ?? 0,
+    input:  resp.usage?.input_tokens ?? 0,
+    output: resp.usage?.output_tokens ?? 0,
+  }, 'claude.insights.usage');
+  return extractJson(text);
+}
+\end{lstlisting}
+
+The two log fields \texttt{cacheRead} and \texttt{cacheWrite} let us
+verify on every call that the prompt cache is doing its job; in steady
+state, \texttt{cacheRead} is large and \texttt{cacheWrite} is zero.
+
+\subsection{Audit helper}
+
+\begin{lstlisting}[caption={\texttt{server/utils/audit.js}},label={lst:audit}]
+export async function audit(entry) {
+  try {
+    const { error } = await supabase.from('audit_logs').insert({
+      actor_type: entry.actorType,
+      actor_id:   entry.actorId ?? null,
+      action:     entry.action,
+      target_type: entry.targetType ?? null,
+      target_id:   entry.targetId ?? null,
+      metadata:    entry.metadata ?? {},
+      ip:          entry.ip ?? null,
+    });
+    if (error) logger.warn({ err: error.message, action: entry.action }, 'audit insert failed');
+  } catch (e) {
+    logger.warn({ err: e.message, action: entry.action }, 'audit threw');
+  }
+}
+\end{lstlisting}
+
+The audit insert is best-effort: a failure to persist the audit row
+should not block the user-facing operation. We log at WARN so an
+operator scanning logs can still see the gap.
+
+\subsection{Client SSE hook}
+
+\begin{lstlisting}[caption={\texttt{client/src/hooks/useEventStream.js} (key fragment)},label={lst:hook}]
+useEffect(() => {
+  if (!url) return undefined;
+  let es = null, watchdog = null, lastEventAt = Date.now(), stopped = false;
+  const staleMs = opts.staleMs ?? 45_000;
+
+  function connect() {
+    if (stopped) return;
+    try { es?.close(); } catch { /* noop */ }
+    es = new EventSource(url);
+    es.onopen  = () => { lastEventAt = Date.now(); };
+    es.onerror = () => { /* native retry handles transient errors */ };
+    es.onmessage = (ev) => {
+      lastEventAt = Date.now();
+      try { handlersRef.current?.message?.(JSON.parse(ev.data)); } catch { /* ignore */ }
+    };
+    for (const name of Object.keys(handlersRef.current || {})) {
+      if (name === 'message') continue;
+      es.addEventListener(name, (ev) => {
+        lastEventAt = Date.now();
+        try { handlersRef.current[name]?.(ev.data ? JSON.parse(ev.data) : null, ev); }
+        catch { handlersRef.current[name]?.(null, ev); }
+      });
+    }
+  }
+
+  connect();
+  watchdog = setInterval(() => {
+    if (Date.now() - lastEventAt > staleMs) { lastEventAt = Date.now(); connect(); }
+  }, Math.max(staleMs / 2, 5_000));
+
+  return () => { stopped = true; clearInterval(watchdog); try { es?.close(); } catch {} };
+}, [url, opts.staleMs]);
+\end{lstlisting}
+
+\subsection{Frontend component map}
+
+The page-level component graph is shown in
+Figure~\ref{fig:class-frontend}. Two providers wrap the router:
+\texttt{AuthProvider} owns the JWT and judge profile; \texttt{LiveSessionProvider}
+owns the SSE subscription and the session snapshot.
+
+\fig{class-frontend}{0.95}{Top-level frontend component hierarchy.}

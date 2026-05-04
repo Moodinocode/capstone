@@ -1,0 +1,18 @@
+flowchart TD
+  A["POST /api/auth/login<br/>{email, password}"] --> B{loginLimiter<br/>5/min/IP}
+  B -->|429| END1[["429 too many"]]
+  B -->|ok| C[zod validate]
+  C -->|invalid| END2[["400"]]
+  C -->|ok| D["SELECT judges WHERE email=lower(...)"]
+  D -->|none| END3[["401 invalid creds"]]
+  D --> E[bcrypt.compare]
+  E -->|mismatch| END3
+  E -->|ok| F["jwt.sign({id}, JWT_SECRET, 7d)"]
+  F --> G["return { token, judge }"]
+
+  H["Subsequent request<br/>Authorization: Bearer ..."] --> I[protect middleware]
+  I --> J[jwt.verify]
+  J -->|expired/invalid| END4[["401"]]
+  J --> K["SELECT judges WHERE id=?<br/>SELECT judge_projects WHERE judge_id=?"]
+  K --> L["req.judge = { id, isAdmin, assignedProjects }"]
+  L --> M[next handler]

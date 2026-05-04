@@ -1,0 +1,38 @@
+\section{Conclusion}
+\label{sec:conclusion}
+
+Spotlight set out to replace the email-spreadsheet-paper-ballot triplet
+that runs most live student showcases with one piece of software that
+does simultaneous judging, anonymous voting, integrity moderation, and
+real-time admin push; all within a free-tier infrastructure budget
+and a single-student maintainer footprint.
+
+The platform meets that goal. Public voters can browse and vote in a
+single tap. Judges grade against a segment-specific rubric with auto-save
+and an AI-generated reading aid. Admins toggle the live show in real
+time and watch event-wide analytics and integrity flags as they happen.
+Every privileged write leaves an audit trail; every anonymous vote
+passes through five independent integrity defences.
+
+The non-functional posture is strong. Reads sit behind an LRU cache with
+explicit invalidation on the writes that matter. Writes are atomic
+(Postgres RPC) where they have to be. The error path is uniform:
+\texttt{asyncHandler} $\to$ global handler $\to$ structured log line $\to$
+JSON response with a request id. SSE plus polling fallback plus an AI
+stub plus a degraded health code give the system three lines of
+graceful-degradation defence. Feature flags let us disable the riskiest
+behaviour without a redeploy.
+
+What remains is an honest debt: no automated test suite, single-region
+deploy, process-local fan-out state, no CAPTCHA on the integrity
+boundary. None of these compromise correctness today; all of them are
+addressable with the iteration paths described in
+Section~\ref{sec:future}.
+
+For the contribution as a capstone, the relevant claim is this: a single
+small codebase can simultaneously deliver six non-functional qualities
+, security, scalability, reliability, maintainability, availability,
+efficiency; if the engineering discipline is applied at the
+controller boundary (validation, rate-limiting, cache wrapping, audit
+logging) rather than retro-fitted later. Spotlight is one demonstration
+of that claim.

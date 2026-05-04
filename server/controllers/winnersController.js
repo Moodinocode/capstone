@@ -1,9 +1,9 @@
 import supabase from '../config/supabase.js';
+import { cache } from '../utils/cache.js';
 
 const SEGMENT_TYPES = ['project', 'ted_talk', 'interview'];
 
 async function getTopByJudgeScore(segmentType) {
-  // Average total_score across all submitted grades per project, for this segment type
   const { data: grades } = await supabase
     .from('grades')
     .select('project_id, total_score, projects(id, project_number, title, team_name, category, image_url, segment_type, vote_count)')
@@ -12,7 +12,6 @@ async function getTopByJudgeScore(segmentType) {
 
   if (!grades?.length) return { champions: [], honorableMentionExcludeIds: [] };
 
-  // Group by project_id, compute avg
   const map = {};
   for (const g of grades) {
     if (!g.projects || g.projects.segment_type !== segmentType) continue;
@@ -38,18 +37,17 @@ async function getTopByJudgeScore(segmentType) {
   return { champions, honorableMentionExcludeIds };
 }
 
-async function getFanVoteLeader(segmentType, excludeIds) {
-  let query = supabase
+async function getFanVoteLeader(segmentType, excludeIds, taintedIds) {
+  const { data } = await supabase
     .from('projects')
     .select('id, project_number, title, team_name, category, image_url, vote_count')
     .eq('segment_type', segmentType)
     .order('vote_count', { ascending: false })
-    .limit(excludeIds.length + 1);
+    .limit(excludeIds.length + taintedIds.length + 1);
 
-  const { data } = await query;
   if (!data?.length) return null;
 
-  const winner = data.find((p) => !excludeIds.includes(p.id));
+  const winner = data.find((p) => !excludeIds.includes(p.id) && !taintedIds.includes(p.id));
   if (!winner || !winner.vote_count) return null;
 
   return {
@@ -62,45 +60,75 @@ async function getFanVoteLeader(segmentType, excludeIds) {
   };
 }
 
-async function getPeoplesChoice() {
+async function getPeoplesChoice(taintedIds) {
   const { data } = await supabase
     .from('projects')
     .select('id, project_number, title, team_name, category, image_url, vote_count')
     .order('vote_count', { ascending: false })
-    .limit(1)
-    .single();
+    .limit(taintedIds.length + 1);
 
-  if (!data) return null;
+  if (!data?.length) return null;
+  const clean = data.find((p) => !taintedIds.includes(p.id));
+  if (!clean) return null;
 
   return {
-    id: data.id,
-    projectNumber: data.project_number,
-    title: data.title,
-    teamOrSpeaker: data.team_name,
-    category: data.category,
-    imageUrl: data.image_url ?? '',
-    voteCount: data.vote_count ?? 0,
+    id: clean.id,
+    projectNumber: clean.project_number,
+    title: clean.title,
+    teamOrSpeaker: clean.team_name,
+    category: clean.category,
+    imageUrl: clean.image_url ?? '',
+    voteCount: clean.vote_count ?? 0,
   };
 }
 
-export const getWinners = async (req, res) => {
-  const [pitchData, tedData, interviewData, peoplesChoice] = await Promise.all([
-    getTopByJudgeScore('project'),
-    getTopByJudgeScore('ted_talk'),
-    getTopByJudgeScore('interview'),
-    getPeoplesChoice(),
-  ]);
+/**
+ * Pull project_ids that exceeded the integrity threshold — these are
+ * excluded from People's Choice and fan-vote honorable mentions to keep the
+ * popular categories from being decided by a flagged burst.
+ */
+async function getTaintedProjectIds() {
+  const { data } = await supabase
+    .from('vote_flags')
+    .select('project_id, severity');
+  if (!data) return [];
 
-  const [pitchHM, tedHM, interviewHM] = await Promise.all([
-    getFanVoteLeader('project',   pitchData.honorableMentionExcludeIds),
-    getFanVoteLeader('ted_talk',  tedData.honorableMentionExcludeIds),
-    getFanVoteLeader('interview', interviewData.honorableMentionExcludeIds),
-  ]);
+  const counts = new Map();
+  for (const r of data) {
+    if (r.severity !== 'high') continue;
+    counts.set(r.project_id, (counts.get(r.project_id) ?? 0) + 1);
+  }
+  // Tainted = 3+ high-severity flags on a single project.
+  return [...counts.entries()].filter(([, n]) => n >= 3).map(([id]) => id);
+}
 
-  res.json({
-    pitches:    { champions: pitchData.champions,    honorableMentions: pitchHM    ? [pitchHM]    : [] },
-    tedTalks:   { champions: tedData.champions,      honorableMentions: tedHM      ? [tedHM]      : [] },
-    interviews: { champions: interviewData.champions, honorableMentions: interviewHM ? [interviewHM] : [] },
-    peoplesChoice,
+export const getWinners = async (_req, res) => {
+  const result = await cache.getOrSet('winners:all', 30_000, async () => {
+    const taintedIds = await getTaintedProjectIds();
+
+    const [pitchData, tedData, interviewData, peoplesChoice] = await Promise.all([
+      getTopByJudgeScore('project'),
+      getTopByJudgeScore('ted_talk'),
+      getTopByJudgeScore('interview'),
+      getPeoplesChoice(taintedIds),
+    ]);
+
+    const [pitchHM, tedHM, interviewHM] = await Promise.all([
+      getFanVoteLeader('project',   pitchData.honorableMentionExcludeIds, taintedIds),
+      getFanVoteLeader('ted_talk',  tedData.honorableMentionExcludeIds, taintedIds),
+      getFanVoteLeader('interview', interviewData.honorableMentionExcludeIds, taintedIds),
+    ]);
+
+    return {
+      pitches:    { champions: pitchData.champions,     honorableMentions: pitchHM     ? [pitchHM]     : [] },
+      tedTalks:   { champions: tedData.champions,       honorableMentions: tedHM       ? [tedHM]       : [] },
+      interviews: { champions: interviewData.champions, honorableMentions: interviewHM ? [interviewHM] : [] },
+      peoplesChoice,
+      taintedCount: taintedIds.length,
+    };
   });
+
+  res.json(result);
 };
+
+export { SEGMENT_TYPES };

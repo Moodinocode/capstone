@@ -1,0 +1,23 @@
+sequenceDiagram
+  autonumber
+  participant V as Voter browser
+  participant A as Admin browser
+  participant API as Express API
+  participant E as eventBus
+  participant DB as Supabase
+
+  V->>API: GET /api/session/stream (Accept: text/event-stream)
+  API->>DB: SELECT live_sessions WHERE key='main'
+  API-->>V: event: session.snapshot · data: {...}
+  API->>E: addClient(res)
+
+  loop heartbeat every 25s
+    E-)V: : ping
+  end
+
+  A->>API: POST /api/session/votes-visible { visible: true } (Bearer JWT)
+  API->>API: protect · adminOnly · zod
+  API->>DB: UPSERT live_sessions
+  API-)E: broadcast 'session.update'
+  E-)V: event: session.update · data: { voteCountVisible: true, ... }
+  V->>V: setSession(...) — UI re-renders

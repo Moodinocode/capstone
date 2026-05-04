@@ -1,0 +1,168 @@
+\section{Detailed Design}
+\label{sec:design}
+
+This section walks the four flows that carry most of the system's behaviour.
+Each is illustrated with the relevant sequence diagram and a short
+discussion of failure modes.
+
+\subsection{Voting flow}
+\label{sub:vote-flow}
+
+The vote flow is the most security-critical because it is the only
+endpoint open to anonymous traffic. We layer four defences:
+\textbf{(a)} schema validation, \textbf{(b)} per-IP rate limiting,
+\textbf{(c)} an HMAC \emph{proof-of-presence} token issued at \texttt{/init}
+and verified at \texttt{/}, and \textbf{(d)} an in-memory anomaly scorer.
+Figure~\ref{fig:seq-vote} shows the full sequence.
+
+\fig{seq-vote}{0.96}{Sequence diagram for the two-step vote flow.}
+
+\paragraph{Why two steps?} A single-endpoint design (just \texttt{POST /votes})
+is trivially scriptable: a curl loop with a UUID per iteration would pass
+every check we do. Splitting it forces a stateful round-trip; the
+attacker must call \texttt{/init}, store the token, and post it back inside
+the 5-minute TTL; which is enough friction that the rate limit and
+anomaly detector dominate the cost-benefit curve.
+
+\paragraph{What the HMAC binds.} The token's payload is
+\texttt{browserToken|issuedAt|nonce}. Tampering with any of those three
+invalidates the signature. Reuse across browser tokens fails because
+\texttt{verifyVoteToken} compares the embedded browser token to the one
+in the cast payload using \texttt{timingSafeEqual} (constant-time, to
+defend against the unlikely-but-cheap timing attack).
+
+\paragraph{Anomaly scoring.} Figure~\ref{fig:flow-anomaly} shows the
+scoring rules. The thresholds were tuned on synthetic load to flag
+$\geq 95\%$ of scripted bursts at severity \texttt{high} while keeping
+the false-positive rate at zero on a 100-vote organic baseline.
+
+\fig{flow-anomaly}{0.85}{Vote anomaly scoring rules.}
+
+\paragraph{Failure modes.}
+\begin{itemize}[leftmargin=*]
+  \item Supabase write fails $\rightarrow$ controller returns 500, the
+        client surfaces a generic ``Could not record vote'' message; the
+        caller can retry.
+  \item Supabase \emph{read} (the duplicate check) fails $\rightarrow$ we
+        treat absence as ``not yet voted''; worst case is one duplicate
+        vote slipping through, which is then flagged by the anomaly
+        detector on its second arrival.
+  \item Anomaly persistence (\texttt{vote\_flags} insert) fails $\rightarrow$
+        logged at WARN, vote still counts. Integrity dashboard misses the
+        flag for that one vote; we accept this as the lesser failure.
+\end{itemize}
+
+\subsection{Grading flow}
+\label{sub:grade-flow}
+
+Figure~\ref{fig:seq-grade} shows the auto-save plus submit flow.
+
+\fig{seq-grade}{0.95}{Sequence diagram for grading.}
+
+The grading interface debounces the user's keystrokes at 800\,ms and posts
+to \texttt{PUT /grades/:id/draft}; the controller upserts a row with
+\texttt{status='in\_progress'}. When the judge clicks Submit, the
+controller verifies \texttt{status != 'submitted'}, validates that all
+five scores are filled, and upserts with \texttt{status='submitted'}.
+After a successful submit we (i) write a row to \texttt{audit\_logs},
+(ii) invalidate the cached \texttt{winners:} keys, and (iii) broadcast
+\texttt{grade.submit} on the event bus.
+
+The state machine of a grade row is shown in
+Figure~\ref{fig:state-grade}. Note the absence of an arrow back from
+\texttt{Submitted}: there is no controller path that walks the row back
+to \texttt{InProgress}. An admin who must reset a grade does so via the
+Supabase SQL editor, and that out-of-band action would itself be visible
+to anyone replaying the audit log because the next \texttt{grade.submit}
+would carry a different \texttt{previousStatus} in its metadata.
+
+\fig{state-grade}{0.65}{Grade status machine.}
+
+\subsection{Real-time session sync}
+\label{sub:sse-flow}
+
+The admin presses ``make event public'' in one browser; every public
+voter's home page updates within 200\,ms. Figure~\ref{fig:seq-sse}
+shows how.
+
+\fig{seq-sse}{0.96}{Server-Sent Events session push.}
+
+The browser opens \texttt{GET /api/session/stream}. The server registers
+the connected response in a process-local \texttt{Set} (the
+\emph{event bus}). On any session-affecting write, the controller writes
+the durable change to Supabase, then calls
+\texttt{eventBus.broadcast('session.update', shapedSession)} which
+\texttt{res.write}s to every member of the set.
+
+A heartbeat \texttt{: ping} (an SSE comment line) goes out every 25\,s on
+all sockets. Render's idle proxy timeout is 60\,s, so this keeps the
+socket alive indefinitely. If the socket nevertheless drops, the
+client's \texttt{useEventStream} watchdog fires after \texttt{staleMs}
+(default 45\,s) of silence and reconnects.
+
+\paragraph{Why a watchdog and a polling fallback?} The native
+\texttt{EventSource} \emph{does} reconnect on errors, but on Render's
+free tier a clean idle close (FIN, no error event) sometimes occurs and
+\texttt{onerror} never fires. The watchdog is a defence against that
+specific known-known. The 60-second polling fallback is a defence
+against unknown unknowns.
+
+\subsection{AI insight generation}
+\label{sub:ai-flow}
+
+Figure~\ref{fig:seq-ai} shows the cache-first read of an insight.
+
+\fig{seq-ai}{0.96}{AI insight retrieval and generation.}
+
+The first request for a project hits the
+\texttt{ai\_insights} table, finds nothing, fetches the project row,
+calls Claude with a cached system prompt, parses the JSON out of the
+response, persists it, and returns. Subsequent requests in the same
+session find the row and skip the API call entirely.
+
+\paragraph{Prompt caching.} The system prompt block is declared with
+\texttt{cache\_control: \{type: 'ephemeral'\}}. Anthropic caches a hash
+of the cached prefix for five minutes. The first call writes the cache
+(at $1.25\times$ the standard input rate); every subsequent call within
+that window reads the cache (at $0.1\times$ the standard rate). For 9
+featured projects pre-warmed in a tight loop this means the system
+prompt is paid for once, not nine times.
+
+\paragraph{The deterministic stub.} If \texttt{ANTHROPIC\_API\_KEY} is
+absent (or the call fails), \texttt{stubInsights} returns a payload of
+the same shape, derived from the project description. The UI never
+distinguishes \emph{real} from \emph{stub}; only a small ``offline mode''
+chip appears for transparency.
+
+\subsection{Auth flow}
+
+The auth flow is the most boring of the four but worth documenting.
+Figure~\ref{fig:flow-auth} captures both the login path and the
+\texttt{protect} middleware on subsequent requests.
+
+\fig{flow-auth}{0.92}{Authentication and protected-request flow.}
+
+\subsection{Caching strategy}
+
+The \texttt{cache} module (Listing~\ref{lst:cache}) exposes
+\texttt{getOrSet}, \texttt{invalidate}, and \texttt{stats}. The two
+disciplines we follow are: \textbf{(i)} every read controller wraps its
+DB call in \texttt{getOrSet}, \textbf{(ii)} every write controller calls
+\texttt{invalidate} on the prefix(es) it just made stale.
+
+The cache key is a structured string with a colon-delimited
+prefix-key form (e.g.\ \texttt{projects:project:All::p1:l50}); this lets
+\texttt{invalidate} use a simple \texttt{startsWith} match.
+
+\subsection{Anomaly detector internals}
+
+The detector's data structure is a single in-memory ring of recent vote
+events with the shape \texttt{\{ip, ua, time, browserToken\}}. On every
+arrival we trim entries older than 5 minutes, then compute six
+contributions (Figure~\ref{fig:flow-anomaly}). The total maps to a
+severity enum.
+
+The intentional simplicity of these rules is part of the design. They
+are explainable to a non-engineer (``three votes from one IP in a
+minute? flag''), and explainability matters when an admin has to
+override the system on the day of a real event.

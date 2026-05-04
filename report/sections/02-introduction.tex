@@ -1,0 +1,92 @@
+\section{Introduction}
+\label{sec:introduction}
+
+\subsection{Problem and Motivation}
+
+Live student showcases historically run on a triplet of disjoint tools:
+slide-deck submissions in email, a printed scoring sheet for judges, and a
+hand-counted paper ballot for the audience. The cost of this fragmentation is
+low only on paper. In practice it produces three failure modes that recur at
+every event:
+
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Coordination cost.} The MC, the judges, and the audience all
+        consume the same schedule, but each from a different artefact, so a
+        five-minute slip in the agenda silently desynchronises everyone.
+  \item \textbf{Integrity blind spots.} Paper ballots are easy to stuff and
+        impossible to audit. Spreadsheet rubrics are easy to overwrite and
+        leave no record of who changed what when.
+  \item \textbf{Result latency.} Aggregating scores by hand pushes the
+        announcement to the very end of the show, and any tiebreaker dispute
+        forces a recess.
+\end{enumerate}
+
+The Soft Skills 2026 event at the LAU exposed these failure modes again at the
+2025 dry run and asked, in essence: can we replace all three with one piece of
+software that does \emph{simultaneous} judging and voting, exposes its work to
+the admin in real time, and refuses to be tampered with?
+
+\subsection{Goals}
+
+Spotlight is the answer that this report describes. The goals scoped at the
+outset were:
+
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Single source of truth.} One database row per project, per
+        judge grade, per audience vote, per audit event. Everything else is a
+        view over those rows.
+  \item \textbf{Real-time push.} The audience and the admin should see state
+        change within a second of the change being committed; not in the
+        next polling tick.
+  \item \textbf{Defensible integrity.} Voting should resist the obvious abuse
+        vectors (bots, NAT subnets, browser-token reuse) without requiring an
+        account for every audience member.
+  \item \textbf{Operable in a small budget.} The whole stack should run on
+        free-tier hosts (Vercel, Render) and a free-tier Supabase project,
+        because that is the budget a student org actually has.
+  \item \textbf{Defensible at oral defence.} Every non-functional concern
+        the supervisor is likely to raise should map to a concrete artefact
+        in the codebase.
+\end{itemize}
+
+\subsection{Non-goals}
+
+What Spotlight is \emph{not} is also worth stating, both to bound the work
+and to frame the future-work section:
+
+\begin{itemize}[leftmargin=*]
+  \item Not a registration / ticketing system. The event team uses an
+        independent flow for that.
+  \item Not a content management system. Project descriptions and posters are
+        seeded by the organisers and edited via the database, not via an
+        in-app editor.
+  \item Not a payment system. There is no monetary flow; the only ``value''
+        is the rank-ordered list of winners.
+\end{itemize}
+
+\subsection{Approach in one paragraph}
+
+Spotlight is a React 19 single-page app served as a static bundle from
+Vercel's edge CDN. It talks to an Express 4 API hosted on Render. The API
+fronts a Supabase Postgres database for durable state and an in-process LRU
+cache for hot reads. Real-time updates use Server-Sent Events over a
+long-lived HTTP connection; the client maintains a watchdog reconnect and a
+60-second polling fallback. The Anthropic API generates an advisory
+``quick read'' for each project; the system prompt is marked
+\texttt{cache\_control: ephemeral}, exploiting Anthropic's prompt-caching
+feature to reduce per-call cost. An anomaly detector scores every vote on
+arrival, and an append-only audit log captures every privileged write.
+
+\subsection{Structure of this report}
+
+Section~\ref{sec:background} surveys related work and the libraries we lean
+on. Section~\ref{sec:requirements} states the functional and non-functional
+requirements as a contract. Section~\ref{sec:architecture} presents the
+component and deployment architecture, with explicit decision records.
+Section~\ref{sec:datamodel} defines the schema. Section~\ref{sec:design}
+zooms into the four flows that carry most of the system: voting, grading,
+real-time session sync, and AI insight generation. Section~\ref{sec:impl}
+walks through the implementation with annotated code excerpts.
+Section~\ref{sec:nonfunc} addresses the six non-functional dimensions in
+turn. Sections~\ref{sec:test} through \ref{sec:future} cover testing,
+deployment, and what we would do next.

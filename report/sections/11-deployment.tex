@@ -1,0 +1,130 @@
+\section{Deployment and Operations}
+\label{sec:deploy}
+
+\subsection{Topology}
+
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Frontend:} Vercel project linked to the GitHub repo.
+        Builds on push to \texttt{master}. \texttt{vercel.json} rewrites
+        \texttt{/api/(.*)} to the Render origin so the SPA can use a
+        same-origin API base URL.
+  \item \textbf{Backend:} Render Web Service, Node 20 runtime,
+        \texttt{npm start} as the entrypoint. Port 5001 inside the
+        container.
+  \item \textbf{Database:} Supabase project (us-east-1). Service-role key
+        held only on Render.
+  \item \textbf{LLM:} Anthropic API. Key held only on Render.
+\end{itemize}
+
+\subsection{Environment variables}
+
+Table~\ref{tab:env} lists every variable read by the backend.
+
+\begin{table}[ht]
+  \centering
+  \caption{Backend environment variables.}\label{tab:env}
+  \begin{tabularx}{\linewidth}{lXl}
+    \toprule
+    \textbf{Variable} & \textbf{Purpose} & \textbf{Required?} \\
+    \midrule
+    \texttt{PORT}               & Listening port              & default 5001 \\
+    \texttt{SUPABASE\_URL}      & Project URL                  & yes \\
+    \texttt{SUPABASE\_SERVICE\_KEY} & Service-role key          & yes \\
+    \texttt{JWT\_SECRET}        & HMAC secret for JWT signing  & yes \\
+    \texttt{JWT\_EXPIRES\_IN}   & e.g.\ \texttt{7d}            & yes \\
+    \texttt{NODE\_ENV}          & \texttt{production} on Render & rec. \\
+    \texttt{LOG\_LEVEL}         & pino log level               & default info \\
+    \texttt{CORS\_ORIGIN}       & origin allow list            & default \texttt{*} \\
+    \texttt{REQUIRE\_VOTE\_TOKEN} & enforce HMAC vote tokens    & default false \\
+    \texttt{VOTE\_TOKEN\_SECRET}& HMAC secret (falls back to \texttt{JWT\_SECRET}) & opt. \\
+    \texttt{ANTHROPIC\_API\_KEY}& Claude key. Empty = stub mode & opt. \\
+    \texttt{ANTHROPIC\_MODEL}   & override model id            & default \texttt{claude-haiku-4-5-20251001} \\
+    \texttt{ENABLE\_AI\_INSIGHTS} & set to \texttt{false} to force stub & default true \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+Frontend variables (Vite reads anything prefixed \texttt{VITE\_}):
+
+\begin{itemize}[leftmargin=*]
+  \item \texttt{VITE\_API\_URL}; defaults to \texttt{/api}; override
+        for direct backend calls in dev.
+  \item \texttt{VITE\_USE\_SSE}; \texttt{true} (default) or
+        \texttt{false} to fall back to polling.
+\end{itemize}
+
+\subsection{Migrations}
+
+Apply, in order, the SQL files under \texttt{server/migrations/} via the
+Supabase SQL editor. The current migration set is:
+
+\begin{itemize}[leftmargin=*]
+  \item \texttt{001\_audit\_logs.sql}
+  \item \texttt{002\_vote\_flags.sql}
+  \item \texttt{003\_ai\_insights.sql}
+\end{itemize}
+
+The original schema (\texttt{projects}, \texttt{judges},
+\texttt{judge\_projects}, \texttt{votes}, \texttt{grades},
+\texttt{schedule\_items}, \texttt{live\_sessions}) was created out-of-band
+during initial setup and is reproduced in
+Appendix~\ref{app:schema}.
+
+\subsection{Seeding}
+
+\texttt{npm run seed} populates 24 projects, 5 TED talks, 6 interviews,
+5 judges, the schedule, and a single \texttt{live\_sessions} row keyed
+\texttt{main}. The seed script is idempotent: it clears the relevant
+tables first.
+
+\subsection{Show-day runbook}
+
+The runbook lives in \texttt{docs/runbook.md}. The summarised checklist
+is:
+
+\begin{enumerate}[leftmargin=*]
+  \item Pull latest, redeploy if there were changes.
+  \item Apply any new migrations.
+  \item Run \texttt{npm run seed}.
+  \item Optionally pre-warm AI insights:
+        \texttt{node server/scripts/precacheInsights.js}.
+  \item Open \texttt{/admin/integrity} and \texttt{/admin/analytics} in
+        admin browser tabs.
+  \item Toggle \texttt{set-public} to true at start; flip
+        \texttt{voteCountVisible} per discretion.
+  \item During event, watch the integrity dashboard for high-severity
+        flags. If a project is unfairly tainted, an admin can
+        \texttt{DELETE FROM vote\_flags WHERE project\_id = ?} via the
+        Supabase SQL editor.
+  \item After event, optionally lock the platform back to private.
+\end{enumerate}
+
+\subsection{Observability}
+
+Pino emits NDJSON in production. We do not currently ship a hosted log
+collector, but Render's web UI exposes log tailing per dyno. Adding a
+hosted collector (Better Stack, Logtail, Datadog) is one
+\texttt{pino-transport} line change.
+
+The \texttt{/admin/analytics} page doubles as a low-fidelity ops
+dashboard; the cache hit rate and submitted-grade count are the two
+metrics we glance at during a live event.
+
+\subsection{Disaster recovery}
+
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Lost JWT secret.} Rotate by changing
+        \texttt{JWT\_SECRET} on Render and restarting; all judges
+        re-login.
+  \item \textbf{Compromised admin account.} Same answer + \texttt{UPDATE
+        judges SET password = bcrypt-of-new-password WHERE email = '...'}.
+  \item \textbf{Render outage.} Frontend continues to render the last
+        cached state. Voting and grading fail with 5xx; clients can
+        retry. We accept this as the cost of free-tier hosting; a paid
+        tier with multi-region failover is a future-work item.
+  \item \textbf{Supabase outage.} \texttt{/api/health} returns
+        \texttt{degraded}. Reads served from cache for the next
+        TTL window. Writes fail.
+  \item \textbf{Anthropic outage.} AI panel falls back to stub silently;
+        public surfaces unaffected.
+\end{itemize}

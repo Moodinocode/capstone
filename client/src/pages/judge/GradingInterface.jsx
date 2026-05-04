@@ -4,6 +4,7 @@ import { useAutoSave } from '../../hooks/useAutoSave';
 import ScoreInput from '../../components/ui/ScoreInput';
 import RubricBar from '../../components/ui/RubricBar';
 import AutoSaveIndicator from '../../components/ui/AutoSaveIndicator';
+import AiInsightsPanel from '../../components/ui/AiInsightsPanel';
 import api from '../../services/api';
 
 const CRITERIA_BY_SEGMENT = {
@@ -227,6 +228,7 @@ export default function GradingInterface() {
       <div className="grid lg:grid-cols-12 gap-6">
         {/* Rubric section */}
         <div className="lg:col-span-7 space-y-4">
+          <AiInsightsPanel projectId={projectId} allowRefresh />
           {criteria.map((c) => (
             <div key={c.key} className="p-6 rounded-3xl bg-white border border-outline-variant shadow-card">
               <div className="flex items-start justify-between gap-4 mb-4">

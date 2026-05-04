@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import supabase from '../config/supabase.js';
+import logger from '../utils/logger.js';
 
 export const protect = async (req, res, next) => {
   const auth = req.headers.authorization;
@@ -32,8 +33,14 @@ export const protect = async (req, res, next) => {
     };
 
     next();
-  } catch {
-    res.status(401).json({ message: 'Not authorized, invalid token' });
+  } catch (err) {
+    // JWT errors (TokenExpiredError, JsonWebTokenError) → 401.
+    // Other errors propagate so the global handler logs them.
+    if (err?.name === 'TokenExpiredError' || err?.name === 'JsonWebTokenError') {
+      return res.status(401).json({ message: 'Not authorized, invalid token' });
+    }
+    logger.error({ err: err.message }, 'auth middleware unexpected');
+    next(err);
   }
 };
 

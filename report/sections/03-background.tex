@@ -1,0 +1,109 @@
+\section{Background and Related Work}
+\label{sec:background}
+
+\subsection{Existing judging platforms}
+
+Commercial judging platforms exist (Judgify, Hackathon Junkies, Devpost) and
+solve roughly the same problem we solve, but with different trade-offs. They
+typically require an account for every voter, charge per event, and encode
+their rubric as a fixed schema; which is fine when the rubric never
+changes and the audience is captive but is the wrong shape for a one-off
+academic event whose rubric depends on the segment type and whose audience
+is fundamentally anonymous.
+
+A second class of comparable artefacts are the open-source vote-collection
+tools used in conferences (HotCRP for academic peer review, OpenReview for
+ML conferences). These have very strong identity verification but no
+real-time UI; they are batch-mode by design and therefore not applicable
+to a live show.
+
+\subsection{Real-time web stacks}
+
+The traditional textbook real-time stack is WebSocket-based: Socket.IO on
+top of Express, or a managed service like Pusher or Ably. WebSockets are
+bidirectional and binary-friendly, which we do not need: every push in
+Spotlight flows server-to-client. Server-Sent Events
+(SSE)~\cite{w3c-sse} is the simpler primitive for one-way push, has wider
+proxy support (it rides on plain HTTP/1.1 chunked encoding), and gives the
+browser native auto-reconnect via the \texttt{EventSource} API. Where
+SSE falls short; corporate proxies that buffer responses; a polling
+fallback is sufficient because our update rate is bounded by human-event
+cadence.
+
+\subsection{Voting integrity literature}
+
+The classic paper on rate-limiting and abuse detection in web systems
+\cite{leiba-spam} long pre-dates modern bot frameworks but captures the
+core idea: a layered defence is more cost-effective than a single perfect
+check. Our anomaly detector follows that thinking: rate-limit at the
+network edge (Express middleware), proof-of-presence at the protocol
+edge (HMAC vote token), statistical scoring at the business layer
+(burst detection on IP and subnet), and exclusion at the aggregate layer
+(People's Choice ignores tainted projects).
+
+CAPTCHAs are a closely related defence we considered but did not adopt
+for the demo build. The argument against is twofold: (a) CAPTCHA UX
+introduces friction in a 90-minute live event where every audience
+interaction must be one tap, and (b) modern CAPTCHAs are bypassable
+with cheap commercial solver services, which makes them more theatre
+than barrier. The argument \emph{for} is that a CAPTCHA on
+\texttt{/vote/init} would close the last avenue for a determined botnet,
+and we acknowledge this gap explicitly in
+Section~\ref{sec:future}.
+
+\subsection{LLM-assisted evaluation}
+
+Using an LLM as an advisory layer for human judges is a recent
+practice; the consensus position in the academic-grading literature is that
+LLM scores are unreliable as primary signal but useful as
+\emph{question-prompts} or \emph{evidence-summarisers}~\cite{burstein-llm}.
+Our AI Insights panel takes that position seriously: the panel never
+returns a score. It returns a 60-word neutral summary, three apparent
+strengths, three questions a judge could ask, and per-criterion hints.
+The judge's score is the only score the system stores.
+
+We use Claude Haiku 4.5 as the model. The prompt-caching
+feature~\cite{anthropic-cache} lets us declare the rubric system prompt
+\texttt{ephemeral}, which means the first call pays full input-token price
+and subsequent calls within five minutes pay $\sim$10\% of that price for
+the cached prefix. For an event with 9 featured projects and a recompute
+on the day of the show, this turns nine paid-in-full calls into one paid
+in full and eight effectively-free.
+
+\subsection{Libraries we lean on}
+
+\begin{itemize}[leftmargin=*]
+  \item \textbf{React 19} with the \texttt{HashRouter} from React Router 7; chosen
+        because Vercel's static hosting is happiest with a single
+        \texttt{index.html} and we have no SEO requirement.
+  \item \textbf{Vite 8} as the build tool. Module-level HMR makes the dev loop
+        snappy and the production build emits a single
+        \texttt{$\sim$740\,kB} bundle (gzipped to $\sim$217\,kB).
+  \item \textbf{Express 4} for the API. Boring on purpose.
+  \item \textbf{Supabase} as the Postgres host with a built-in REST/RPC layer.
+        We use the service-role key from the backend; we never expose Supabase
+        to the client.
+  \item \textbf{Helmet 8}~\cite{helmet} for HTTP security headers, including a
+        sensible default Content Security Policy.
+  \item \textbf{express-rate-limit 7}~\cite{erl} for the per-route limits.
+  \item \textbf{lru-cache 11}~\cite{lru-cache} for the in-process cache.
+        Selected over \texttt{node-cache} because it has a stronger expiry
+        story and a tighter API.
+  \item \textbf{pino 9}~\cite{pino} for structured logging with
+        \texttt{pino-http} for request-scoped log lines.
+  \item \textbf{zod 3}~\cite{zod} for runtime validation. Acts as our
+        compile-time check substitute.
+  \item \textbf{@anthropic-ai/sdk 0.x} for the Claude API.
+  \item \textbf{Recharts 2}~\cite{recharts} on the client for the analytics
+        dashboard. Chosen over Chart.js because it composes naturally with
+        React's render model.
+\end{itemize}
+
+\subsection{What is novel}
+
+The novelty in Spotlight is not in any single component; the parts are
+ordinary. The novelty is the \emph{combination}: a single small codebase
+that simultaneously handles audience voting, judge grading, integrity
+moderation, real-time admin push, and LLM-assisted reading aids, deployed
+to free-tier infrastructure, and demonstrably defensible against the
+non-functional probes a supervisor is likely to ask.

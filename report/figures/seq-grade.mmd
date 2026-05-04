@@ -1,0 +1,29 @@
+sequenceDiagram
+  autonumber
+  participant J as Judge browser
+  participant API as Express API
+  participant G as gradeController
+  participant DB as Supabase
+  participant Au as audit_logs
+  participant E as eventBus
+
+  Note over J: Auto-save loop (debounced)
+  J->>API: PUT /api/grades/:id/draft { scores, feedback }
+  API->>API: protect (JWT) · gradeLimiter · zod validate
+  API->>G: saveDraft
+  G->>DB: SELECT existing status
+  alt existing.status='submitted'
+    G-->>J: 403 locked
+  else
+    G->>DB: UPSERT grades { status='in_progress' }
+    G-->>J: 200 grade
+  end
+
+  Note over J: Final submit
+  J->>API: POST /api/grades/:id/submit { scores, feedback }
+  API->>G: submitGrade
+  G->>DB: SELECT existing
+  G->>DB: UPSERT grades { status='submitted', submitted_at }
+  G-)Au: INSERT audit_logs { action='grade.submit' }
+  G-)E: broadcast 'grade.submit'
+  G-->>J: 200 grade

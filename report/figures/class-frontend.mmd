@@ -1,0 +1,27 @@
+graph TB
+  App["App.jsx<br/>HashRouter"]
+
+  App --> AP["AuthProvider<br/>(JWT + localStorage)"]
+  App --> LSP["LiveSessionProvider<br/>(SSE + polling fallback)"]
+  App --> PW["PageWrapper"]
+
+  PW --> Home
+  PW --> PG["ProjectGallery"]
+  PW --> PS["ProjectSpotlight"]
+  PW --> Vote["VotingPage"]
+  PW --> Win["Winners"]
+  PW --> JL["JudgeLogin"]
+  PW --> JD["JudgeDashboard"]
+  PW --> GI["GradingInterface"]
+  PW --> AD["AnalyticsDashboard"]
+  PW --> ID["IntegrityDashboard"]
+
+  PS --> AIP["AiInsightsPanel"]
+  GI --> AIP
+  GI --> SI["ScoreInput · RubricBar"]
+  GI --> ASI["AutoSaveIndicator"]
+
+  Vote --> uVS["useVoteStatus"]
+  PS --> uVS
+  uVS --> api["axios api"]
+  LSP --> uES["useEventStream"]
