@@ -121,18 +121,18 @@ const adminData = {
 // Schedule labels reference the actual seeded TED talks (T-101, T-103) so the
 // homepage timeline and the Event Media section stay in sync.
 const scheduleData = [
-  { sort_order: 1,  time: '14:00', label: 'Welcome — Dr. Maya',                                        type: 'Opening',    start_time: '14:00:00' },
+  { sort_order: 1,  time: '14:00', label: 'Welcome — Faculty Host',                                        type: 'Opening',    start_time: '14:00:00' },
   { sort_order: 2,  time: '14:03', label: 'Soft Skills Trailer',                                       type: 'Opening',    start_time: '14:03:00' },
-  { sort_order: 3,  time: '14:08', label: 'Testimonial — Nour El Baba',                                type: 'Guest',      start_time: '14:08:00' },
-  { sort_order: 4,  time: '14:13', label: 'Opening — Dr. Grace',                                       type: 'Opening',    start_time: '14:13:00' },
-  { sort_order: 5,  time: '14:17', label: 'Introduction — Dr. Maya',                                   type: 'Remarks',    start_time: '14:17:00' },
-  { sort_order: 6,  time: '14:20', label: 'Opening Remarks — Dean Jamali',                             type: 'Remarks',    start_time: '14:20:00' },
-  { sort_order: 7,  time: '14:25', label: 'Panel Introduction — Dr. Maya & Emilie Wahab Harb',         type: 'Remarks',    start_time: '14:25:00' },
-  { sort_order: 8,  time: '14:30', label: 'TED Talk — Emilie Wahab Harb',                              type: 'TED Talk',   start_time: '14:30:00' },
-  { sort_order: 9,  time: '14:40', label: 'TED Talk — Lilian Abou Hamdan',                             type: 'TED Talk',   start_time: '14:40:00' },
-  { sort_order: 10, time: '14:50', label: 'Mock Interviews — Lilian, Marie Josée & Rita',              type: 'Interview',  start_time: '14:50:00' },
-  { sort_order: 11, time: '15:10', label: 'Business Plan Pitches — Mr. Hammoud',                       type: 'Pitch',      start_time: '15:10:00' },
-  { sort_order: 12, time: '15:30', label: 'Closing Remarks & Results — Dr. Maya & Dean Jamali',        type: 'Closing',    start_time: '15:30:00' },
+  { sort_order: 3,  time: '14:08', label: 'Testimonial — Alumni Guest',                                type: 'Guest',      start_time: '14:08:00' },
+  { sort_order: 4,  time: '14:13', label: 'Opening — Faculty Lead',                                       type: 'Opening',    start_time: '14:13:00' },
+  { sort_order: 5,  time: '14:17', label: 'Introduction — Faculty Host',                                   type: 'Remarks',    start_time: '14:17:00' },
+  { sort_order: 6,  time: '14:20', label: 'Opening Remarks — Dean',                             type: 'Remarks',    start_time: '14:20:00' },
+  { sort_order: 7,  time: '14:25', label: 'Panel Introduction — Faculty Host & Panel Chair',         type: 'Remarks',    start_time: '14:25:00' },
+  { sort_order: 8,  time: '14:30', label: 'TED Talk — Speaker One',                              type: 'TED Talk',   start_time: '14:30:00' },
+  { sort_order: 9,  time: '14:40', label: 'TED Talk — Speaker Two',                             type: 'TED Talk',   start_time: '14:40:00' },
+  { sort_order: 10, time: '14:50', label: 'Mock Interviews — Interview Panel',              type: 'Interview',  start_time: '14:50:00' },
+  { sort_order: 11, time: '15:10', label: 'Business Plan Pitches — Pitch Judge',                       type: 'Pitch',      start_time: '15:10:00' },
+  { sort_order: 12, time: '15:30', label: 'Closing Remarks & Results — Faculty Host & Dean',        type: 'Closing',    start_time: '15:30:00' },
 ];
 
 // ─────────────────────────────────────────────
