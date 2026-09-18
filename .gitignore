@@ -1,3 +1,11 @@
 .env
 .env.local
 node_modules
+
+# LaTeX build artifacts
+report/*.aux
+report/*.log
+report/*.lof
+report/*.lot
+report/*.out
+report/*.toc

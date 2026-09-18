@@ -90,12 +90,23 @@ const interviewsData = [
 
 // Five regular judges — they grade their assigned projects.
 // The event admin (below) is a separate account with no grading assignments.
+//
+// The judges who served at the real event are not named here, and their
+// passwords are not committed. Each account takes its password from the
+// environment, falling back to a throwaway value for local development:
+//
+//   JUDGE_1_PASSWORD=... JUDGE_2_PASSWORD=... (through JUDGE_5_PASSWORD)
+//
+// Set real values before seeding anything reachable from outside your machine.
+const devPassword = (slot) =>
+  process.env[`JUDGE_${slot}_PASSWORD`] || `local-dev-judge-${slot}`;
+
 const judgesData = [
-  { name: 'Emilie Wahab Harb',    email: 'emilie@softskills',     password: 'Emilie@SS25',    isAdmin: false },
-  { name: 'Ghassan Hammoud',      email: 'ghassan@softskills',    password: 'Ghassan@SS25',   isAdmin: false },
-  { name: 'Marie Josee Daibes',   email: 'mariejosee@softskills', password: 'MJosee@SS25',    isAdmin: false },
-  { name: 'Lilian Abou Hamdan',   email: 'lilian@softskills',     password: 'Lilian@SS25',    isAdmin: false },
-  { name: 'Rita Nachar',          email: 'rita@softskills',       password: 'Rita@SS25',      isAdmin: false },
+  { name: 'Judge One',   email: 'judge1@softskills', password: devPassword(1), isAdmin: false },
+  { name: 'Judge Two',   email: 'judge2@softskills', password: devPassword(2), isAdmin: false },
+  { name: 'Judge Three', email: 'judge3@softskills', password: devPassword(3), isAdmin: false },
+  { name: 'Judge Four',  email: 'judge4@softskills', password: devPassword(4), isAdmin: false },
+  { name: 'Judge Five',  email: 'judge5@softskills', password: devPassword(5), isAdmin: false },
 ];
 
 // Dedicated event admin — controls the live session, sees analytics
@@ -103,7 +114,7 @@ const judgesData = [
 const adminData = {
   name:     'Event Admin',
   email:    'admin@softskills',
-  password: 'AdminSS25!',
+  password: process.env.ADMIN_PASSWORD || 'local-dev-admin',
   isAdmin:  true,
 };
 
